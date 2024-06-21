@@ -1,4 +1,15 @@
 
+### Assumptions
+
+Validators/Electors are public and enabled by the community admin.
+
+What is anonymous is which electors act on each claim an its vote.
+
+Even if we can not keep the vote secret, by keeping the elector anonimity we 
+ will preserve who casted each voted ("almost" similar to secret).
+
+### Draft implementation
+
 We use a Semaphore implementation.
 
 1) Elector needs to create his Identity and register
@@ -6,10 +17,12 @@ We use a Semaphore implementation.
 ~~~~ts
 let identity = createIdentity(privateKey, pin);
 
+// prove I have a validator role on this community
+// prove I own the privateKey for this commitment
 let proofOfIdentity = await createIdentityProof(identity, privatekey);
 
 // creates proof and dispatchs a IdentityEvent event
-await registerIdentity(proofOfIdentity); 
+await registerIdentity(proofOfIdentity, identity.commitment); 
 ~~~~
 
 2) We listen to MINA IdentityEvents an when received:
@@ -23,9 +36,9 @@ let events = await filterEvents('IdentityEvent');
 
 for (event in events) {
   // check does not exist in map
-  map.assertNotIncluded(event.identityCommitment)
+  electorsGroup.assertNotIncluded(event.identityCommitment)
 
-  // verify proof
+  // verify proof and that is elector in this community 
   event.proofOfIdentity.verify();
 
   // add to group, fails if exists
@@ -56,13 +69,14 @@ let tasksList = new List();
 // and only select the ones from there
 let electors = await selectElectors(claimUid, strategy, electorsGroup);
 
+let claimElectors = new Group();
+
+let claimNullifiers = new Group();
+
 // we add electors to the Plan group
 for (elector in electors) {
-  // create key 
-  let key = Poseidon.hash([elector.identityCommitment, claimUid])
-
   // fails if elector+claim exists
-  planGroup.insert(key, Field(1))
+  claimElectors.insert(elector.identityCommitment, Field(1))
 
   await tasksList.add(elector.identityCommitment, claimUid);
 }
@@ -72,7 +86,7 @@ for (elector in electors) {
   he filters the list using his identityComittment
 
 ~~~ts
-let tasksList = await getFilteredTasksLists(identity);
+let myTasksList = await getFilteredTasksLists(identity.commitment);
 ~~~  
 
 We then select the vote (+1,-1,0) for each claim in the list and:
@@ -82,11 +96,25 @@ for (task in tasksList) {
   // create nullifier 
   let nullifier = createNullifier(identity.privateKey, task.claimUid) ;
 
+  let proofOfValidVote = createValidVoteProof(
+    nullifier, 
+    identity.commitment, 
+    task.claimUid
+  )
+
   // send transaction with action for the claim
+  // we encrypt using the identityEncryptionKey
+  // we send an event CastVoteEvent { claimUid, identityCommitment, nullifier, encryptedVote }
   // we need to prove we own the identity.commitment 
   // and that we are in this claim electors list
-  // we encrypt using the identityEncryptionKey
-  await sendEncryptedVote(nullifier, identity.commitment, task.claimUid, vote);
+  // and that we have not already voted
+  await sendEncryptedVote(
+    proofOfIdentity
+    identity.commitment, 
+    task.claimUid, 
+    nullifier, 
+    encryptedVote,
+  );
 }
 ~~~
 
@@ -101,10 +129,29 @@ for (claim in openClaims) {
 
   // the action contains the nullifier, identityCommitment, encryptedVote
   // for each action we need to assert
-  // - the identityCommitment is in the planElectors for this claim
-  // - the nullifier is NOT in the nullifiersGroup for this claim
+  // - verify the proofOfIdentity
+  // - the identityCommitment is in the claimElectors for this claim
+  // - the nullifier is NOT in the claimNullifiers for this claim
   // we decrypt the vote using the electorKeys map 
   // we sum the vote to the corresponding type
-  // we produce the result
+  // we add the nullifier to the claimNullifiers
+  // if no more votes we produce the result
 }
 ~~~
+
+## Shared objects
+
+This are used by both the client and workers.
+
+**ElectorsGroup**
+
+An `IndexedMerkleMap`, where `key: identityCommitement` and `value: Field(1)`. 
+It is used to check inclusion or exclusionof a given elector, in a given community.
+
+There exists one `ElectorsGroup` per community.
+
+**ElectorProps**
+
+A key value store, indexed by the `identityCommitement`, containing some extra 
+info about each identity, such as `encryptionKeys: {public, private}` but 
+that does not reveal anything about the identity.
