@@ -141,17 +141,78 @@ for (claim in openClaims) {
 
 ## Shared objects
 
-This are used by both the client and workers.
+This are used by both the UI and API.
 
-**ElectorsGroup**
+**CommunityElectors**
 
-An `IndexedMerkleMap`, where `key: identityCommitement` and `value: Field(1)`. 
-It is used to check inclusion or exclusionof a given elector, in a given community.
+An `IndexedMerkleMap`, where `key: identityCommitment` and `value: Field(1)`. 
+It is used to check inclusion or exclusion of a given elector, in a given community.
 
-There exists one `ElectorsGroup` per community.
+There exists one `ElectorsGroup` per community. This group will be stored off-chain
+in the IndexerDb, in the trusted API environment.
 
-**ElectorProps**
+**EncryptionKeys** 
 
-A key value store, indexed by the `identityCommitement`, containing some extra 
-info about each identity, such as `encryptionKeys: {public, private}` but 
-that does not reveal anything about the identity.
+A key value store, indexed by the `identityCommitment`, containing a pair of
+ encryption keys `{public, private}` but that does not reveal anything about 
+ the identity. The privateKey is only known to the API.
+
+When a new Identity is registered, we create the encryptionKeys pair for this
+ identity, and broadcast the public key to the registered identity user.
+
+This will be stored off-chain, in the trusted API environment. 
+
+**TasksList**
+
+The list of tasks assigned to the electors, where each task contains
+ `{ uid, communityUid, identityHash, claimUid, status, ... }`. 
+
+The UI will get the full list, and will filter the list on the UI side, so that
+ no info is revealed to the API about the user identityHash (which is not linked
+ in any way to the Authorization JWT).
+
+This will be stored off-chain, in the trusted API environment, table Tasks of
+IndexerDb.
+
+**ClaimElectors**
+
+An `IndexedMerkleMap`, where `key: identityHash` and `value: Field(1)`. It is 
+ used to check if a given elector has been assigned to the claim.
+
+It will be filled when the electors are randomly assigned to each claim.
+
+There exists one `ClaimElectors` group per claim. This group will be stored 
+ off-chain in the IndexerDb, in the trusted API environment.
+
+**ClaimNullifiers**
+
+An `IndexedMerkleMap`, where `key: identityHash` and `value: Field(1)`. It is 
+ used to avoid double voting by any elector.
+
+These group will be initially empty, and we will insert a new item when 
+ a given elector casts its vote. When voting, if the elector's nullifier exists
+ we will now it has already voted.
+
+There exists one `ClaimNullifiers` group per claim. This group will be stored 
+ off-chain in the IndexerDb, in the trusted API environment.
+
+**CollectedVotes** 
+
+This is a list of all already collected votes, where each item in the list 
+ contains `{ identityHash, nullifier, claimUid, encryptedVote, ... }`. 
+
+The list is initially empty during the claiming period. When the voting period
+ starts and electors start to cast their vote and we add each vote to the list.
+
+The list will latter be using during the Tally process to aggregate votes. 
+
+There exists one `CollectedVotes` list per plan. This list will be stored 
+  off-chain in the IndexerDb, in the trusted API environment.
+
+**Aggregator**
+
+This is a special service running in the trusted API environment, that will 
+ count the votes and emmit the results.
+
+NOTE: Counting will not start until all the voting period is ended. We will 
+ not count votes while voting is running, thus avoiding the "bandwagon" effect.
