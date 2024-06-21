@@ -3,8 +3,10 @@ import { Experimental, PrivateKey, PublicKey, Field, Poseidon } from "o1js";
 export interface Identity {
   publicKey: PublicKey;
   privateKey: PrivateKey;
-  pin: string; // six digits number
-  commitment: Field; // Poseidon.hash([ publicKey, pin ])
+  pin: Field; // six digits number
+  communityUid: Field,
+  commitment: Field; // Poseidon.hash([ publicKey, pin, communityUid ])
+  // commitment: Field; // Poseidon.hash([ privateKey, pin, communityUid ])
 }
 
 export interface Group {
