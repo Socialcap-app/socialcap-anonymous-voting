@@ -80,18 +80,17 @@ This objects will be stored either in the KVS (key-value store) or in the Indexe
 
 An `IndexedMerkleMap` used to check inclusion or exclusion of a given elector, in a given community. This group is filled every time an elector registers his identity in the community.
 
-Each leaf has  **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
+Each leaf has  **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
 
-
-There exists one `ElectorsGroup` per community. Group uid of this map will be `electors.${communitUid}`. 
+There exists one `ElectorsGroup` per community. Group uid of this map will be `communities.${communityUid}.electors`. 
 
 #### ClaimElectors
 
 An `IndexedMerkleMap` used to check if a given elector has been assigned to the claim. It will be filled when the electors are randomly assigned to each claim.
 
-Each leaf has **key** =  `${identityCommitment}` and **value**= `Field(1)`. 
+Each leaf has **key** =  `${identityCommitment}` and **value**= `Field(1)`. 
 
-There exists one `ClaimElectors` group per claim. Group uid of the map will be `claim:${claimUid}.electors`. 
+There exists one `ClaimElectors` group per claim. Group uid of the map will be `claims.${claimUid}.electors`. 
 
 #### ClaimNullifiers
 
@@ -101,9 +100,22 @@ in the map we now it has already voted.
 
 Each leaf will have **key**= `${identityCommitment}` and **value** = `Field(1)`. 
 
-There exists one `ClaimNullifiers` group per claim. Group uid of the map will be `claim:${claimUid}.nullifiers`. 
+There exists one `ClaimNullifiers` group per claim. Group uid of the map will
+be `claims.${claimUid}.nullifiers`. 
 
-### Lists 
+#### ElectorTasksList
+
+The list of tasks assigned to a given elector, where each list contains an array 
+of `{ claimUid, status, updatedUTC }`. 
+
+The list will be stored off-chain in KVS, with  an entry for each elector, 
+ where the key for each elector will be `tasks.${identityCommitment}.claims`. 
+
+NOTE: This is NOT a Semaphore Group, is a plain list of items.
+
+The UI will get the full list, and will filter the list on the UI side, so that
+no info is revealed to the API about the user identityHash (which is not linked
+in any way to the Authorization JWT).
 
 **EncryptionKeys** 
 
@@ -115,18 +127,6 @@ When a new Identity is registered, we create the encryptionKeys pair for this
  identity, and broadcast the public key to the registered identity user.
 
 This will be stored off-chain, in the trusted API environment. 
-
-**TasksList**
-
-The list of tasks assigned to the electors, where each task contains
- `{ uid, communityUid, identityHash, claimUid, status, ... }`. 
-
-The UI will get the full list, and will filter the list on the UI side, so that
- no info is revealed to the API about the user identityHash (which is not linked
- in any way to the Authorization JWT).
-
-This will be stored off-chain, in the trusted API environment, table Tasks of
-IndexerDb.
 
 **CollectedVotes** 
 
