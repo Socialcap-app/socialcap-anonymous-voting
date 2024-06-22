@@ -147,7 +147,7 @@ function deserializeMap(serialized: string): IMerkleMap {
  * @param map 
  * @returns the array of sorted keys in the map
  */
-function getSortedKeys(map: IMerkleMap): any[] {
+function getSortedKeys(map: IMerkleMap): string[] {
   // traverse the sorted nodes
   const sortedLeaves = map.data.get().sortedLeaves; 
   const sortedKeys = sortedLeaves?.map((t) => {

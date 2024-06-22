@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
 import logger from "../semaphore/service/logger.js"
-import { getMerkle, IMerkleMap, getSortedKeys } from "../semaphore/service/merkles.js";
+import { getMerkle, getSortedKeys } from "../semaphore/service/merkles.js";
 
 export {
   VotingClaim, 
   VotingStrategy,
-  assignElectors
+  assignElectors,
 }
 
 interface VotingClaim {
@@ -24,8 +24,9 @@ interface VotingStrategy {
 /**
  * Assigns electors to each claim, according to strategy.
  * 
- * Side effects: the claimElectors and claimNullifiers Merkles will be 
+ * SIDE effects: the claimElectors and claimNullifiers Merkles will be 
  * created as as side effect of asigning the electors. It will be done
+ * 
  * @param guid uid of the electors group binded to a given community (usually the communityUid)
  * @param claims 
  */
@@ -62,7 +63,7 @@ function assignElectors(
       // we need to create two Merkles for each claim. These Merkles will 
       // be saved in the KVS and can be used latter for verification
       // the 'guid' of each one will be uid.electors or uid.nullifiers
-      const guid = (t: string) => `claim:${claim.uid}.${t}`;
+      const guid = (t: string) => `claims.${claim.uid}.${t}`;
 
       // the electors Merkle holds the electors for the claim, 
       // and must be filled with one key per elector. 
