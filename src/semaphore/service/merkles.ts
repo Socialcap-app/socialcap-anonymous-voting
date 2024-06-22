@@ -126,7 +126,7 @@ function getSortedKeys(map: IMerkleMap): any[] {
   const sortedKeys = sortedLeaves?.map((t) => {
     // { key, value, nextKey, index }
     // console.log(j, t.index, t.key, t.value)
-    return t.key;
+    return t.key.toString();
   })
   return sortedKeys;
 }

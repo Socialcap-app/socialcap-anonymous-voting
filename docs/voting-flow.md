@@ -3,17 +3,22 @@
 
 1) Elector creates a new identity using and defines his own pin for this identity. 
 
-2) The implementation will create a new random private key and its derived public key for this identity. NOTE that this key pair is NOT associated to his wallet or any MINA account.  It will be used only for signing signals and verifying signatures, so it will not be possible to trace its use to any account thus preserving anonymity.
+2) The implementation will create a new random private key and its derived public 
+key for this identity. NOTE that this key pair is NOT associated to his wallet or 
+any MINA account.  It will be used only for signing signals and verifying 
+signatures, so it will not be possible to trace its use to any account 
+thus preserving anonymity.
 
 3) He saves his private data (sk, pin) in a separate place. 
-     The rest of the data (pk, trapdoor) can bee seen.
-       Can we save this identity in localStorage in some private way ?
-       Can we save part of it at least ?
+  The rest of the data (pk, trapdoor) can bee seen.
+  Can we save this identity in localStorage in some private way ?
+  Can we save part of it at least ?
 
 4) Elector asks the API to provide a proof that he has been enabled as an elector.
 
 5) Elector registers its identity "commitment" in a given community, providing
-    also the pk, and the proof that he has a valid elector role. In response receives a unique encryptionKey to be used latter, that he needs to keep.
+  also the pk, and the proof that he has a valid elector role. In response 
+  receives a unique encryptionKey to be used latter, that he needs to keep.
 
 ### Elector assignment
 
