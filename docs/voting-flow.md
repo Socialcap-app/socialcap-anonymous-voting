@@ -49,6 +49,8 @@
     
 4) Protocol creates a tasks list for the plan with all the assignments, where each entry
     contains the claimUid and the elector identity commitment. Note that elector's anonymity continues to be preserved.
+    
+    `DONE`
 
 ### Voting
 
