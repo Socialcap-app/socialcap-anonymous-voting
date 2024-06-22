@@ -6,10 +6,10 @@
      `DONE`
 
 2. The implementation will create a new random private key and its derived public 
-  key for this identity. NOTE that this key pair is NOT associated to his wallet or 
-  any MINA account.  It will be used only for signing signals and verifying 
-  signatures, so it will not be possible to trace its use to any account 
-  thus preserving anonymity.
+    key for this identity. NOTE that this key pair is NOT associated to his wallet or 
+    any MINA account.  It will be used only for signing signals and verifying 
+    signatures, so it will not be possible to trace its use to any account 
+    thus preserving anonymity.
 
   `DONE`
 
@@ -40,9 +40,13 @@
 2) Protocol creates an electors Merkle for each claim adding the identity 
     "commitment" of each elector to this group.
 
+    `DONE`
+    
 3) Protocol creates an empty nullifiers Merkle for each claim, which will
     be used to register each vote and avoid double voting.
 
+    `DONE`
+    
 4) Protocol creates a tasks list for the plan with all the assignments, where each entry
     contains the claimUid and the elector identity commitment. Note that elector's anonymity continues to be preserved.
 
@@ -67,6 +71,84 @@
    - When all votes have been processed, we will create a transaction to update the ClaimVoting account, passing it the final result and the recursive proof.
    - Questions: We are not sure about dispatching actions for each vote. Or we may pack all of the votes in just one action ? We can pack as much as 100 fields in the action,that means as much as 100 votes per action, but may use some of the action fields for other purposes. We do not need to pack the identities, just the votes ?
    - Send a NATS notification indicating the Claim result.
+
+## Shared objects 
+
+This objects will be stored either in the KVS (key-value store) or in the IndexerDb.
+
+#### CommunityElectors
+
+An `IndexedMerkleMap` used to check inclusion or exclusion of a given elector, in a given community. This group is filled every time an elector registers his identity in the community.
+
+Each leaf has  **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
+
+
+There exists one `ElectorsGroup` per community. Group uid of this map will be `electors.${communitUid}`. 
+
+#### ClaimElectors
+
+An `IndexedMerkleMap` used to check if a given elector has been assigned to the claim. It will be filled when the electors are randomly assigned to each claim.
+
+Each leaf has **key** =  `${identityCommitment}` and **value**= `Field(1)`. 
+
+There exists one `ClaimElectors` group per claim. Group uid of the map will be `claim:${claimUid}.electors`. 
+
+#### ClaimNullifiers
+
+An `IndexedMerkleMap`
+ used to avoid double voting by any elector. These group will be initially empty, and we will insert a new item when a given elector casts its vote. When voting, if the elector's nullifier already exists
+in the map we now it has already voted.
+
+Each leaf will have **key**= `${identityCommitment}` and **value** = `Field(1)`. 
+
+There exists one `ClaimNullifiers` group per claim. Group uid of the map will be `claim:${claimUid}.nullifiers`. 
+
+### Lists 
+
+**EncryptionKeys** 
+
+A key value store, indexed by the `identityCommitment`, containing a pair of
+ encryption keys `{public, private}` but that does not reveal anything about 
+ the identity. The privateKey is only known to the API.
+
+When a new Identity is registered, we create the encryptionKeys pair for this
+ identity, and broadcast the public key to the registered identity user.
+
+This will be stored off-chain, in the trusted API environment. 
+
+**TasksList**
+
+The list of tasks assigned to the electors, where each task contains
+ `{ uid, communityUid, identityHash, claimUid, status, ... }`. 
+
+The UI will get the full list, and will filter the list on the UI side, so that
+ no info is revealed to the API about the user identityHash (which is not linked
+ in any way to the Authorization JWT).
+
+This will be stored off-chain, in the trusted API environment, table Tasks of
+IndexerDb.
+
+**CollectedVotes** 
+
+This is a list of all already collected votes, where each item in the list 
+ contains `{ identityHash, nullifier, claimUid, encryptedVote, ... }`. 
+
+The list is initially empty during the claiming period. When the voting period
+ starts and electors start to cast their vote and we add each vote to the list.
+
+The list will latter be using during the Tally process to aggregate votes. 
+
+There exists one `CollectedVotes` list per plan. This list will be stored 
+  off-chain in the IndexerDb, in the trusted API environment.
+
+**Aggregator**
+
+This is a special service running in the trusted API environment, that will 
+ count the votes and emmit the results.
+
+NOTE: Counting will not start until all the voting period is ended. We will 
+ not count votes while voting is running, thus avoiding the "bandwagon" effect.
+
 
 ## The ClaimVoting contract
 

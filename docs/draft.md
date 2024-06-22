@@ -184,6 +184,8 @@ It will be filled when the electors are randomly assigned to each claim.
 There exists one `ClaimElectors` group per claim. This group will be stored 
  off-chain in the IndexerDb, in the trusted API environment.
 
+Group uid of the map will be `claim:${claimUid}.electors`. 
+
 **ClaimNullifiers**
 
 An `IndexedMerkleMap`, where `key: identityHash` and `value: Field(1)`. It is 
@@ -195,6 +197,8 @@ These group will be initially empty, and we will insert a new item when
 
 There exists one `ClaimNullifiers` group per claim. This group will be stored 
  off-chain in the IndexerDb, in the trusted API environment.
+
+Group uid of the map will be `claim:${claimUid}.nullifiers`. 
 
 **CollectedVotes** 
 

@@ -55,7 +55,7 @@ function handleIdentityRegistration(params: {
   })
 
   // check if this identity is already saved in the KVS
-  const key = `${commitment}`;
+  const key = `identity.${commitment}`;
   let value = KVS.get(key);
   if (value) return {
     // already saved in KVS, return the saved value

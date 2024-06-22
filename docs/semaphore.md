@@ -70,7 +70,7 @@ Sends a message (or broadcasts a signal, in Semaphore terms). This message is
 
 ### Proofs
 
-**proveMembership(publicInputs, privateInputs)**
+#### proveMembership(publicInputs, privateInputs)
 
 Prove that the identity commitment exists in the GroupMap. 
 
@@ -84,10 +84,9 @@ privateInputs:
 publicInputs: 
 - root: of the group Merkle
 
-**proveSignalOrigin(publicInputs, privateInputs)**
+#### proveSignalOrigin(publicInputs, privateInputs)
 
-Prove that the signal was sent by the user owner of the identity and who 
- generated the proof, by signing the message (or its hash).
+Prove that the signal was sent by the user owner of the identity and who generated the proof, by signing the message (or its hash).
 
 It verifies the signature was indeed signed by the owner private key.
 
@@ -99,11 +98,9 @@ publicInputs:
 - signal: hash of the message to broadcast, example hash(message)
 - nullifier: which uniquely identifies a signal, example: hash(pin, claimUid)
 
-**proveNotConsumed** 
+#### proveNotConsumed
 
-Prove that this signal has not been already consumed. 
-
-Will be used by the protocol when tallying votes.
+Prove that this signal has not been already consumed. Will be used by the protocol when tallying votes.
 
 privateInputs: 
 - pin: identity pin 
@@ -115,5 +112,34 @@ publicInputs:
 
 ## The Relayer
 
-For our case NATS will act as relayer hidding RPC calls, etc. Expand on this.
+For our case NATS will act as relayer hidding RPC calls, etc. 
+
+TODO: Expand on this.
+
+## Storage
+
+The Semaphore implementation stores its objects in **KVS**, a very simple 
+key-value storage based on LMDB.
+
+### Identity 
+
+There is one entry in KVS per registered identity where
+ **key** = `identity.${commitment}` and **value** holds:
+
+  - `pk`: the identity public key needed to verify signatures.
+  - `encryptionPk`: public encryption key given by the Semaphore to each identity when registering. It can be used to encrypt the signals he will send.
+  - `encryptionSk`: secret encryption key given by the Semaphore to each identity when registering. It can be used to decrypt the signals the client sends.
+  - `updatedUTC`: datetime of the last update.
+
+### Groups
+
+Each group has a unique Uid (an UUID) assigned elsewhere for the group.
+
+There is one IndexedMerkleMap per group that contains all the identities in the Group. 
+
+Each leaf in the map has **key** = `${identityCommitment}` and **value** = `Field(1)`
+ if enabled or `Field(0)` if disabled. 
+
+There is one entry in KVS per MerkleMap, where **key** = `${guid}`
+ and **value** holds the full MerkleMap (an instance of IndexedMekleMap).
 
