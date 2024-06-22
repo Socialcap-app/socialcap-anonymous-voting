@@ -2,10 +2,10 @@
  * A Identity to be used in Semaphores.
  * 
  * The commited identity hash is calculated using the user publicKey,
- * the group uid and a special 6 digits personal pin.
+ * the trapdoor number and a special 6 digits personal pin.
  * 
- * A given user will have more than one commited identities if he acts 
- * in more than one community.
+ * A given user will have only one commited and registered identity, 
+ * but the same identity can be present in more than one Group.
  */
 import { PrivateKey, Poseidon, Field } from "o1js";
 import { readPrivateFile, savePrivateFile } from "./private";
@@ -15,7 +15,6 @@ export { Identity } ;
 class Identity {
   label = ''; // a user defined label name for this identity
   commitment = ''; // the identity commitment, used to identify this identity
-  guid = ''; // the group uid (can be a community, or other group)
   sk = ''; //  a random newly created secret key, 
   pk = ''; // a newly created public key 
   trapdoor = ''; // trapdoor, a newly created random 6 digits number 
