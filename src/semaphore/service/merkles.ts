@@ -8,6 +8,7 @@ const { IndexedMerkleMap } = Experimental;
 
 export {
   getMerkle,
+  releaseMerkle,
   serializeMap,
   deserializeMap,
   getSortedKeys,
@@ -18,9 +19,23 @@ class IMerkleMap extends IndexedMerkleMap(12) {}
 
 const Pool = new Map<string, IMerkleMap>(); 
 
-function getMerkle(guid: string): IMerkleMap | undefined {
+
+/**
+ * Gets the Merkle of the given Group uid.
+ * - option "no_cache" disables cache for a given group, default = ""
+ * @param guid the Uid of the group
+ * @param options contains a set of options
+ * @returns 
+ */
+function getMerkle(
+  guid: string,
+  options?: string // nocache
+): IMerkleMap | undefined {
   if (!guid) 
     throw Error(`getMerkle requires a 'guid' param`);
+
+  // check if we need to use cache
+  let cacheOn = !(options || "").includes('no_cache');
 
   // check if it is in the cache
   if (Pool.has(guid)) 
@@ -30,15 +45,27 @@ function getMerkle(guid: string): IMerkleMap | undefined {
   const obj = KVS.get(guid);
   if (obj) {
     const restored = deserializeMap(obj.json);
-    Pool.set(guid, restored);
+    cacheOn && Pool.set(guid, restored);
     return restored;
   }
 
   // we need top create a new and empty one
   const map = new IMerkleMap();
-  Pool.set(guid, map);
-  return Pool.get(guid);
+  cacheOn && Pool.set(guid, map);
+  return map;
 }
+
+/**
+ * Removes the Merkle from the cache, if it is there.
+ * Otherwise does nothing at all.
+ */
+function releaseMerkle(guid: string) {
+  if (!guid) 
+    throw Error(`releaseMerkle requires a 'guid' param`);
+  if (Pool.has(guid)) Pool.delete(guid);
+}
+
+
 
 /**
  * Serializes to JSON a IndexedMerkleMap.
