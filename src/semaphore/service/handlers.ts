@@ -1,7 +1,7 @@
 import { Struct, Field, PrivateKey, UInt32 } from 'o1js';
 import { Experimental, SelfProof } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
-import { getMerkle } from './merkle.js';
+import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
 
 export {
   Response,
@@ -35,6 +35,16 @@ function handleIdentityRegistration(params: {
   map?.insert(Field(commitment), Field(1));
   map?.assertIncluded(Field(commitment));
 
+  // serialize it so we can store it in KVS
+  let serialized = serializeMap(map as IMerkleMap);
+  KVS.put(guid, {
+    guid: guid,
+    size: map?.length.toBigInt(),
+    root: map?.root.toString(),
+    json: serialized,
+    updatedUTC: (new Date()).toISOString()
+  })
+
   // check if this identity is already saved in the KVS
   const key = `${commitment}`;
   let value = KVS.get(key);
@@ -55,7 +65,8 @@ function handleIdentityRegistration(params: {
   KVS.put(key, {
     pk: pk, // the identity public key needed to verify signatures
     encryptionSk: rsk.toBase58(), // secret encryption key
-    encryptionPk: rpk.toBase58()  // public encryption key
+    encryptionPk: rpk.toBase58(),  // public encryption key
+    updatedUTC: (new Date()).toISOString()
   })  
 
   return {
