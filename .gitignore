@@ -131,3 +131,6 @@ dist
 
 # builds
 build/
+
+# Local LMDB storage
+kvstorage/
