@@ -1,7 +1,7 @@
 import { Struct, Field, PrivateKey, UInt32 } from 'o1js';
 import { Experimental, SelfProof } from 'o1js';
-import { KVS } from "./lmdb-kvs.js";
-import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
+import { KVS } from "../lmdb-kvs.js";
+import { IMerkleMap, getMerkle, serializeMap } from '../merkles.js';
 
 export {
   Response,

@@ -9,7 +9,7 @@
 import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
 import logger from "./logger.js";
-import { handleIdentityRegistration } from "./handlers.js";
+import { handleIdentityRegistration } from "./handlers/identity-registration.js";
 
 // Create a JSON codec for encoding and decoding messages
 const codec = JSONCodec();

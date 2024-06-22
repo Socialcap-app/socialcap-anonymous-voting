@@ -10,6 +10,7 @@ export {
   getMerkle,
   serializeMap,
   deserializeMap,
+  getSortedKeys,
   IMerkleMap
 }
 
