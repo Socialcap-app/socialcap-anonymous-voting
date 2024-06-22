@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
-import logger from "../logger.js"
-import { getMerkle, IMerkleMap, getSortedKeys } from "../merkles.js";
+import logger from "../semaphore/service/logger.js"
+import { getMerkle, IMerkleMap, getSortedKeys } from "../semaphore/service/merkles.js";
 
 export {
   VotingClaim, 
