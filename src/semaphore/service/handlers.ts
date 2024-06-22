@@ -14,6 +14,14 @@ interface Response {
   error: any | null;
 }
 
+
+/**
+ * Registers the given identity in a Semaphore group.
+ * @param params.commitment the identity commitment 
+ * @param params.pk the public key needed to verify signatures
+ * @param params.guid the Semaphore group where we will register it
+ * @returns 
+ */
 function handleIdentityRegistration(params: {
   commitment: string,
   pk: string,
@@ -21,11 +29,12 @@ function handleIdentityRegistration(params: {
 }): Response {
   const { commitment, pk, guid } = params;
 
+  // get the group map, either by taking it from cache, 
+  // or reading it from KVS or by creating a new one
   const map = getMerkle(guid);
 
   // if it exists in map it is an error !
   let option = map?.getOption(Field(commitment));
-  console.log("getOption", option);
   if (option?.isSome.toBoolean()) return { 
     success: false, data: null,
     error: `Identity commitment: ${commitment} already exists in Group: ${guid}`

@@ -112,3 +112,20 @@ function deserializeMap(serialized: string): IMerkleMap {
   console.log("root restored:", restoredMap.root.toJSON());
   return restoredMap;
 }
+
+/**
+ * Traverse the map and get the keys sorted.
+ * We need this to get all the identity commitments in the group.
+ * @param map 
+ * @returns the array of sorted keys in the map
+ */
+function getSortedKeys(map: IMerkleMap): any[] {
+  // traverse the sorted nodes
+  const sortedLeaves = map.data.get().sortedLeaves; 
+  const sortedKeys = sortedLeaves?.map((t) => {
+    // { key, value, nextKey, index }
+    // console.log(j, t.index, t.key, t.value)
+    return t.key;
+  })
+  return sortedKeys;
+}
