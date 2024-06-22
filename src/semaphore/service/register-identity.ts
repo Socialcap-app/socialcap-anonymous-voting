@@ -1,19 +1,11 @@
-import { Struct, Field, PrivateKey, UInt32 } from 'o1js';
-import { Experimental, SelfProof } from 'o1js';
-import { KVS } from "../lmdb-kvs.js";
-import { IMerkleMap, getMerkle, serializeMap } from '../merkles.js';
+import { Field, PrivateKey } from 'o1js';
+import { KVS } from "./lmdb-kvs.js";
+import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
+import { Response } from './relay-signals.js';
 
 export {
-  Response,
   handleIdentityRegistration,
 }
-
-interface Response {
-  success: boolean;
-  data: object | null;
-  error: any | null;
-}
-
 
 /**
  * Registers the given identity in a Semaphore group.

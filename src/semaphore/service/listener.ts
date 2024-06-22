@@ -9,25 +9,10 @@
 import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
 import logger from "./logger.js";
-import { handleIdentityRegistration } from "./handlers/identity-registration.js";
+import { handleSignal } from './relay-signals.js';
 
 // Create a JSON codec for encoding and decoding messages
 const codec = JSONCodec();
-
-const Handlers: any = {
-  'registerIdentity': handleIdentityRegistration,
-};
-
-async function handleMessage(data: any) {
-  logger.debug(`handleMessage data: `, data);
-
-  const { post, params } = data;
-  if (!Handlers[post || '']) 
-    throw Error(`handleMessage has no handler for: '${post}'`)
-
-  const parsed = JSON.parse(params || '{}');
-  return await Handlers[post](parsed);
-}
 
 function listen(
   connection: NatsConnection, 
@@ -46,7 +31,7 @@ function listen(
           +`${JSON.stringify(received)}`);
 
         // Perform processing logic here
-        let response = await handleMessage(received);
+        let response = await handleSignal(received);
         if (!response.success)
           throw Error(response.error);
 
