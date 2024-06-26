@@ -22,7 +22,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrivateKey, Signature, Poseidon, Field } from "o1js";
 import { Identity } from "./identity";
-import { Response, postMessage } from "./requests";
+import { Response, postRequest } from "./requests";
 
 export { Signal, sendSignal }
 
@@ -93,7 +93,7 @@ async function sendSignal(
   identity: Identity,
   signal: Signal,
 ): Promise<Response>{
-  let rsp = await postMessage('broadcastSignal', {
+  let rsp = await postRequest('broadcastSignal', {
     identityCommitment: identity.commitment,
     message: signal.encrypted || signal.message,
     isEncrypted: signal.encrypted ? true : false,

@@ -9,7 +9,7 @@
  */
 import { PrivateKey, Poseidon, Field } from "o1js";
 import { readPrivateFile, savePrivateFile } from "./private";
-import { Response, postMessage } from "./requests";
+import { Response, postRequest } from "./requests";
 
 export { Identity, registerIdentity } ;
 
@@ -91,7 +91,7 @@ async function registerIdentity(
   identity: Identity,
   guid: string
  ): Promise<Response> {
-  let rsp = await postMessage('registerIdentity', {
+  let rsp = await postRequest('registerIdentity', {
     commitment: identity.commitment,
     pk: identity.pk,
     guid: guid

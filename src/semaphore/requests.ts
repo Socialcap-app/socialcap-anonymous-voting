@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import { connect, JSONCodec } from "nats";
+import { connect, JSONCodec, NatsConnection } from "nats";
 
 // const NATS_SERVER_WSS = "wss://nats.socialcap.dev:4233";
 const NATS_SERVER = process.env.NATS_SERVER;
 
 export {
   Response,
-  postMessage
+  postRequest
 }
 
 interface Response {
@@ -16,24 +16,23 @@ interface Response {
   error: any | null;
 }
 
-async function postMessage(
+async function postRequest(
   command: string, 
   params: object
 ): Promise<Response> {
-  
+  // setup codec
+  const codec = JSONCodec();
+
+  // the NATS subject where we will publish it
+  const natsSubject = `socialcap:semaphore`;
+
   // connect to the NATS server and send a 'ready' request
   const nc = await connect({ 
     servers: NATS_SERVER,
     timeout: 5*60*1000, 
     debug: false 
   });
-  console.log(`connected to ${NATS_SERVER}`);
-
-  // setup codec
-  const codec = JSONCodec();
-
-  // the NATS subject where we will publish it
-  const natsSubject = `socialcap:semaphore`;
+  console.log(`semaphore.postRequest connected to ${NATS_SERVER}`);
 
   try {
     const msg: any = await nc.request(
@@ -46,20 +45,19 @@ async function postMessage(
     )
     
     const response: any = codec.decode(msg.data);
-    console.log("postMessage response: ", response);
+    console.log("semaphore.postRequest postRequest response: ", response);
     if (!response.success) 
       throw Error(response.error);
 
     return { success: true, data: response.data, error: null }
   }
   catch (error: any) {
-    console.log(`postMessage ${command} error: `, error);
+    console.log(`semaphore.postRequest ${command} error: `, error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    console.log("cleanup");
+    console.log("semaphore.postRequest cleanup");
     await nc.drain();
   }
 }
-

@@ -8,7 +8,7 @@
  * for example 'communities.0ac2379.electors' or 'claims.406980.nullifiers'.
  * But in fact can use any name convention, for example '{}.items'.
  */
-import { Response, postMessage } from "./requests";
+import { Response, postRequest } from "./requests";
 
 export { Group, registerGroup };
 
@@ -45,7 +45,7 @@ class Group {
 async function registerGroup(
   guid: string
 ): Promise<Response> {
-  let rsp = await postMessage('registerGroup', {
+  let rsp = await postRequest('registerGroup', {
     guid: guid
   })
  
