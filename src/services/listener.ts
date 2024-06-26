@@ -11,6 +11,10 @@ import { connect, JSONCodec, NatsConnection } from "nats";
 import logger from "./logger.js";
 import { handleSignal } from './dispatcher.js';
 
+export {
+  startListener
+}
+
 // Create a JSON codec for encoding and decoding messages
 const codec = JSONCodec();
 
@@ -43,18 +47,19 @@ function listen(
         }));
       }
       catch (err: any) {
-        logger.error('Error processing message: ', err);
+        const errmsg = err.message || err.toString();
+        logger.error(`Error processing message: ${errmsg}`);
         msg.respond(codec.encode({ 
           success: false,
           data: null,
-          error: err.message
+          error: errmsg
         }));
       }
     }
   })();
 }
 
-async function start() {
+async function startListener() {
   try {
     logger.info(`NATS listener connecting to: ${process.env.NATS_SERVER} ...`);
 
@@ -72,5 +77,3 @@ async function start() {
   }
 }
 
-// Start the NATSClient
-start();

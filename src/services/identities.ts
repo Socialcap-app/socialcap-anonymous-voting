@@ -1,5 +1,5 @@
 /**
- * Manages the Identity register
+ * Manages the Identities register
  */
 import { Field, PrivateKey } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";

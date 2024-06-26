@@ -3,8 +3,8 @@ import { Field } from "o1js";
 import logger from "../services/logger.js"
 import { KVS } from "../services/lmdb-kvs.js";
 import { IMerkleMap, getMerkle, getSortedKeys } from "../services/merkles.js";
-import { VotingClaim } from "./electors-assignment.js";
-import { Identity } from "../semaphore";
+import { VotingClaim } from "./selection.js";
+import { Identity } from "../semaphore/index.js";
 
 /**
  * Update the task list for each Identity using the assigned claims.

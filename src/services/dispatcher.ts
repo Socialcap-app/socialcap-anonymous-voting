@@ -15,7 +15,7 @@
 import { Response } from "../semaphore";
 import logger from "./logger.js";
 import { handleIdentityRegistration } from "./identities.js";
-//import { handleGroupRegistration } from "./groups.js";
+import { handleGroupRegistration } from "./groups.js";
 
 export {
   type SignalHandlerFunction,
@@ -29,7 +29,7 @@ type SignalHandlerFunction = (data: any) => Promise<Response>;
 // This are handlers used by the Sempahore protocol itself
 const SemaphoreHandlers: any = {
   'registerIdentity': handleIdentityRegistration,
-  // 'registerGroup': handleGroupRegistration
+  'registerGroup': handleGroupRegistration,
 };
 
 // This are handlers used by the Application

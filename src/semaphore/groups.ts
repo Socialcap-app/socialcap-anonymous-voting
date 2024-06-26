@@ -7,7 +7,8 @@
  * The group name name will usually follow the pattern: 'category.{}.group', 
  * for example 'communities.0ac2379.electors' or 'claims.406980.nullifiers'.
  * But in fact can use any name convention, for example '{}.items'.
- */
+*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, postRequest } from "./requests";
 
 export { Group, registerGroup };

@@ -2,6 +2,8 @@ import { Identity, registerIdentity } from "../src/semaphore";
 
 describe('Use Semaphore Identity class', () => {
 
+  const testGroup = 'comunities.cn021.electors';
+
   beforeAll(async () => {
     // nothing here
   });
@@ -21,7 +23,7 @@ describe('Use Semaphore Identity class', () => {
     let identity = Identity.read('juancito');
     console.log(identity);
 
-    let rsp = await registerIdentity(identity, 'cmn021.electors');
+    let rsp = await registerIdentity(identity, testGroup);
     console.log("finally: ", rsp);
   });
 
@@ -31,7 +33,7 @@ describe('Use Semaphore Identity class', () => {
       console.log(identity);
       identity.save();
   
-      let rsp = await registerIdentity(identity, 'communities.cmn021.electors');
+      let rsp = await registerIdentity(identity, testGroup);
       console.log("registered: ", rsp);
     }
   });

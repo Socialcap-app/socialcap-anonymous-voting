@@ -52,8 +52,8 @@ Implements the full voting process.
 
 In `src/voting` folder
 
-- [selection](src/voting/selection.ts): selects the electors who will participate in voting
-- [assignments](src/voting/assignments.ts): assigns voting tasks to each elector
+- [selection](src/voting/selection.ts): selects the electors who will participate in voting for each claim
+- [assignments](src/voting/assignments.ts): assigns the voting tasks to each elector
 - [reception](src/voting/reception.ts): receives batch of vote from electors
 - [aggregation](src/voting/aggregation.ts): aggregates the votes per claim to produce results
 - [issuer](src/voting/issuer.ts): issues credentials based on results

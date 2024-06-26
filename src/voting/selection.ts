@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
+import { Response } from "../semaphore";
 import logger from "../services/logger.js"
 import { getMerkle, getSortedKeys } from "../services/merkles.js";
 
 export {
-  VotingClaim, 
-  VotingStrategy,
-  assignElectors,
+  type VotingClaim, 
+  type PlanStrategy,
+  selectElectors,
 }
 
 interface VotingClaim {
@@ -17,12 +18,16 @@ interface VotingClaim {
   error: any | null; // if any errors happened, we store it here
 }
 
-interface VotingStrategy {
-  variant: string;  
+interface PlanStrategy {
+  planUid: string;
+  variant: 'random' | 'all';  
+  source: 'validators' | 'auditors' | 'all',
+  minVotes: number;
+  minPositives: number;
 }
 
 /**
- * Assigns electors to each claim, according to strategy.
+ * Select electors to each claim, according to strategy.
  * 
  * SIDE effects: the claimElectors and claimNullifiers Merkles will be 
  * created as as side effect of asigning the electors. It will be done
@@ -30,11 +35,12 @@ interface VotingStrategy {
  * @param guid uid of the electors group binded to a given community (usually the communityUid)
  * @param claims 
  */
-function assignElectors(
+async function selectElectors(params: {
   guid: string, 
-  strategyOptions: VotingStrategy,
-  claims: VotingClaim[]
-): VotingClaim[] {
+  strategy: PlanStrategy,
+  claims: VotingClaim[],
+}): Promise<Response> {
+  const { guid, strategy, claims } = params ;
 
   const group = getMerkle(guid);
   if (!group)
@@ -44,16 +50,15 @@ function assignElectors(
   if (!allElectors.length) 
     throw Error(`There are no electors in group: ${guid}`);
 
-  const strategy = getStrategy(strategyOptions);
-  if (!strategy)
-    throw Error(`The mentioned strategy ${JSON.stringify(strategyOptions)} is not available`);
+  const strategyRunner = getStrategyRunner(strategy);
+  if (!strategyRunner)
+    throw Error(`The mentioned strategy ${JSON.stringify(strategy)} is not available`);
 
-  let errors = [];
   for (let j=0; j < (claims || []).length; j++) {
     try {
       let claim = claims[j];
       claims[j] = Object.assign(claim, {
-        electors: strategy.selectElectors(allElectors, strategyOptions),
+        electors: strategyRunner.selectFrom(allElectors),
         status: 1,
         assignedUTC: (new Date()).toISOString(),
         error: null
@@ -83,19 +88,35 @@ function assignElectors(
     }
   }
 
-  return claims;
+  return {
+    success: true, error: null,
+    data: { claims: claims }
+  }  
 }
 
 
-function getStrategy(options: VotingStrategy) {
+function getStrategyRunner(strategy: PlanStrategy) {
   return {
-    selectElectors: selectRandomElectors
+    selectFrom: selectRandomFrom
   }
 }
 
-function selectRandomElectors(
-  all: string[], 
-  options: VotingStrategy
-): string[] {
+function fromCommunity(all: string[]): string[] {
+  return []
+}
+
+function fromValidators(all: string[]): string[] {
+  return []
+}
+
+function fromAuditors(all: string[]): string[] {
+  return []
+}
+
+function randomly(selectables: string[]): string[] {
+  return []
+}
+
+function all(selectables: string[]): string[] {
   return []
 }
