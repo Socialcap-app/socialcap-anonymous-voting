@@ -9,8 +9,10 @@
  */
 import { PrivateKey, Poseidon, Field } from "o1js";
 import { readPrivateFile, savePrivateFile } from "./private";
+import { Response, postMessage } from "./requests";
 
-export { Identity } ;
+export { Identity, registerIdentity } ;
+
 
 class Identity {
   label = ''; // a user defined label name for this identity
@@ -76,7 +78,35 @@ class Identity {
 }
 
 
-// Helpers
+/**
+* Registers this identity in some Semaphore group.
+* 
+* Note that there will be one different Merkle for each group, 
+* and the same identity can be registered in many groups.
+* 
+* @param identity the identity commitment to register
+* @param guid the group for which we will register it
+* @returns an encryptionKey only shared by this identity and the service
+*/
+async function registerIdentity(
+  identity: Identity,
+  guid: string
+ ): Promise<Response> {
+  let rsp = await postMessage('registerIdentity', {
+    commitment: identity.commitment,
+    pk: identity.pk,
+    guid: guid
+  })
+ 
+  return {
+    success:  rsp.success,
+    data: rsp.success ? rsp.data : null,
+    error: !rsp.success ? rsp.error : null
+  };
+}
+
+
+// Helpers 
 
 /** Removes all non-ASCII characters and spaces, for use as a filename */
 const _cleanStr = (input: string): string => {

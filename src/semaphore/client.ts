@@ -1,2 +1,2 @@
-export * from "./client/identity";
-export * from "./client/proxy";
+export * from "./identity";
+export * from "./proxy";

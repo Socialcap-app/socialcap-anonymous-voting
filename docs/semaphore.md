@@ -4,6 +4,7 @@
 Semaphore is a zero-knowledge protocol that allows you to cast a signal and 
 proof you are a group member without revealing your identity.
 
+https://semaphore.pse.dev/
 
 ### Articles
 
@@ -39,7 +40,6 @@ Creates a new identity (but does not register it), with the following (returned)
 {
   label: // a user defined label name for this identity
   commitment: // the identity commitment, used to identify this identity
-  guid: // the group uid (can be a community, or other group)
   pk: // a newly created public key 
   sk: //  a newly created secret key, 
   trapdoor: // trapdoor, a newly created random 6 digits number 

@@ -1,5 +1,5 @@
 
-### User anonymous identity
+### Electors anonymous identity
 
 1. Elector creates a new identity using and defines his own pin for this identity. 
 
@@ -10,8 +10,8 @@
     any MINA account.  It will be used only for signing signals and verifying 
     signatures, so it will not be possible to trace its use to any account 
     thus preserving anonymity.
-
-  `DONE`
+    
+     `DONE`
 
 3. He saves his private data (sk, pin) in a separate place. 
      The rest of the data (pk, trapdoor) can bee seen.
