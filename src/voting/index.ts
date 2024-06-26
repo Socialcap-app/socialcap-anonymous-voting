@@ -11,8 +11,8 @@
  *  `async handler(params: any): Promise<Response> { ... } ` 
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import logger from "../semaphore/service/logger.js";
-import { Response } from "../semaphore/service/relay-signals.js"
+import logger from "../services/logger.js";
+import { Response } from "../services/relay-signals.js"
 
 export const SignalHandlers: any = {
   'echoSignal': echoSignalHandler,

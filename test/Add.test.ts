@@ -1,5 +1,5 @@
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey } from 'o1js';
-import { Add } from '../src/Add';
+import { Add } from '../src/drafts/Add';
 import { IndexedMerkleMap } from 'o1js/dist/node/lib/provable/merkle-tree-indexed';
 
 /*

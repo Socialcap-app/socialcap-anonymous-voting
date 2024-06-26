@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
-import logger from "../semaphore/service/logger.js"
-import { KVS } from "../semaphore/service/lmdb-kvs.js";
-import { IMerkleMap, getMerkle, getSortedKeys } from "../semaphore/service/merkles.js";
+import logger from "../services/logger.js"
+import { KVS } from "../services/lmdb-kvs.js";
+import { IMerkleMap, getMerkle, getSortedKeys } from "../services/merkles.js";
 import { VotingClaim } from "./electors-assignment.js";
 import { Identity } from "../semaphore/client.js";
 
