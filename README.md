@@ -37,11 +37,12 @@ This service has three roles:
 In `src/services` folder:
 
 - [listeners](src/services/listener.ts): listen to subscribed messages
+- [identities](src/services/identities.ts):  manages the identity register
+- [groups](src/services/groups.ts): manages the groups register
 - [merkles](src/services/merkles.ts): create and operate on IndexedMerkleMaps
 - [kvs](src/services/kvs.ts): manage the LMDB key-value store
 - [signals](src/services/signals.ts): validates received signals when appropiate
-- [register](src/services/register.ts): register identities and groups
-- [relayer](src/services/relayer.ts): relays signals to application handlers
+- [dispatcher](src/services/dispatcher.ts): dispatchs tasks to application handlers
 - [logger](src/services/logger.ts): log to file (pino logger)
 - [utils](src/services/utils.ts): general utilities
 

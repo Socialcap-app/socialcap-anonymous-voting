@@ -1,7 +1,10 @@
+/**
+ * Manages the Identity register
+ */
 import { Field, PrivateKey } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
 import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
-import { Response } from './relay-signals.js';
+import { Response } from "../semaphore";
 
 export {
   handleIdentityRegistration,

@@ -9,7 +9,7 @@
 import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
 import logger from "./logger.js";
-import { handleSignal } from './relay-signals.js';
+import { handleSignal } from './dispatcher.js';
 
 // Create a JSON codec for encoding and decoding messages
 const codec = JSONCodec();

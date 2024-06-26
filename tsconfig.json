@@ -20,5 +20,5 @@
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false,
   },
-  "include": ["./src", "test/CommitedIdentity.test.ts", "test/Add.test.ts", "test/IndexedMap.test.ts"],
+  "include": ["./src", "test"],
 }

@@ -12,7 +12,7 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import logger from "../services/logger.js";
-import { Response } from "../services/relay-signals.js"
+import { Response } from "../semaphore/index.js"
 
 export const SignalHandlers: any = {
   'echoSignal': echoSignalHandler,
