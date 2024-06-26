@@ -39,7 +39,7 @@ class Signal {
     topic: string, 
     message: string
   ): Signal {
-    let obj = new Signal(identity, topic, message, encrypted);
+    let obj = new Signal(identity, topic, message);
     obj.encrypted = '';
     return obj;
   } 

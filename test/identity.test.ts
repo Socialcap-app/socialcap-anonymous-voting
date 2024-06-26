@@ -1,5 +1,4 @@
-import { Identity } from "../src/semaphore/client"
-import { registerIdentity } from "../src/semaphore/client";
+import { Identity, registerIdentity } from "../src/semaphore";
 
 describe('Use Semaphore Identity class', () => {
 

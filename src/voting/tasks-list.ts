@@ -4,7 +4,7 @@ import logger from "../services/logger.js"
 import { KVS } from "../services/lmdb-kvs.js";
 import { IMerkleMap, getMerkle, getSortedKeys } from "../services/merkles.js";
 import { VotingClaim } from "./electors-assignment.js";
-import { Identity } from "../semaphore/client.js";
+import { Identity } from "../semaphore";
 
 /**
  * Update the task list for each Identity using the assigned claims.

@@ -1,6 +1,5 @@
-import { Identity } from "../src/semaphore/client"
-import { registerIdentity } from "../src/semaphore/client";
-import { assignElectors } from "../src/"
+import { Identity, registerIdentity } from "../src/semaphore";
+import { assignElectors } from "../src/voting/electors-assignment"
 
 describe('Use Semaphore Identity class', () => {
 

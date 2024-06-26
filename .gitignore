@@ -131,6 +131,7 @@ dist
 
 # builds
 build/
+build/*
 
 # Local LMDB storage
 kvstorage/
