@@ -2,7 +2,7 @@
  * A Identity to be used in Semaphores.
  * 
  * The commited identity hash is calculated using the user publicKey,
- * the trapdoor number and a special 6 digits personal pin.
+ * and a special 6 digits personal pin.
  * 
  * A given user will have only one commited and registered identity, 
  * but the same identity can be present in more than one Group.
@@ -19,12 +19,12 @@ class Identity {
   commitment = ''; // the identity commitment, used to identify this identity
   sk = ''; //  a random newly created secret key, 
   pk = ''; // a newly created public key 
-  trapdoor = ''; // trapdoor, a newly created random 6 digits number 
   pin = ''; // a pin nullifier, a user created 6 digits number, initialy 0
   skHash = ''; // the secret key hash, used to verify the secret key when input by user
   pinHash = ''; // the pin hash, used to verify the pin key when input by user
   encryptionKey = ''; // encryption key returned by service when registered
   ownershipProof = ''; // proof that he owns this identity
+  // DEPRECATED trapdoor from Semaphore v4, a newly created random 6 digits number 
 
   /** 
    * Create a new identity for this user.
@@ -53,7 +53,6 @@ class Identity {
   constructor(label: string, pin: string) {
     this.label = label;
     this.pin = pin.padStart(6, '0');
-    this.trapdoor = (Math.random()*1000000).toFixed(0).toString().padStart(6,'0');
 
     // new random private,public key pair
     const rsk = PrivateKey.random();
@@ -63,8 +62,8 @@ class Identity {
     
     // finally calculate commitment
     this.commitment = Poseidon.hash(
-      rpk.toFields()
-      .concat([Field(this.pin), Field(this.trapdoor)])
+      rpk.toFields() // the identity publicKey
+      .concat([Field(this.pin)]) // the user Pin number
     ).toString();
 
     // calculate helper validate hashes
