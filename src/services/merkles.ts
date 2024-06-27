@@ -24,6 +24,7 @@ const Pool = new Map<string, IMerkleMap>();
  * Get (or create) a Merkle for the given Group uid. 
  * If it does not existe, it creates new one.
  * - option "no_cache" disables cache for a given group, default = ""
+ * - option "empty" allways an empty tree, reset it if already exists
  * @param guid the Uid of the group
  * @param options contains a set of options
  * @returns 
@@ -35,8 +36,12 @@ function getMerkle(
   if (!guid) 
     throw Error(`getMerkle requires a 'guid' param`);
 
-  // check if we need to use cache
-  let cacheOn = !(options || "").includes('no_cache');
+  // check options
+  let cacheOn = !(options || "").includes('no_cache'); // we use cache
+  let alwaysNew = !(options || "").includes('empty'); // always a new map
+
+  if (alwaysNew)
+    return (new IMerkleMap());
 
   // check if it is in the cache
   if (Pool.has(guid)) 
