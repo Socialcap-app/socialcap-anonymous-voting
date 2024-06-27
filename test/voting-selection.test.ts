@@ -59,6 +59,9 @@ describe('Select electors for voting on claims', () => {
         status: 0, // 0-NOT_ASSIGNED, 1-ASSIGNED, 2-FAILED
         electors: [], // the identity commitment of each elector
         assignedUTC: '', // when it was assigned
+        metadata: JSON.stringify({
+          title: "Some title "+j
+        }),
         error: null // if any errors happened, we store it here
       })  
     }

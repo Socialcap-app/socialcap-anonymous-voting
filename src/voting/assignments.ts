@@ -48,7 +48,8 @@ async function assignTasks(
       electors[e].tasks.push({ 
         claimUid: c.uid,
         status: c.status,
-        assignedUTC: c.assignedUTC
+        assignedUTC: c.assignedUTC,
+        metadata: c.metadata
       })
     })
   })
