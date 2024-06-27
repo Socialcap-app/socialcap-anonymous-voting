@@ -86,7 +86,7 @@ async function selectElectors(params: {
 
 function _buildGroup(guid: string, items: string[]) {
   // we bypass the group registration here as it is not needed
-  const map: IMerkleMap = getMerkle(guid, "no_cache") as IMerkleMap;
+  const map: IMerkleMap = getMerkle(guid, "no_cache,empty") as IMerkleMap;
   (items || []).forEach((key: string) => {
     map.insert(Field(key), Field(1));
   })

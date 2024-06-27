@@ -40,6 +40,7 @@ function runStrategy(
   // first we need to select the electors from the required source
   const electors = selectUsing[strategy.variant](
     getMembers[strategy.source](communityUid), 
+    [], // exclude list
     strategy.minValidators
   );
   logger.info(`Selected ${electors.length} validators from ${communityUid} ...`)
@@ -52,8 +53,10 @@ function runStrategy(
   // electors will allways be selected from the auditors set 
   const auditors = selectUsing[strategy.variant](
     getAuditorMembers(communityUid), 
+    electors, // exclude list, must not superpose
     strategy.minAuditors
   )  
+  logger.info(`Selected ${auditors.length} auditors from ${communityUid} ...`)
   return electors.concat(auditors);
 }
 
@@ -87,12 +90,12 @@ function getAuditorMembers(communityUid: string) {
   return CACHE_MEMBERS[guid];
 }
   
-/** Is an auditable claim and we must add auditors to it ? */
+/** Is it an auditable claim and we must add auditors to it ? */
 function isAuditable(strategy: PlanStrategy): boolean {
-  // do we have to audit now ? just throw a number :-)
-  const frequency = strategy.auditFrequency;
-  let needsAudit = (frequency > 0) && (randomInt(frequency+1) === frequency) 
-  return needsAudit;
+  const N = strategy.auditFrequency;
+  if (N === 0) return false; // NEVER does audits
+  if (N === 1) return true;  // audits ALL claims
+  return (randomInt(N+1) === N); // audits at random every N claims
 }
 
 /** Selects all members from the given set. */
@@ -102,9 +105,13 @@ function selectAll(members: string[], min: number): string[] {
 }  
 
 /** Selects 'min' not repeated members from the given set */
-function selectRandom(members: string[], min: number): string[] {
+function selectRandom(
+  members: string[], 
+  exclude: string[], 
+  min: number
+): string[] {
   const n = (members || []).length;
-  let selected: any = {};
+  let selected: string[] = [];
 
   // do we have enough ?
   if (n < min) {
@@ -116,12 +123,12 @@ function selectRandom(members: string[], min: number): string[] {
   while (count < min) {
     const k = randomInt(n); // select one from the array
     const uid = members[k];
-    if (! selected[uid]) {
-      selected[uid] = members[k];
+    if (!selected.includes(uid) && !exclude.includes(uid)) {
+      selected.push(uid)
       count++;
     }
   }
 
   // return as an array
-  return Object.keys(selected).map((uid) => selected[uid]);
+  return selected;
 }
