@@ -36,7 +36,8 @@ async function selectElectors(params: {
   claims: VotingClaim[],
 }): Promise<Response> {
   const { communityUid, planStrategy, claims } = params ;
-
+  logger.info(`Selection for ${planStrategy.planUid} ${planStrategy.name}`)
+  
   // here we will collect errors from all claims
   let errors = [];
 

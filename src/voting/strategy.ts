@@ -100,7 +100,12 @@ function isAuditable(strategy: PlanStrategy): boolean {
 
 /** Selects all members from the given set. */
 // Note: 'min' is requier for compatibility with selectRandom
-function selectAll(members: string[], min: number): string[] {
+function selectAll(
+  members: string[], 
+  exclude: string[], 
+  min: number
+): string[] {
+  if (min === 0) return [];
   return members;
 }  
 
