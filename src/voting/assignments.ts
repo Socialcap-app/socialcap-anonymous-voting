@@ -1,10 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Field } from "o1js";
+import fs from "fs";
 import logger from "../services/logger.js"
 import { KVS } from "../services/lmdb-kvs.js";
-import { IMerkleMap, getMerkle, getSortedKeys } from "../services/merkles.js";
 import { VotingClaim } from "./selection.js";
-import { Identity } from "../semaphore/index.js";
+
+export {
+  assignTasks,
+  ElectorAssignment
+}
+
+
+interface ElectorAssignment {
+  identityCommitment: string; 
+  tasks: any[];
+  updatedUTC: Date;
+}
 
 /**
  * Update the task list for each Identity using the assigned claims.
@@ -14,28 +24,28 @@ import { Identity } from "../semaphore/index.js";
  * 
  * Each tasks list is saved in KVS using the elector identity commitment.
  * 
- * @param guid uid of the group binded to a community  
+ * @param guid uid of the electors group binded to a community  
  * @param claims the array of just assigned claims
  */
-async function updtateTasksList(
-  guid: string,
+async function assignTasks(
   claims: VotingClaim[]
-) {
-  // first we will need the sorted list of electors of this Group
-  const map = getMerkle(guid); 
-  let allElectors = getSortedKeys(map as IMerkleMap);
-
-  // we create an electorTasks dictio with empty list for each elector
-  const electorTasks: any = {} ;
-  allElectors.forEach((t: string) => {
-    electorTasks[t] = []; 
-  })
-
-  // next we traverse the claims and update the list for each elector
+): Promise<ElectorAssignment[]> {
+  const electors: any = {};
+  
+  // traverse the claims and update the electors list with its tasks
   claims.forEach((c: VotingClaim) => {
     if (!(c.status === 1)) return;
+
+    // traverse electors in this claim
     c.electors.forEach((e: string) => {
-      electorTasks[e].push({ 
+      // if elector has no been added to the list
+      if (!electors[e]) electors[e] = {
+        identityCommitment: e,
+        tasks: []
+      }
+
+      // add tasks to the current elector
+      electors[e].tasks.push({ 
         claimUid: c.uid,
         status: c.status,
         assignedUTC: c.assignedUTC
@@ -43,24 +53,34 @@ async function updtateTasksList(
     })
   })
 
-  // finally we update the existent KVS list with the new tasks
-  allElectors.forEach((e: string) => {
+  // finally we update the existent KVS list with the new electors and tasks
+  let assignments: any[] = [];  
+  Object.keys(electors).forEach((k: string) => {
+    let elector = electors[k];
+
     // elector has no tasks, do nothing
-    if (!electorTasks[e].length) return; 
+    if (!elector.tasks.length) return; 
 
     // get the current list for this elector
-    const electorTasksKey = `tasks.${e}.claims`;
+    const electorTasksKey = `tasks.${k}.claims`;
     let current = KVS.get(electorTasksKey) || { 
-      identityCommitment: e, 
+      identityCommitment: k, 
       tasks: [],
       updatedUTC: ''
     }
 
-    // update the current list in KVS
-    KVS.put(electorTasksKey, {
-      identityCommitment: e, 
-      tasks: (current.tasks || []).concat(electorTasks[e]),
+    // update the current task list in KVS
+    const updated = {
+      identityCommitment: k, 
+      tasks: (current.tasks || []).concat(elector.tasks),
       updatedUTC: (new Date()).toISOString()
-    })
-  })  
+    };
+    KVS.put(electorTasksKey, updated)
+
+    // // create a file with all tasks for this identity
+    // fs.writeFileSync(`tmp/tasks-${k}.json`, JSON.stringify(updated, null,2));
+    assignments.push(updated);
+  })
+
+  return assignments;
 }

@@ -1,4 +1,5 @@
 import { randomInt } from "crypto";
+import fs from "fs"
 import { Identity, registerIdentity } from "../src/semaphore";
 import { Group, registerGroup } from "../src/semaphore";
 import { VotingClaim, selectElectors } from "../src/voting/selection"
@@ -77,7 +78,12 @@ describe('Select electors for voting on claims', () => {
     let { claims, errors } = rsp.data as any;
     console.log("Claims: ", JSON.stringify(claims, null, 2));
     console.log("Errors: ", JSON.stringify(errors, null, 2));
-    return { claims, errors }
+
+    fs.writeFileSync(`kvstorage/plan-${strategy.planUid}.electors.json`, 
+      JSON.stringify(claims, null, 2)
+    );
+
+    return { claims, errors, strategy }
   }
 
   it('Random from validators and auditors, allways audit. RAND V=3 A=1 F=1', async () => {
