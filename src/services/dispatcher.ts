@@ -12,7 +12,7 @@
  * All handlers will need to respect the SignalHandlerFunction pattern.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Response } from "../semaphore";
+import { Response } from "../semaphore/index.js";
 import logger from "./logger.js";
 import { handleIdentityRegistration } from "./identities.js";
 import { handleGroupRegistration } from "./groups.js";
@@ -59,6 +59,11 @@ function registerApplicationHandler(
   ApplicationHandlers[name] = handler;
 }
 
+/**
+ * Handles the received sinal and dispatches it to the correct worker.
+ * @param data 
+ * @returns 
+ */
 async function handleSignal(data: any) {
   const { post, params } = data || {};
   logger.debug(`handleMessage ${post} data: ${(params || '')}`);

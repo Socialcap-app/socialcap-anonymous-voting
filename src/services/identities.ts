@@ -4,7 +4,7 @@
 import { Field, PrivateKey } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
 import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
-import { Response } from "../semaphore";
+import { Response } from "../semaphore/index.js";
 
 export {
   handleIdentityRegistration,

@@ -21,8 +21,8 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrivateKey, Signature, Poseidon, Field } from "o1js";
-import { Identity } from "./identity";
-import { Response, postRequest } from "./requests";
+import { Identity } from "./identity.js";
+import { Response, postRequest } from "./requests.js";
 
 export { Signal, sendSignal }
 

@@ -9,7 +9,7 @@
  * But in fact can use any name convention, for example '{}.items'.
 */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Response, postRequest } from "./requests";
+import { Response, postRequest } from "./requests.js";
 
 export { Group, registerGroup };
 

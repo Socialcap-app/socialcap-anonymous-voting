@@ -8,8 +8,8 @@
  * but the same identity can be present in more than one Group.
  */
 import { PrivateKey, Poseidon, Field } from "o1js";
-import { readPrivateFile, savePrivateFile } from "./private";
-import { Response, postRequest } from "./requests";
+import { readPrivateFile, savePrivateFile } from "./private.js";
+import { Response, postRequest } from "./requests.js";
 
 export { Identity, registerIdentity } ;
 
