@@ -2,12 +2,22 @@
  * Manages the Groups register
  */
 import { KVS } from "./lmdb-kvs.js";
-import { IMerkleMap, getMerkle, serializeMap, deserializeMap, getSortedKeys } from './merkles.js';
-import { Response } from "../semaphore";
+import { IMerkleMap, getMerkle, serializeMap, deserializeMap, getSortedKeys } from "./merkles.js";
+import { Response } from "../semaphore/index.js";
 
 export {
   handleGroupRegistration,
-  getGroupMembers
+  getGroupMembers, 
+  StoredGroup,
+  saveGroup
+}
+
+interface StoredGroup {
+  guid: string; // id of the group
+  size: bigint; // size of the IMerkleMap
+  root: string; // the root of the IMerkleMap
+  json: string; // serialized JSON of the group map
+  updatedUTC: Date; // datetime of las group update
 }
 
 /**
@@ -35,14 +45,7 @@ function handleGroupRegistration(params: {
   const map = getMerkle(guid);
 
   // serialize it and store it in KVS
-  let serialized = serializeMap(map as IMerkleMap);
-  KVS.put(guid, {
-    guid: guid,
-    size: map?.length.toBigInt(),
-    root: map?.root.toString(),
-    json: serialized,
-    updatedUTC: (new Date()).toISOString()
-  })
+  saveGroup(guid, map as IMerkleMap);
 
   return {
     success: true, error: null, 
@@ -72,4 +75,19 @@ function getGroupMembers(guid: string): string[] {
   // ok, it exists !
   const map = deserializeMap(stored.json);
   return getSortedKeys(map);
+}
+
+/** 
+ * Serializes the group's map and stores it in KVS.
+ */ 
+function saveGroup(guid: string, map: IMerkleMap) {
+  const serialized = serializeMap(map as IMerkleMap);
+  const stored = {
+    guid: guid,
+    size: map?.length.toBigInt(),
+    root: map?.root.toString(),
+    json: serialized,
+    updatedUTC: (new Date()).toISOString()
+  } 
+  KVS.put(guid, stored);
 }

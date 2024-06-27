@@ -1,4 +1,4 @@
 #!/bin/bash
 pnpm run build
 
-node build/src/voting/main.js
+node --experimental-modules build/src/voting/main.js

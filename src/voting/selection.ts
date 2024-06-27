@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
-import { Response } from "../semaphore";
+import { Response } from "../semaphore/index.js";
 import logger from "../services/logger.js"
-import { getMerkle, getSortedKeys } from "../services/merkles.js";
+import { IMerkleMap, getMerkle } from "../services/merkles.js";
+import { saveGroup } from "../services/groups.js";
+import { PlanStrategy, runStrategy } from "./strategy.js";
 
 export {
   type VotingClaim, 
-  type PlanStrategy,
   selectElectors,
 }
 
@@ -18,105 +19,76 @@ interface VotingClaim {
   error: any | null; // if any errors happened, we store it here
 }
 
-interface PlanStrategy {
-  planUid: string;
-  variant: 'random' | 'all';  
-  source: 'validators' | 'auditors' | 'all',
-  minVotes: number;
-  minPositives: number;
-}
-
 /**
  * Select electors to each claim, according to strategy.
  * 
  * SIDE effects: the claimElectors and claimNullifiers Merkles will be 
  * created as as side effect of asigning the electors. It will be done
  * 
- * @param guid uid of the electors group binded to a given community (usually the communityUid)
- * @param claims 
+ * @param communityUid the community to which the electors belong
+ * @param planStrategy the strategy setup for this particular Plan
+ * @param claims the set of claims to evaluate
+ * @returns { claims: VotingClaim[], errors: any[] }
  */
 async function selectElectors(params: {
-  guid: string, 
-  strategy: PlanStrategy,
+  communityUid: string, 
+  planStrategy: PlanStrategy,
   claims: VotingClaim[],
 }): Promise<Response> {
-  const { guid, strategy, claims } = params ;
+  const { communityUid, planStrategy, claims } = params ;
 
-  const group = getMerkle(guid);
-  if (!group)
-    throw Error(`Merkle group: ${guid} could not be found or created`);
-
-  const allElectors = getSortedKeys(group);
-  if (!allElectors.length) 
-    throw Error(`There are no electors in group: ${guid}`);
-
-  const strategyRunner = getStrategyRunner(strategy);
-  if (!strategyRunner)
-    throw Error(`The mentioned strategy ${JSON.stringify(strategy)} is not available`);
+  // here we will collect errors from all claims
+  let errors = [];
 
   for (let j=0; j < (claims || []).length; j++) {
     try {
       let claim = claims[j];
       claims[j] = Object.assign(claim, {
-        electors: strategyRunner.selectFrom(allElectors),
+        electors: runStrategy(planStrategy, communityUid),
         status: 1,
         assignedUTC: (new Date()).toISOString(),
         error: null
       });
       logger.info(`Claim ${claim.uid} has ${claim.electors.length} assigned electors`)
 
-      // we need to create two Merkles for each claim. These Merkles will 
+      // we need to create two Groups for each claim. These Merkles will 
       // be saved in the KVS and can be used latter for verification
       // the 'guid' of each one will be uid.electors or uid.nullifiers
       const guid = (t: string) => `claims.${claim.uid}.${t}`;
 
-      // the electors Merkle holds the electors for the claim, 
+      // the electors Group holds the electors for the claim, 
       // and must be filled with one key per elector. 
-      const claimElectors = getMerkle(guid('electors'), "no_cache");
-      (claim.electors || []).forEach((key: string) => {
-        claimElectors?.insert(Field(key), Field(1));
-      })
-      // the nullifiers Merkle is empty, and will be filled when voting
-      const claimNullifiers = getMerkle(guid('nullifiers'), "no_cache");
+      _buildGroup(guid('electors'), claim.electors);
+
+      // the nullifiers Group is empty, and will be filled when voting
+      _buildGroup(guid('nullifiers'), []);
     }
     catch (error: any) {
       let errmsg = ""+(error.message || error);
       claims[j] = Object.assign(claims[j], {
         error: errmsg
       });
+      errors.push({
+        claimUid: claims[j].uid,
+        error: errmsg
+      })
       logger.error(`Claim ${claims[j].uid} could not be assigned, error: ${errmsg}`)
     }
   }
 
   return {
     success: true, error: null,
-    data: { claims: claims }
+    data: { claims: claims, errors: errors }
   }  
 }
 
+// Helpers //
 
-function getStrategyRunner(strategy: PlanStrategy) {
-  return {
-    selectFrom: selectRandomFrom
-  }
-}
-
-function fromCommunity(all: string[]): string[] {
-  return []
-}
-
-function fromValidators(all: string[]): string[] {
-  return []
-}
-
-function fromAuditors(all: string[]): string[] {
-  return []
-}
-
-function randomly(selectables: string[]): string[] {
-  return []
-}
-
-function all(selectables: string[]): string[] {
-  return []
+function _buildGroup(guid: string, items: string[]) {
+  // we bypass the group registration here as it is not needed
+  const map: IMerkleMap = getMerkle(guid, "no_cache") as IMerkleMap;
+  (items || []).forEach((key: string) => {
+    map.insert(Field(key), Field(1));
+  })
+  saveGroup(guid, map);
 }

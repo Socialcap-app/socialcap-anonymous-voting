@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { randomInt } from "crypto";
+import { Group } from "../semaphore/index.js";
 import logger from "../services/logger.js";
-import { Group } from "../semaphore";
 import { getGroupMembers } from "../services/groups.js";
 
 export {
   type PlanStrategy,
-  selectElectors
+  runStrategy
 }
 
 interface PlanStrategy {
   planUid: string;
+  name: string;
   source: string; // 'validators' | 'auditors' | 'all',
   variant: string; // 'random' | 'all';  
   minAuditors: number;
@@ -30,9 +31,9 @@ const selectUsing: any = {
   'all': selectAll
 }
 
-function selectElectors(
-  communityUid: string,
-  strategy: PlanStrategy
+function runStrategy(
+  strategy: PlanStrategy,
+  communityUid: string
 ) {
   logger.info(`Selecting validators from ${communityUid} ...`)
 
@@ -56,13 +57,8 @@ function selectElectors(
   return electors.concat(auditors);
 }
 
-/**
- * Cache for members so we do not to reload members any time
- */
+/// Cache for members so we do not to reload members all the time
 const CACHE_MEMBERS : any = {};
-
-
-//-- Helpers --//
 
 /** Get all the community members */
 function getAllMembers(communityUid: string) {
