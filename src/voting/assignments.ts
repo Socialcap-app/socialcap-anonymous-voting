@@ -28,6 +28,7 @@ interface ElectorAssignment {
  * @param claims the array of just assigned claims
  */
 async function assignTasks(
+  planUid: string,
   claims: VotingClaim[]
 ): Promise<ElectorAssignment[]> {
   const electors: any = {};
@@ -62,25 +63,30 @@ async function assignTasks(
     // elector has no tasks, do nothing
     if (!elector.tasks.length) return; 
 
-    // get the current list for this elector
-    const electorTasksKey = `tasks.${k}.claims`;
-    let current = KVS.get(electorTasksKey) || { 
-      identityCommitment: k, 
-      tasks: [],
-      updatedUTC: ''
-    }
+    // the list name for this elector
+    const electorTasksKey = `electors.${k}.tasks`;
 
-    // update the current task list in KVS
-    const updated = {
+    // get elector tasks that that may belong to other plans
+    let currentTasks: any = KVS.get(electorTasksKey) || {
       identityCommitment: k, 
-      tasks: (current.tasks || []).concat(elector.tasks),
+      plans: {}
+    };
+    currentTasks.plans[planUid] = []; // for this plan only
+
+    // add the new tasks to the full tasks list
+    const updated = {
+      // identityCommitment: k, // DEPRECATED
+      tasks: elector.tasks,
       updatedUTC: (new Date()).toISOString()
     };
-    KVS.put(electorTasksKey, updated)
+    currentTasks.plans[planUid] = updated;
+
+    // save the task set for all plans in KVS
+    KVS.put(electorTasksKey, currentTasks)
 
     // // create a file with all tasks for this identity
     // fs.writeFileSync(`tmp/tasks-${k}.json`, JSON.stringify(updated, null,2));
-    assignments.push(updated);
+    assignments.push(currentTasks);
   })
 
   return assignments;

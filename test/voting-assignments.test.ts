@@ -6,7 +6,7 @@ import { assignTasks, ElectorAssignment } from "../src/voting/assignments";
 describe('Assign voting tasks each elector', () => {
 
   // we need a communityUid 
-  const communityUid = 'cmn021abc';
+  const planUid = 'plan001';
   const tmp = "kvstorage";
 
   beforeAll(async () => {
@@ -21,17 +21,27 @@ describe('Assign voting tasks each elector', () => {
     return claims;
   }
 
-  it('Read claims and create elector task files', async () => {
-    let claims = readClaims('plan001');
-
-    const assignments = await assignTasks(claims);
-
+  it('Read claims and create elector task files for plan001', async () => {
+    const planUid = 'plan002';
+    let claims = readClaims(planUid);
+    const assignments = await assignTasks(planUid, claims);
     assignments.forEach((t: ElectorAssignment) => {
-      fs.writeFileSync(`${tmp}/tasks-${t.identityCommitment}.json`, 
+      fs.writeFileSync(`${tmp}/elector-${t.identityCommitment}.tasks.json`, 
         JSON.stringify(t, null,2)
       );
     })
+    expect(assignments.length).toBeGreaterThan(0);
+  });
 
+  it('Read claims and create elector task files for plan002', async () => {
+    const planUid = 'plan002';
+    let claims = readClaims(planUid);
+    const assignments = await assignTasks(planUid, claims);
+    assignments.forEach((t: ElectorAssignment) => {
+      fs.writeFileSync(`${tmp}/elector-${t.identityCommitment}.tasks.json`, 
+        JSON.stringify(t, null,2)
+      );
+    })
     expect(assignments.length).toBeGreaterThan(0);
   });
 });

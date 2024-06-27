@@ -35,7 +35,7 @@
     registered electors in community, identified by its identity "commitment". Because we only now the "commitment" of electors and nothing more, we can say
     that electors are anonymous for each claim. 
     
-    `WIP`
+    `DONE`
     
 2) Protocol creates an electors Merkle for each claim adding the identity 
     "commitment" of each elector to this group.
