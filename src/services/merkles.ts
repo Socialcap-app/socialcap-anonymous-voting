@@ -15,13 +15,14 @@ export {
   IMerkleMap
 }
 
-class IMerkleMap extends IndexedMerkleMap(12) {}
+class IMerkleMap extends IndexedMerkleMap(12) {} // max 4096 nodes
 
 const Pool = new Map<string, IMerkleMap>(); 
 
 
 /**
- * Gets the Merkle of the given Group uid.
+ * Get (or create) a Merkle for the given Group uid. 
+ * If it does not existe, it creates new one.
  * - option "no_cache" disables cache for a given group, default = ""
  * @param guid the Uid of the group
  * @param options contains a set of options
@@ -49,7 +50,7 @@ function getMerkle(
     return restored;
   }
 
-  // we need top create a new and empty one
+  // we need to create a new and empty one
   const map = new IMerkleMap();
   cacheOn && Pool.set(guid, map);
   return map;
@@ -155,5 +156,6 @@ function getSortedKeys(map: IMerkleMap): string[] {
     // console.log(j, t.index, t.key, t.value)
     return t.key.toString();
   })
-  return sortedKeys;
+  // filter key==0 as it is not part of the real set
+  return sortedKeys.filter((t) => t !== '0');
 }
