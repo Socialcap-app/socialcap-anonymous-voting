@@ -37,6 +37,7 @@ registerApplicationHandler('selectElectors', async (data: any): Promise<Response
 
 registerApplicationHandler('getAssignments', async (data: any): Promise<Response> => {
   let { identityCommitment } = data;
+  
   let assigned = await getAssignedTasks(identityCommitment);
   return {
     success: true, error: null,

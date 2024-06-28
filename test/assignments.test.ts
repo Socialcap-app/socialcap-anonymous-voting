@@ -24,9 +24,10 @@ describe('Assign voting tasks each elector', () => {
   it('Read claims and create elector task files for plan001', async () => {
     const planUid = 'plan002';
     let claims = readClaims(planUid);
+
     const assignments = await assignTasks(planUid, claims);
     expect(assignments.length).toBeGreaterThan(0);
-    
+
     assignments.forEach((t: ElectorAssignment) => {
       fs.writeFileSync(`${tmp}/elector-${t.identityCommitment}.tasks.json`, 
         JSON.stringify(t, null,2)
@@ -37,6 +38,7 @@ describe('Assign voting tasks each elector', () => {
   it('Read claims and create elector task files for plan002', async () => {
     const planUid = 'plan002';
     let claims = readClaims(planUid);
+
     const assignments = await assignTasks(planUid, claims);
     expect(assignments.length).toBeGreaterThan(0);
 

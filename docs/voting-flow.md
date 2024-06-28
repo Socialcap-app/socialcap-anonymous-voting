@@ -1,66 +1,50 @@
 
 ### Electors anonymous identity
 
-1. Elector creates a new identity using and defines his own pin for this identity. 
-
-     `DONE`
+1. Elector creates a new identity using and defines his own pin for this identity.  `DONE`
 
 2. The implementation will create a new random private key and its derived public 
     key for this identity. NOTE that this key pair is NOT associated to his wallet or 
     any MINA account.  It will be used only for signing signals and verifying 
     signatures, so it will not be possible to trace its use to any account 
-    thus preserving anonymity.
+    thus preserving anonymity.  `DONE`
     
-     `DONE`
-
 3. He saves his private data (sk, pin) in a separate place. 
      The rest of the data (pk, trapdoor) can bee seen.
        Can we save this identity in localStorage in some private way ?
-       Can we save part of it at least ?
-
-     `DONE`
+       Can we save part of it at least ? `DONE`
 
 4. Elector asks the API to provide a proof that he has been enabled as an elector.
 
      `MISSING`
 
 5. Elector registers its identity "commitment" in a given community, providing
-     also the pk, and the proof that he has a valid elector role. In response receives a unique encryptionKey to be used latter, that he needs to keep.
-
-      `DONE`
+     also the pk, and the proof that he has a valid elector role. In response receives a unique encryptionKey to be used latter, that he needs to keep.  `DONE`
 
 ### Elector assignment
 
 1) Protocol selects a set of electors for each claim, from the set of 
     registered electors in community, identified by its identity "commitment". Because we only now the "commitment" of electors and nothing more, we can say
-    that electors are anonymous for each claim. 
-    
-    `DONE`
+    that electors are anonymous for each claim.  `DONE`
     
 2) Protocol creates an electors Merkle for each claim adding the identity 
-    "commitment" of each elector to this group.
+    "commitment" of each elector to this group. `DONE`
 
-    `DONE`
-    
 3) Protocol creates an empty nullifiers Merkle for each claim, which will
-    be used to register each vote and avoid double voting.
+    be used to register each vote and avoid double voting.`DONE`
 
-    `DONE`
-    
 4) Protocol creates a tasks list for the plan with all the assignments, where each entry
-    contains the claimUid and the elector identity commitment. Note that elector's anonymity continues to be preserved.
-    
-    `DONE`
+    contains the claimUid and the elector identity commitment. Note that elector's anonymity continues to be preserved.`DONE`
 
 ### Voting
 
-1. Elector gets the list of all the tasks for the given plan (or campaign).
-2. Elector proves that he is the right owner of his identity by verifying his identity "commitment".
-3. Elector filters the list using his identity "commitment" and the previous proof of ownership, and keeps just the tasks that he has been assigned.
-4. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.
-5. Elector creates a list where each item contains: the identity "commitment", the claimUid, the encrypted (vote, encryptionKey), a nullifier created from hash(identity sk, pin, claimUid).
-6. Elector packs the list of votes, signs the pack and broadcasts it to the Protocol. The broadcast includes the data pack, the elector's identity "commitment", a hash of the pack, and the signature.
-7. Protocol receives the batch and stores it for latter use in the tallying.
+1. Elector proves that he is the right owner of his identity by verifying his identity "commitment", and signs it with his identity privateKey, thus creating his `proofOfIdentity`. Note: he will be able to use this proof only once, he will need to recreate it everytime it is needed !  `MISSING`
+2. Elector gets the list of all the tasks assigned to him for the given plan (or campaign) by giving the previous proof. `DOING`
+3. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.
+4. Elector creates a list where each item contains: the identity "commitment", the claimUid, the encrypted (vote, encryptionKey), a nullifier created from hash(identity sk, pin, claimUid).
+
+1. Elector packs the list of votes, signs the pack and broadcasts it to the Protocol. The broadcast includes the data pack, the elector's identity "commitment", a hash of the pack, and the signature.
+2. Protocol receives the batch and stores it for latter use in the tallying.
 
 ### Tallying
 
