@@ -2,6 +2,7 @@
 import fs from "fs";
 import logger from "../services/logger.js"
 import { KVS } from "../services/lmdb-kvs.js";
+import { verifyOwnershipProof } from "../services/verifiers.js";
 import { VotingClaim } from "./selection.js";
 
 export {
@@ -95,16 +96,22 @@ async function assignTasks(
 
 /**
  * Get all assigned tasks for a given identityCommitement.
+ * TODO: Add proof to params and verify it !
  */
 async function getAssignedTasks(
-  identityCommitment: string
+  identityCommitment: string,
+  proof: string
 ): Promise<ElectorAssignment> {
+  
+  // // test the received proof (JSON)
+  let ok = await verifyOwnershipProof(proof);
+  if (!ok)
+    throw Error(`Invalid ownershipProof for idc: ${identityCommitment}`)
+  
   let electorKey = `electors.${identityCommitment}.tasks`;
-
   let assigned: any = KVS.get(electorKey) || {
     identityCommitment: identityCommitment, 
     plans: {}
   };
-
   return assigned;
 }
