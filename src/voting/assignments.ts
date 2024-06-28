@@ -6,15 +6,15 @@ import { VotingClaim } from "./selection.js";
 
 export {
   assignTasks,
-  ElectorAssignment
+  ElectorAssignment,
+  getAssignedTasks
 }
-
 
 interface ElectorAssignment {
   identityCommitment: string; 
-  tasks: any[];
-  updatedUTC: Date;
+  plans: any; // {}
 }
+
 
 /**
  * Update the task list for each Identity using the assigned claims.
@@ -90,4 +90,21 @@ async function assignTasks(
   })
 
   return assignments;
+}
+
+
+/**
+ * Get all assigned tasks for a given identityCommitement.
+ */
+async function getAssignedTasks(
+  identityCommitment: string
+): Promise<ElectorAssignment> {
+  let electorKey = `electors.${identityCommitment}.tasks`;
+
+  let assigned: any = KVS.get(electorKey) || {
+    identityCommitment: identityCommitment, 
+    plans: {}
+  };
+
+  return assigned;
 }

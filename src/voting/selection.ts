@@ -78,7 +78,7 @@ async function selectElectors(params: {
     }
   }
 
-  return {
+  return { 
     success: true, error: null,
     data: { claims: claims, errors: errors }
   }  
