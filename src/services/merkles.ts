@@ -38,7 +38,7 @@ function getMerkle(
 
   // check options
   let cacheOn = !(options || "").includes('no_cache'); // we use cache
-  let alwaysNew = !(options || "").includes('empty'); // always a new map
+  let alwaysNew = (options || "").includes('empty'); // always a new map
 
   if (alwaysNew)
     return (new IMerkleMap());
