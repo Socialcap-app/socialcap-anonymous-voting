@@ -43,6 +43,7 @@ In `src/services` folder:
 - [kvs](src/services/kvs.ts): manage the LMDB key-value store
 - [signals](src/services/signals.ts): validates received signals when appropiate
 - [dispatcher](src/services/dispatcher.ts): dispatchs tasks to application handlers
+- [verifiers](src/services/verifiers.ts): verifies received proofs
 - [logger](src/services/logger.ts): log to file (pino logger)
 - [utils](src/services/utils.ts): general utilities
 
