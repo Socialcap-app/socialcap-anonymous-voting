@@ -2,7 +2,7 @@ import { Field, Signature, Poseidon, PublicKey } from "o1js";
 import { ZkProgram, SelfProof } from "o1js";
 
 export {
-  CommitedIdentityProver
+  IdentityProver
 }
 
 /**
@@ -10,7 +10,7 @@ export {
 * and allowing a third party to verifiy that someone owns the given identity 
 * just by providing an ownershipProof.
 */ 
-const CommitedIdentityProver = ZkProgram({
+const IdentityProver = ZkProgram({
   name: 'prove-commited-identity',
   publicInput: Field, // the identity commitment
   publicOutput: Field,
