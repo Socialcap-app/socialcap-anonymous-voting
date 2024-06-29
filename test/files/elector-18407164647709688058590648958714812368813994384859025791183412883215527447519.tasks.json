@@ -16,7 +16,18 @@
           "metadata": "{\"title\":\"Some title 3\",\"extras\":{}}"
         }
       ],
-      "updatedUTC": "2024-06-29T00:02:05.058Z"
+      "updatedUTC": "2024-06-29T00:45:47.247Z"
+    },
+    "plan001": {
+      "tasks": [
+        {
+          "claimUid": "304651619932644746490072045541072683864",
+          "status": 1,
+          "assignedUTC": "2024-06-28T23:59:39.144Z",
+          "metadata": "{\"title\":\"Some title 0\",\"extras\":{}}"
+        }
+      ],
+      "updatedUTC": "2024-06-29T00:45:47.243Z"
     }
   }
 }

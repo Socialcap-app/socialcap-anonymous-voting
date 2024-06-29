@@ -16,7 +16,30 @@
           "metadata": "{\"title\":\"Some title 7\",\"extras\":{}}"
         }
       ],
-      "updatedUTC": "2024-06-29T00:02:05.058Z"
+      "updatedUTC": "2024-06-29T00:45:47.247Z"
+    },
+    "plan001": {
+      "tasks": [
+        {
+          "claimUid": "304651619932644746490072045541072683864",
+          "status": 1,
+          "assignedUTC": "2024-06-28T23:59:39.144Z",
+          "metadata": "{\"title\":\"Some title 0\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "302339183184245541634006145860388360409",
+          "status": 1,
+          "assignedUTC": "2024-06-28T23:59:39.687Z",
+          "metadata": "{\"title\":\"Some title 5\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "150125131592069930023320010681764629749",
+          "status": 1,
+          "assignedUTC": "2024-06-28T23:59:40.110Z",
+          "metadata": "{\"title\":\"Some title 9\",\"extras\":{}}"
+        }
+      ],
+      "updatedUTC": "2024-06-29T00:45:47.243Z"
     }
   }
 }

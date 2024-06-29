@@ -71,7 +71,7 @@ describe('Assign voting tasks each elector', () => {
 
   it('Prepare votes batch and send it', async () => {
     // we will vote on 'plan001'
-    const planUid = 'plan001';
+    const planUid = 'plan002';
 
     // get all the electors that vote on this plan
     let electors = readPlanElectors(planUid);
@@ -94,6 +94,8 @@ describe('Assign voting tasks each elector', () => {
   
       // lets simulate votes and create the batch
       let batch = {
+        planUid: planUid,
+        identityCommitment: e,
         votes: [],
         hash: Field(0)
       };
@@ -121,8 +123,12 @@ describe('Assign voting tasks each elector', () => {
         // compose the batch hash using claimUids 
         batch.hash = Poseidon.hash([batch.hash, Field(claimBigint)]);
       })
-      
-      console.log("Votes batch: ", JSON.stringify(batch, null, 2))
+
+      console.log("Votes batch: ", JSON.stringify(batch, null, 2));
+      fs.writeFileSync(
+        `${tmpFolder}/elector-${e}-${planUid}.batch.json`,
+        JSON.stringify(batch, null, 2)
+      );
     })
   });
 
