@@ -1,0 +1,82 @@
+[
+  {
+    "uid": "16934174636717926665015713066091877551",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 0\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "286092692797983664360541636771441685817",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 1\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "98542939941491653894713777785335929323",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 2\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "275873740647071002309209719901053226975",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 3\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "338580494278195078263347461144670785576",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 4\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "217895875716834205529970048380850213634",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 5\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "44800054390112572458057491176480014421",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 6\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "29427642950190380118702036826843960241",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 7\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "198275711395170298436725278495617518150",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 8\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "277483451030750529554629084151380089755",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 9\",\"extras\":{}}",
+    "error": null
+  }
+]

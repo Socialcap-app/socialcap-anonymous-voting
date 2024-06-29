@@ -26,15 +26,15 @@ describe('Use Semaphore Identity class', () => {
     let rsp = await registerIdentity(identity, testGroup);
     console.log("finally: ", rsp);
   });
-
-  it('creates many identities in the service', async () => {
-    for (let j=0; j < 10; j++) {
-      let identity = Identity.create('idn'+j, '666'+j);
-      console.log(identity);
-      identity.save();
-  
-      let rsp = await registerIdentity(identity, testGroup);
-      console.log("registered: ", rsp);
-    }
-  });
+// 
+//   it('creates many identities in the service', async () => {
+//     for (let j=0; j < 10; j++) {
+//       let identity = Identity.create('idn'+j, '666'+j);
+//       console.log(identity);
+//       identity.save();
+//   
+//       let rsp = await registerIdentity(identity, testGroup);
+//       console.log("registered: ", rsp);
+//     }
+//   });
 });

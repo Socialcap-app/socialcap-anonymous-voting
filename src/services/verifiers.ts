@@ -19,6 +19,6 @@ async function verifyOwnershipProof(proof: string): Promise<boolean> {
   }
 
   const ok = await verify(JSON.parse(proof), identityProverVK);
-  console.log('ownershipProof ok? ', ok);  
+  // console.log('ownershipProof ok? ', ok);  
   return ok;
 }

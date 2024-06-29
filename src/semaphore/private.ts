@@ -32,7 +32,7 @@ function readPrivateFile(name: string): any | null {
     const filePath = join(privateDir,  `${name}.identity.json`);
     const fileContent = readFileSync(filePath, 'utf8');
     const jsonData: any = JSON.parse(fileContent);
-    console.log('File content:', jsonData);
+    // console.log('File content:', jsonData);
     return jsonData;
   } catch (err) {
     console.error('Error reading file:', err);

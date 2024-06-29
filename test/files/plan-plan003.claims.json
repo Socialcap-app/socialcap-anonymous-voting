@@ -1,0 +1,82 @@
+[
+  {
+    "uid": "177505400723781607017822244008614852617",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 0\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "290719685461344263241248735673530743952",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 1\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "84717321553114760022653198973252594059",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 2\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "279266884109081311732423626767823185017",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 3\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "255119316172928204766796248808161668268",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 4\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "107804694632606197456076797494346073472",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 5\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "167869169646121989596436774546847372959",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 6\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "150215848628284567802589469894292416835",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 7\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "30382033468138376751968580959107008771",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 8\",\"extras\":{}}",
+    "error": null
+  },
+  {
+    "uid": "84180221278002219576307747849419552360",
+    "status": 0,
+    "electors": [],
+    "assignedUTC": "",
+    "metadata": "{\"title\":\"Some title 9\",\"extras\":{}}",
+    "error": null
+  }
+]

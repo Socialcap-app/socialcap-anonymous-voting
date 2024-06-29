@@ -57,7 +57,7 @@ async function postRequest(
   }
   finally {
     // disconect and clean all pendings
-    console.log("semaphore.postRequest cleanup");
+    console.log("semaphore.postRequest cleanup (drained)");
     await nc.drain();
   }
 }
