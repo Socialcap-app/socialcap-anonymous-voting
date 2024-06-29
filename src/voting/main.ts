@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { registerApplicationHandler } from "../services/dispatcher.js";
 import { startListener } from "../services/listener.js"
 import { 

@@ -71,7 +71,7 @@ describe('Assign voting tasks each elector', () => {
 
   it('Prepare votes batch and send it', async () => {
     // we will vote on 'plan001'
-    const planUid = 'plan002';
+    const planUid = 'plan001';
 
     // get all the electors that vote on this plan
     let electors = readPlanElectors(planUid);

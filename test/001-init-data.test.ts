@@ -33,7 +33,8 @@ describe('Init test data', () => {
       let identity = Identity.create(name, randomInt(999999).toString());
       identity.save();
       let rsp = await registerIdentity(identity, communityGuid);
-      identity.encryptionKey = (rsp?.data as any).encryptionPk
+      identity.encryptionKey = (rsp?.data as any).encryptionPk;
+      identity.save();
       idns.push(identity);
     }
 

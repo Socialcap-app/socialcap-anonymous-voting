@@ -45,4 +45,27 @@ class KVS {
     }
     return KVS._DB;
   }
+
+  public static async find(q: string) {
+    const db = KVS.openDb();
+    if (!q) throw Error("KVS.find requires a search word.")
+    let found: any[] = [];
+    db.getRange()
+      .filter((t: any) => q && t.key.includes(q))
+      .forEach((t: any) => {
+        found.push(t)
+      })
+    return found;  
+  }
+
+  public static async browseKeys(q: string | undefined) {
+    const db = KVS.openDb();
+    console.log(`\n---\nBrowse LMDB ${process.env.LMDB_PATH}`);
+    console.log(`Search ${q ? `keys containing: '${q}'` : 'all keys'}`)
+    db.getRange()
+      .filter((t: any) => (q ? t.key.includes(q) : true ))
+      .forEach((t: any) => {
+        console.log(`\n${t.key}: `, t.value);
+      })
+  }
 }
