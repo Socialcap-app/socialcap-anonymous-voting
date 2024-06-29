@@ -24,9 +24,12 @@ class KVS {
     });
   }
 
-  private static openDb() {
+  private static openDb(options?: string) {
     if (KVS._DB) return KVS._DB;
-    logger.info(`Open KVStore path='${process.env.LMDB_PATH}'`);
+    if ((options || "").includes("console_log"))
+      console.log(`Open KVStore path='${process.env.LMDB_PATH}'`)
+    else 
+      logger.info(`Open KVStore path='${process.env.LMDB_PATH}'`);
     try {
       const db = open({
         path: process.env.LMDB_PATH,
@@ -59,8 +62,8 @@ class KVS {
   }
 
   public static async browseKeys(q: string | undefined) {
-    const db = KVS.openDb();
-    console.log(`\n---\nBrowse LMDB ${process.env.LMDB_PATH}`);
+    console.log(`\n---\nBrowse LMDB`);
+    const db = KVS.openDb("console_log");
     console.log(`Search ${q ? `keys containing: '${q}'` : 'all keys'}`)
     db.getRange()
       .filter((t: any) => (q ? t.key.includes(q) : true ))
