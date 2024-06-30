@@ -63,8 +63,7 @@ Sends a message (or broadcasts a signal, in Semaphore terms). This message is
  broadcasted to the trusted listeners that will process it.
 
 - idnc: the identity commitment who sends the message
-- message: the message to send 
-- encrypted: indicates if the message is encrpyted
+- encrypted: the encryped message 
 - signal: hash of the message to broadcast, example hash(message)
 - nullifier: which uniquely identifies a signal, example: hash(pk, claimUid)
 
