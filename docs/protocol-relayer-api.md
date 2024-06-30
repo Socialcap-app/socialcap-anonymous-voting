@@ -34,8 +34,8 @@ The **Response** will always be of the form:
 
 Where:
 
-- If the **request is successful**: success = true, error = null, and data contains the response itself.
-- If the **request fails**: success = false, data = null, and error contains the error messages
+- If the **request is successful**: success = true, error = null, and data contains the response data.
+- If the **request fails**: success = false, data = null, and error contains the error messages.
 
 Following is the list of all available messages related to the Semaphore protocol.
 
@@ -119,7 +119,7 @@ Following is the list of all available messages related to the Socialcap Voting 
 
 Select electors for each claim and add the claim to the assignments of the selected elector, according to the defined strategy.
 
-SIDE effects: the claimElectors and claimNullifiers Merkles will be created as as side effect of asigning the electors. It will be done
+SIDE effects: the claimElectors and claimNullifiers Merkles will be created as as side effect of asigning the electors.
 
 **Request**
 
@@ -135,7 +135,7 @@ Where:
 
  * `communityUid`: the community to which the electors belong
  * `planStrategy`:  the strategy setup for this particular Plan
- * `claims`:  the set of claims to evaluate
+ * `claims`:  the list of claims that electors will vote
 
 **Response**
 
