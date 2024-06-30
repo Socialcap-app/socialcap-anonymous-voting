@@ -68,7 +68,7 @@ class KVS {
     db.getRange()
       .filter((t: any) => (q ? t.key.includes(q) : true ))
       .forEach((t: any) => {
-        console.log(`\n${t.key}: `, t.value);
+        console.log(`\n${t.key}: `, JSON.stringify(t.value, null, 2));
       })
   }
 }

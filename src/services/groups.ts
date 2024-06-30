@@ -84,7 +84,7 @@ function saveGroup(guid: string, map: IMerkleMap) {
   const serialized = serializeMap(map as IMerkleMap);
   const stored = {
     guid: guid,
-    size: map?.length.toBigInt(),
+    size: map?.length.toString(),
     root: map?.root.toString(),
     json: serialized,
     updatedUTC: (new Date()).toISOString()

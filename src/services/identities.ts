@@ -43,7 +43,7 @@ function handleIdentityRegistration(params: {
   let serialized = serializeMap(map as IMerkleMap);
   KVS.put(guid, {
     guid: guid,
-    size: map?.length.toBigInt(),
+    size: map?.length.toString(),
     root: map?.root.toString(),
     json: serialized,
     updatedUTC: (new Date()).toISOString()
