@@ -123,8 +123,8 @@ key-value storage based on LMDB.
 
 ### Identity 
 
-There is one entry in KVS per registered identity where
- **key** = `identity.${commitment}` and **value** holds:
+There is one entry in KVS per registered identity where **key** = `identity.${commitment}`
+ and **value** holds:
 
   - `pk`: the identity public key needed to verify signatures.
   - `encryptionPk`: public encryption key given by the Semaphore to each identity when registering. It can be used to encrypt the signals he will send.

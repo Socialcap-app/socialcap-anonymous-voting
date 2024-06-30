@@ -38,9 +38,9 @@
 
 ### Voting
 
-1. Elector proves that he is the right owner of his identity by verifying his identity "commitment", and signs it with his identity privateKey, thus creating his `proofOfIdentity`. Note: he will be able to use this proof only once, he will need to recreate it everytime it is needed !  `MISSING`
+1. Elector proves that he is the right owner of his identity by verifying his identity "commitment", and signs it with his identity privateKey, thus creating his `proofOfIdentity`. Note: he will be able to use this proof only once, he will need to recreate it everytime it is needed !  `MISSING`
 2. Elector gets the list of all the tasks assigned to him for the given plan (or campaign) by giving the previous proof. `DONE`
-3. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.`DONE` (simulated)
+3. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.`DONE` (simulated)
 4. Elector creates a list where each item contains: the identity "commitment", the claimUid, the encrypted (vote, encryptionKey), a nullifier created from hash(identity sk, pin, claimUid).`DONE`
 
 1. Elector packs the list of votes, signs the pack and broadcasts it to the Protocol. The broadcast includes the data pack, the elector's identity "commitment", a hash of the pack, and the signature.`TO DO`
@@ -58,50 +58,83 @@
    - Questions: We are not sure about dispatching actions for each vote. Or we may pack all of the votes in just one action ? We can pack as much as 100 fields in the action,that means as much as 100 votes per action, but may use some of the action fields for other purposes. We do not need to pack the identities, just the votes ?
    - Send a NATS notification indicating the Claim result.
 
-## Shared objects 
+## Protocol objects 
 
-This objects will be stored either in the KVS (key-value store) or in the IndexerDb.
+These are objects used by the protocol to perform its tasks. 
 
-#### CommunityElectors
+This objects are stored in the KVS (key-value storage) which is an LMDB database.
 
-An `IndexedMerkleMap` used to check inclusion or exclusion of a given elector, in a given community. This group is filled every time an elector registers his identity in the community.
+### Identities
 
-Each leaf has  **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
+All registered identities have an unique entry in KVS, where:
 
-There exists one `ElectorsGroup` per community. Group uid of this map will be `communities.${communityUid}.electors`. 
+- **key** = ` ${identityCommitment}` 
+- **value** = `{ pk,
+    encryptionSk, encryptionPk, updatedUTC }`
 
-#### ClaimElectors
+See [docs/semaphore](./semaphore.md) for more information on these objects.
 
-An `IndexedMerkleMap` used to check if a given elector has been assigned to the claim. It will be filled when the electors are randomly assigned to each claim.
+### Community groups
 
-Each leaf has **key** =  `${identityCommitment}` and **value**= `Field(1)`. 
+There are three community groups per community:
 
-There exists one `ClaimElectors` group per claim. Group uid of the map will be `claims.${claimUid}.electors`. 
+**Members**: Will hold all registered members of a community. 
 
-#### ClaimNullifiers
+- The group name is: `communities.${communityUid}.members`. 
+- NOTE: Plain members do not need to register.
 
-An `IndexedMerkleMap`
- used to avoid double voting by any elector. These group will be initially empty, and we will insert a new item when a given elector casts its vote. When voting, if the elector's nullifier already exists
-in the map we now it has already voted.
+**Validators**: Will hold all registered validators of a community. 
 
-Each leaf will have **key**= `${identityCommitment}` and **value** = `Field(1)`. 
+- The group name is: `communities.${communityUid}.validators`. 
 
-There exists one `ClaimNullifiers` group per claim. Group uid of the map will
-be `claims.${claimUid}.nullifiers`. 
+- Validators are REQUIRED to registered, otherwise they can not be selected as electors.
 
-#### ElectorTasksList
+**Auditors** : Will hold all registered auditors of a community. 
 
-The list of tasks assigned to a given elector, where each list contains an array 
-of `{ claimUid, status, updatedUTC }`. 
+- The group name is: `communities.${communityUid}.auditors`. 
+- Auditors are REQUIRED to registered, otherwise they can not be selected as electors.
+
+All groups are represented using an `IndexedMerkleMap` used to check inclusion or exclusion of a given identity in the group. 
+
+Each group is updated every time a member/validator/auditor registers his identity in the group.
+
+Each leaf has **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
+
+### Claim groups
+
+The claim groups are represented using an `IndexedMerkleMap` used to check inclusion or exclusion. 
+
+There are two groups per each claim:
+
+**Electors**: There exists one electors group per claim,  used to check if a given elector has been assigned to the claim.
+
+- Group uid will be `claims.${claimUid}.electors`. 
+- It will be filled when the electors are randomly assigned to each claim. 
+- Each leaf has **key** =  `${identityCommitment}` and **value**= `Field(1)`. 
+
+**Nullifiers**: There exists one Nullifiers group per claim, Used to avoid double voting by any elector. 
+
+-  Group uid will be `claims.${claimUid}.nullifiers`. 
+
+- These group will be initially empty, and we will insert a new item when a given elector casts its vote. When voting, if the elector's nullifier already exists
+  in the map we now it has already voted.
+
+- Each leaf will have **key**= `${identityCommitment}` and **value** = `Field(1)`. 
+
+
+The two groups are represented using an `IndexedMerkleMap` used to check inclusion or exclusion.
+
+### Electors tasks
+
+The tasks assigned to a given elector, grouped by plan. Each task contains `{ claimUid, status, metadata, assignedUTC }`. 
 
 The list will be stored off-chain in KVS, with  an entry for each elector, 
- where the key for each elector will be `tasks.${identityCommitment}.claims`. 
+where the key for each elector will be `electors.${identityCommitment}.tasks`. 
 
 NOTE: This is NOT a Semaphore Group, is a plain list of items.
 
-The UI will get the full list, and will filter the list on the UI side, so that
-no info is revealed to the API about the user identityHash (which is not linked
-in any way to the Authorization JWT).
+The UI will get this list after proving his identity, so that
+no info is revealed to the API about the user identity.
 
 **EncryptionKeys** 
 
