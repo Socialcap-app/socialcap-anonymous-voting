@@ -1,0 +1,51 @@
+{
+  "identityCommitment": "28086574800701586797920560377759493858819145586218963236529601576037081015581",
+  "plans": {
+    "plan002": {
+      "tasks": [
+        {
+          "claimUid": "129648851259156302391517350011739333555",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.887Z",
+          "metadata": "{\"title\":\"Some title 0\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "124827200660908859316227213227436181286",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.969Z",
+          "metadata": "{\"title\":\"Some title 1\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "167436813320976494122255719316980361480",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:52.050Z",
+          "metadata": "{\"title\":\"Some title 2\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "190405569544401637038637751061682532452",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:52.213Z",
+          "metadata": "{\"title\":\"Some title 4\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "240150800205723713105359593635961057387",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:52.617Z",
+          "metadata": "{\"title\":\"Some title 9\",\"extras\":{}}"
+        }
+      ],
+      "updatedUTC": "2024-06-30T00:10:24.170Z"
+    },
+    "plan001": {
+      "tasks": [
+        {
+          "claimUid": "4480127373911021411677884503087289011",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.459Z",
+          "metadata": "{\"title\":\"Some title 6\",\"extras\":{}}"
+        }
+      ],
+      "updatedUTC": "2024-06-30T00:10:24.166Z"
+    }
+  }
+}

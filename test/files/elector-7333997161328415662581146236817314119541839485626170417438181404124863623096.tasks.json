@@ -1,0 +1,34 @@
+{
+  "identityCommitment": "7333997161328415662581146236817314119541839485626170417438181404124863623096",
+  "plans": {
+    "plan001": {
+      "tasks": [
+        {
+          "claimUid": "175847550906059848716577574600211844315",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:50.940Z",
+          "metadata": "{\"title\":\"Some title 1\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "326490338791345014322287840004652161191",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.150Z",
+          "metadata": "{\"title\":\"Some title 3\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "119537686095155551911873424762944278468",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.356Z",
+          "metadata": "{\"title\":\"Some title 5\",\"extras\":{}}"
+        },
+        {
+          "claimUid": "328624978066382177434572156949626847694",
+          "status": 1,
+          "assignedUTC": "2024-06-29T21:47:51.665Z",
+          "metadata": "{\"title\":\"Some title 8\",\"extras\":{}}"
+        }
+      ],
+      "updatedUTC": "2024-06-30T00:10:24.166Z"
+    }
+  }
+}
