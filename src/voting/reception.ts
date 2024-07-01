@@ -1,7 +1,7 @@
 import { Field, Poseidon, Signature, PrivateKey, Encoding } from "o1js";
 import { Response, Identity, CipheredText } from "../semaphore/index.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
-import { IMerkleMap, getMerkle, saveMerkle } from "../services/merkles.js";
+import { AnyMerkleMap, getOrCreate, saveMerkle } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { VotesBatch } from "./types.js";
 
@@ -62,6 +62,8 @@ function prepareBatch(
       ])
     )
 
+    // signature = signature of hash(nullifier, signal) using identity sk
+
     messages.push({
       claimUid: t.claimUid,
       encrypted: encrypted, // encrypted message
@@ -108,14 +110,14 @@ async function receiveVotes(
 
   // FIRST: verify that the batch has not been received before
   const guid = `plans.${planUid}.batches`; // the batches list fo this plan
-  const map = getMerkle(`${planUid}`);
+  const map = getOrCreate(`${planUid}`);
   if (map?.getOption(Field(hash)).isSome.toBoolean())
     throw Error(`Batch ${hash} already received for plan ${planUid}`);
   
   // SECOND verify that we dont receive duplicate votes in the batch
   // we use the vote nullifier that contains the claimUid and the elector
   const nullsGuid = `plans.${planUid}.nullifiers`
-  const nullifiers = getMerkle(nullsGuid); 
+  const nullifiers = getOrCreate(nullsGuid); 
 
   let duplicated: any[] = [];
   (votes || []).forEach((t: any) => {
@@ -129,7 +131,7 @@ async function receiveVotes(
   // insert into the Merkle list of batches
   map?.insert(Field(hash), Field(1)); 
   map?.assertIncluded(Field(hash));
-  saveMerkle(guid, map as IMerkleMap);
+  saveMerkle(guid, map as AnyMerkleMap);
 
   // save the batch contents in KVS 
   KVS.put(`batch-${hash}`, batch);
@@ -138,7 +140,7 @@ async function receiveVotes(
   (votes || []).forEach((t: any) => {
     nullifiers?.insert(Field(t.nullifier), Field(1)); 
   })
-  saveMerkle(nullsGuid, nullifiers as IMerkleMap);
+  saveMerkle(nullsGuid, nullifiers as AnyMerkleMap);
 
   return { status: `Votes in batch ${hash} received OK` }
 }

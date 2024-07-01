@@ -2,7 +2,7 @@
 import { Field } from "o1js";
 import { Response } from "../semaphore/index.js";
 import logger from "../services/logger.js"
-import { IMerkleMap, getMerkle } from "../services/merkles.js";
+import { AnyMerkleMap, getOrCreate } from "../services/merkles.js";
 import { saveGroup } from "../services/groups.js";
 import { PlanStrategy, runStrategy } from "./strategy.js";
 
@@ -88,7 +88,7 @@ async function selectElectors(params: {
 
 function _buildGroup(guid: string, items: string[]) {
   // we bypass the group registration here as it is not needed
-  const map: IMerkleMap = getMerkle(guid, "no_cache,empty") as IMerkleMap;
+  const map: AnyMerkleMap = getOrCreate(guid, "no_cache,empty") as AnyMerkleMap;
   (items || []).forEach((key: string) => {
     map.insert(Field(key), Field(1));
   })

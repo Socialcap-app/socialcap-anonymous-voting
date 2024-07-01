@@ -3,7 +3,7 @@
  */
 import { Field, PrivateKey } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
-import { IMerkleMap, getMerkle, serializeMap } from './merkles.js';
+import { AnyMerkleMap, getOrCreate, serializeMap } from './merkles.js';
 import { Response } from "../semaphore/index.js";
 
 export {
@@ -26,7 +26,7 @@ function handleIdentityRegistration(params: {
 
   // get the group map, either by taking it from cache, 
   // or reading it from KVS or by creating a new one
-  const map = getMerkle(guid);
+  const map = getOrCreate(guid);
 
   // if it exists in map it is an error !
   let option = map?.getOption(Field(commitment));
@@ -40,7 +40,7 @@ function handleIdentityRegistration(params: {
   map?.assertIncluded(Field(commitment));
 
   // serialize it so we can store it in KVS
-  let serialized = serializeMap(map as IMerkleMap);
+  let serialized = serializeMap(map as AnyMerkleMap);
   KVS.put(guid, {
     guid: guid,
     size: map?.length.toString(),
