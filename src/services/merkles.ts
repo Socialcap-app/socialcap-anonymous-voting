@@ -55,7 +55,7 @@ function getOrCreate(
   // not in cache, check if it is saved in KVS
   const obj = KVS.get(guid);
   if (obj) {
-    const restored = deserializeMap(obj.json);
+    const restored = deserializeMap(obj.json, obj.type);
     cacheOn && Pool.set(guid, restored);
     return restored;
   }
@@ -89,8 +89,13 @@ function createMerkleMap(options?: string): AnyMerkleMap {
  */
 function saveMerkle(guid: string, map: AnyMerkleMap) {
   let serialized = serializeMap(map as AnyMerkleMap);
+  let type = (map instanceof BigMerkleMap) ? 'big'
+    : (map instanceof MediumMerkleMap) ? 'medium'
+    : (map instanceof SmallMerkleMap) ? 'small' 
+    : 'small';
   KVS.put(guid, {
     guid: guid,
+    type: type,
     size: map?.length.toString(),
     root: map?.root.toString(),
     json: serialized,
