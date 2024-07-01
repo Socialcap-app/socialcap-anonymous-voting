@@ -8,6 +8,7 @@ const { IndexedMerkleMap } = Experimental;
 
 export {
   getMerkle,
+  saveMerkle,
   releaseMerkle,
   serializeMap,
   deserializeMap,
@@ -59,6 +60,23 @@ function getMerkle(
   const map = new IMerkleMap();
   cacheOn && Pool.set(guid, map);
   return map;
+}
+
+
+/**
+ * Saves the Merkle to storage.
+ * @param guid 
+ * @param map 
+ */
+function saveMerkle(guid: string, map: IMerkleMap) {
+  let serialized = serializeMap(map as IMerkleMap);
+  KVS.put(guid, {
+    guid: guid,
+    size: map?.length.toString(),
+    root: map?.root.toString(),
+    json: serialized,
+    updatedUTC: (new Date()).toISOString()
+  })
 }
 
 /**

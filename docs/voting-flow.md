@@ -136,6 +136,15 @@ NOTE: This is NOT a Semaphore Group, is a plain list of items.
 The UI will get this list after proving his identity, so that
 no info is revealed to the API about the user identity.
 
+### Plan batches
+
+The list of all batches send by the electors. Each item in this list contains the name of a batch belonging to this plan. 
+
+The guid of this list is `plans.${planUid}.batches` and is stored as a Merkle.
+
+Each batch is stored in his own object, where key = `batch-${batch.hash}` and holds the batch as was received by the user.
+
+
 **EncryptionKeys** 
 
 A key value store, indexed by the `identityCommitment`, containing a pair of

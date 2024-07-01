@@ -5,6 +5,7 @@
 import { Response } from "../semaphore/index.js";
 import { selectElectors } from "./selection.js";
 import { assignTasks, getAssignedTasks } from "./assignments.js";
+import { receiveVotes } from "./reception.js";
 
 
 export async function assignElectorsHandler(
@@ -44,14 +45,26 @@ export async function assignElectorsHandler(
 export async function retrieveAssignmentsHandler(
   data: any
 ): Promise<Response> {
-  let { identityCommitment, ownershipProof } = data;
-
   let assigned = await getAssignedTasks(
-    identityCommitment,
-    ownershipProof
+    data.identityCommitment,
+    data.ownershipProof
   );
   return {
     success: true, error: null,
     data: assigned
+  }
+}
+
+/** @throw any errors thrown here will be catched by the dispatcher */
+export async function receiveVotesHandler(
+  data: any
+): Promise<Response> {
+  let received = await receiveVotes(
+    data.identityProof,
+    data.batch
+  );
+  return {
+    success: true, error: null,
+    data: received
   }
 }

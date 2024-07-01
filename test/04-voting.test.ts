@@ -1,8 +1,10 @@
 import fs from "fs"
 import { randomInt } from "crypto";
-import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey } from "o1js";
-import { Identity, IdentityProver, postRequest } from "../src/semaphore";
+import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey, Encoding } from "o1js";
+import { Identity, IdentityProver, postRequest, CipheredText } from "../src/semaphore";
 import { ElectorAssignment } from "../src/voting/assignments";
+import { VotesBatch } from "../src/voting/types";
+import { prepareBatch } from "../src/voting/reception";
 
 // these are shared test parameters
 import { 
@@ -13,20 +15,18 @@ import {
   tmpFolder 
 } from "./test-params";
 import { VotingClaim } from "../src/voting/selection";
+import { proveIdentityOwnership } from "../src/semaphore/prover";
 
 describe('Assign voting tasks each elector', () => {
 
-  let identityName = identityFile; // or to be obtained by searching
+  let identityName = 'idn47'; // we will test this elector 
   let assignment: ElectorAssignment | null = null;
   let IdentitiesDictio: any = {};
 
   beforeAll(async () => {
-    // we need to find the identity file for this commitment
-    // if (!identityFile) 
-    //   identityName = findIdentityFile();
+    // 
   });
 
-/*  
   it('Create proofOfIdentity and retrieve assignments', async () => {
     // we need the full identity to build the proof
     let identity = Identity.read(identityName);
@@ -59,6 +59,10 @@ describe('Assign voting tasks each elector', () => {
     const okOwned = await verify(ownershipProof.toJSON(), verificationKey);
     console.log('ownershipProof ok? ', okOwned);  
 
+    fs.writeFileSync(`${tmpFolder}/proofs.${identity.commitment}.json`, 
+      JSON.stringify(ownershipProof.toJSON())
+    );
+
     // we can now retrieve the assignments given to this identity
     const rsp = await postRequest('retrieveAssignments', {
       ownershipProof: JSON.stringify(ownershipProof.toJSON()),
@@ -67,72 +71,112 @@ describe('Assign voting tasks each elector', () => {
     console.log("Identity assignments: ", JSON.stringify(rsp, null, 2));
     assignment = rsp.data as ElectorAssignment; 
   });
-*/
 
-  it('Prepare votes batch and send it', async () => {
+  it('Single elector votes, and sends votes', async () => {
+    // we need the full identity fo4 voting
+    let identity = Identity.read(identityName);
+    let planUid = 'plan001';
+
+    await CipheredText.initialize();
+    
+    // simulate we get his tasks 
+    let assignment = JSON.parse(fs.readFileSync(
+      `${tmpFolder}/elector-${identity.commitment}.tasks.json`, 
+      "utf-8"
+    )) as ElectorAssignment;
+
+    let tasks: any[] = assignment?.plans[planUid]?.tasks || [];
+      
+    let votes = (tasks || []).map((t: any) => { return {
+      claimUid: t.claimUid,
+      value: randomVote(), // -1, 0 o 1 // simulate votes
+      elector: identity.commitment,
+    }});
+
+    // get proof
+    let proof = JSON.parse(fs.readFileSync(
+      `${tmpFolder}/proofs.${identity.commitment}.json`, 
+      "utf-8"
+    ));
+    
+    // this is what we really need to test !
+    let batch = prepareBatch(
+      identity,
+      planUid,
+      votes,
+    );
+    expect(batch.votes.length).toBe(tasks.length);
+
+    let rsp = await postRequest('receiveVotes', {
+      identityProof: JSON.stringify(proof),
+      batch: batch
+    })
+    expect(rsp.success).toBe(true);
+
+    // we write these to tmpFolder so we can use it in other tests
+    fs.writeFileSync(
+      `${tmpFolder}/elector-${identity.commitment}-${planUid}.batch.json`,
+      JSON.stringify(batch, null, 2)
+    );
+  });
+
+
+  it.only('Simulate all electors voted for plan001', async () => {
     // we will vote on 'plan001'
     const planUid = 'plan001';
+
+    buildIdentitiesDictio();
+    await CipheredText.initialize();
 
     // get all the electors that vote on this plan
     let electors = readPlanElectors(planUid);
     console.log(`Plan ${planUid} electors: `, JSON.stringify(electors, null, 2));
 
-    buildIdentitiesDictio();
-
     // traverse the electors an emit a batch of votes per elector
-    (electors || []).forEach((e: string) => {
+    for (let j=0; j < electors.length; j++) {
+      let e = electors[j];
+
       // get identity for this elector
       let identity = IdentitiesDictio[e];
       if (!identity) return;
-
-      // get all claims in which must vote
-      let assignment = JSON.parse(fs.readFileSync(
-        `${tmpFolder}/elector-${identity.commitment}.tasks.json`, 
-        "utf-8"
-      )) as ElectorAssignment;
-      let tasks: any[] = assignment?.plans[planUid]?.tasks || [];
-  
-      // lets simulate votes and create the batch
-      let batch = {
-        planUid: planUid,
-        identityCommitment: e,
-        votes: [],
-        hash: Field(0)
-      };
       
-      // Elector creates batch of items where each item contains: 
-      // the identity "commitment", 
-      // the claimUid, the encrypted(vote, encryptionKey)
-      // , a nullifier created from hash(identity sk, pin, claimUid).
-      (tasks || []).forEach((t: any) => {
-        const claimBigint = BigInt(t.claimUid.replace('claim',''));
+      let proofOfIdentity = JSON.parse(fs.readFileSync(
+        `${tmpFolder}/proofs.${identity.commitment}.json`, 
+        "utf-8"
+      ));
 
-        (batch.votes as any[]).push({
-          claimUid: t.claimUid,
-          value: randomVote(), // -1, 0 o 1 // simulate votes
-          elector: identity.commitment,
-          nullifier: Poseidon.hash(
-            PrivateKey.fromBase58(identity.sk).toFields()
-            .concat([
-              Field(identity.pin),
-              Field(claimBigint)
-            ])
-          )  
-        });
+      const rsp = await postRequest('retrieveAssignments', {
+        ownershipProof: JSON.stringify(proofOfIdentity),
+        identityCommitment: identity.commitment
+      });
+      console.log("Identity assignments: ", JSON.stringify(rsp, null, 2));
+      assignment = rsp.data as ElectorAssignment; 
+      let tasks: any[] = assignment?.plans[planUid]?.tasks || [];
+      
+      let votes = (tasks || []).map((t: any) => { return {
+        claimUid: t.claimUid,
+        value: randomVote(), // -1, 0 o 1 // simulate votes
+        elector: identity.commitment,
+      }});
 
-        // compose the batch hash using claimUids 
-        batch.hash = Poseidon.hash([batch.hash, Field(claimBigint)]);
-      })
-
-      console.log("Votes batch: ", JSON.stringify(batch, null, 2));
-      fs.writeFileSync(
-        `${tmpFolder}/elector-${e}-${planUid}.batch.json`,
-        JSON.stringify(batch, null, 2)
+      let batch = prepareBatch(
+        identity,
+        planUid,
+        votes,
       );
-    })
+
+      let rst = await postRequest('receiveVotes', {
+        identityProof: JSON.stringify(proofOfIdentity),
+        batch: batch
+      })
+      console.log(rst.data || rst.error);
+    }
   });
 
   //-- Helpers --//
+  function delay(secs: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, secs*1000));
+  }
 
   function buildIdentitiesDictio() {
     let dictio: any = JSON.parse(fs.readFileSync(
