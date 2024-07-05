@@ -40,19 +40,18 @@ function prepareBatch(
   let messages: any[] = []; 
   (votes || []).forEach((t: any) => {
 
-    const message = JSON.stringify({
-      claimUid: t.claimUid,
-      elector: identity.commitment,
-      value: t.value.toString()
-    })
-
+    // we encrypt only the vote value
     const encrypted = CipheredText.encrypt(
-      message,
+      t.value.toString(),
       identity.encryptionKey
     );
 
     // signal is a hash of the message to broadcast
-    const signal = Poseidon.hash(Encoding.stringToFields(message));
+    const signal = Poseidon.hash([
+      Field(t.claimUid),
+      Field(identity.commitment),
+      Field(t.value.toString())
+    ]);
 
     const nullifier = Poseidon.hash(
       PrivateKey.fromBase58(identity.sk).toFields()
@@ -63,22 +62,27 @@ function prepareBatch(
     )
 
     // signature = signature of hash(nullifier, signal) using identity sk
-
+    let signature = Signature.create(
+      PrivateKey.fromBase58(identity.sk),
+      [signal, nullifier]
+    );  
+  
     messages.push({
       claimUid: t.claimUid,
       encrypted: encrypted, // encrypted message
       signal: signal.toString(),
-      nullifier: nullifier.toString()
+      nullifier: nullifier.toString(),
+      signature: signature.toString()
     });
 
     // compose the batch hash using claimUids 
     cbhash = Poseidon.hash([cbhash, Field(t.claimUid)]);
   })
 
-  // sign the votes array
+  // sign the messages array
   let signature = Signature.create(
     PrivateKey.fromBase58(identity.sk),
-    Encoding.stringToFields(JSON.stringify(batch.votes))
+    Encoding.stringToFields(JSON.stringify(messages))
   );  
 
   // finally conform the full batch we are going to send  

@@ -3,8 +3,6 @@ import { randomInt } from "crypto";
 import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey, Encoding } from "o1js";
 import { Identity, IdentityProver, postRequest, CipheredText } from "../src/semaphore";
 import { ElectorAssignment } from "../src/voting/assignments";
-import { VotesBatch } from "../src/voting/types";
-import { prepareBatch } from "../src/voting/reception";
 
 // these are shared test parameters
 import { 

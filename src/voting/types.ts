@@ -15,6 +15,7 @@ interface VotesBatch {
   identityCommitment: string; // the elector identity commitment
   planUid: string; // the campaign or plan to which the claims belong
   votes: {
+    claimUid: string; // the claim we are voting
     encrypted: string; // the encrypted message (holding the vote)
     signal: string, // the message signal we will broadcast
     nullifier: string; // the nullifier used to avoid double voting

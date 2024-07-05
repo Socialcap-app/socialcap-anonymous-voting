@@ -13,7 +13,10 @@ export {
   serializeMap,
   deserializeMap,
   getSortedKeys,
-  AnyMerkleMap
+  AnyMerkleMap,
+  SmallMerkleMap,
+  MediumMerkleMap,
+  BigMerkleMap
 }
 
 class SmallMerkleMap extends IndexedMerkleMap(12) {} // max 4096 nodes
