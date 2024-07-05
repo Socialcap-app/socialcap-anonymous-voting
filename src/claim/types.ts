@@ -9,17 +9,18 @@ export {
 } 
 
 enum ClaimResult { 
-  IGNORED = 0, 
-  APPROVED = 20, 
-  REJECTED = 19
+  VOTING = 0,    // still voting, no final result
+  APPROVED = 20, // totalVotes >= requiredVotes, positives >= requiredPositives 
+  REJECTED = 19, // totalVotes >= requiredVotes, positives < requiredPositives 
+  IGNORED = 18, // totatlVotes < requiredVotes 
 }   
 
 enum ClaimActionType {
-  INITIAL = 0,
-  VOTES = 1,
-  ISSUED = 2,
-  REVOKED = 3,
-  TRANSFERED = 4
+  INITIAL = 0, // initial state, nothing happened yet ...
+  VOTED = 1, // voting ended but was not issued (was REJECTED or IGNORED)
+  ISSUED = 2, // voting ended AND was issued (was APPROVED)
+  REVOKED = 3, // credential was revoked by issuer
+  TRANSFERED = 4 // credential was transfered by owner to someone else
 }
 
 class ClaimState extends Struct({
@@ -43,7 +44,7 @@ class CredentialState extends Struct({
   balance: UInt64, 			// the token amount assigned to it
   issuedUTC: UInt64,      // issued date (UTC timestamp)
   expiresUTC: UInt64,     // expiration date (UTC timestamp), or zero if no expiration
-  hasExpired: Bool,       // had expired when the action was dispatched ?
-  wasRevoked: Bool,       // was revoked by this or a previous action ?
-  wasTransfered: Bool,     // was transfered by this or a previous action ?
+  //hasExpired: Bool,       // had expired when the action was dispatched ?
+  //wasRevoked: Bool,       // was revoked by this or a previous action ?
+  //wasTransfered: Bool,     // was transfered by this or a previous action ?
 }) {}

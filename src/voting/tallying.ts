@@ -44,7 +44,7 @@ async function processBatches(
       result: Field(ClaimResult.IGNORED)
     };
   
-    let previousProof = await ClaimVotingRollup.init(state);
+    let previousProof = await ClaimRollup.init(state);
 
     // traverse the batches from this plan
     // we will not be very efficient here, but we do not want to hold votes 
@@ -120,6 +120,8 @@ async function processBatches(
     // needed: applicant accountId, issuer accountId, 
     // revocable, transferable, dueDate, tokenId and token amount
 
+    // TODO
+    // assignar custom tokens a la credencial
   }
 
 }
