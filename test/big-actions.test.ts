@@ -96,7 +96,7 @@ describe("Dispatch Actions", () => {
     await txn.sign([deployer.key, zkappSk]).send();
   });
 
-  it("should dispatch 3 actions in same call", async () => {
+  it("should dispatch 3 actions", async () => {
     let item1 = emptyItem(Field(1), Field(0), Field(1010));
     let item2 = emptyItem(Field(1), Field(1), Field(1011));
     let item3 = emptyItem(Field(1), Field(2), Field(1012));
@@ -108,7 +108,5 @@ describe("Dispatch Actions", () => {
     );
     await txn.prove();
     await txn.sign([sender.key]).send();
-
-    
   });
 });
