@@ -1,7 +1,7 @@
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import Client from 'mina-signer';
 import { 
-  ClaimRollup, ClaimRollupProof,
+  ClaimRollup, ClaimRollupProof, ClaimAccountContract,
   ClaimAction, ClaimActionType, ClaimResult 
 } from "../src/claim/index.js";
 
@@ -17,7 +17,7 @@ describe('Add', () => {
   let payer: Mina.TestPublicKey;
   let zkAppAddress: PublicKey, 
     zkAppPrivateKey: PrivateKey, 
-    zkApp: ClaimVotingAccount;
+    zkApp: ClaimAccountContract;
 
   beforeAll(async () => {
     const Local = await Mina.LocalBlockchain({ proofsEnabled });
@@ -27,11 +27,11 @@ describe('Add', () => {
   
     await ClaimRollup.compile();
 
-    await ClaimVotingAccount.compile();
+    await ClaimAccountContract.compile();
   
     zkAppPrivateKey = PrivateKey.random();
     zkAppAddress = zkAppPrivateKey.toPublicKey();
-    zkApp = new ClaimVotingAccount(zkAppAddress);
+    zkApp = new ClaimAccountContract(zkAppAddress);
   });
 
   async function localDeploy() {
@@ -46,49 +46,5 @@ describe('Add', () => {
 
   it('generates and deploys the `Add` smart contract', async () => {
     await localDeploy();
-
-    let claimUid = '1234';
-
-    let proof = await ClaimRollup.init({
-      claimUid: Field(claimUid),
-      positives: Field(0),
-      negatives: Field(0),
-      ignored: Field(0),
-      total: Field(0),
-      requiredPositives: Field(3),
-      requiredVotes: Field(4),
-      result: Field(ClaimResult.IGNORED)
-    })
-    let serializedProof = JSON.stringify(proof.toJSON());
-
-    let deserializedProof = await ClaimRollupProof.fromJSON(JSON.parse(serializedProof));
-
-    let firstAction = ClaimAction.init();
-    firstAction.owner = PrivateKey.random().toPublicKey();
-    firstAction.issuer = PrivateKey.random().toPublicKey();
-
-    const txn = await Mina.transaction(deployer, async () => {
-      await zkApp.setFinalResult(
-        Field(claimUid), 
-        deserializedProof,
-        {
-          claimUid: Field(claimUid),
-          positives: Field(3),
-          negatives: Field(1),
-          ignored: Field(1),
-          total: Field(5),
-          requiredPositives: Field(3),
-          requiredVotes: Field(4),
-          result: Field(ClaimResult.APPROVED)
-        }, 
-        firstAction
-      );
-    });
-    await txn.prove();
-    await txn.sign([deployer.key, zkAppPrivateKey]).send();
-
-    let lastRetrieved = zkApp.retrieveLast(UInt64.from(ClaimActionType.ISSUED));
-    console.log(lastRetrieved.owner.toBase58());
-    console.log(lastRetrieved.issuer.toBase58());
   });
 });

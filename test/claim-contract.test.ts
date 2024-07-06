@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import Client from 'mina-signer';
 import { 
@@ -22,6 +23,9 @@ describe('Add', () => {
 
   let claimUid = '1234';
 
+  let ipfsHash = "bafkreiffmjsjlpfsuv3k6ryzz7yfvbn4f5xfhqo246lj5e22raxns5g5om";
+  let zkappUri = `${process.env.PINATA_GATEWAY_URL}/${ipfsHash}`;
+
   beforeAll(async () => {
     const Local = await Mina.LocalBlockchain({ proofsEnabled });
     Mina.setActiveInstance(Local);
@@ -38,11 +42,13 @@ describe('Add', () => {
   });
 
   async function localDeploy() {
+
     const txn = await Mina.transaction(deployer, async () => {
       AccountUpdate.fundNewAccount(deployer);
       await zkApp.deploy();
       zkApp.claimUid.set(Field(claimUid));
       zkApp.required.set(Field(pack2bigint(4,3,0))); // minVotes, minPositives  
+      // zkApp.account.zkappUri.set(zkappUri);
     });
     await txn.prove();
     // this tx needs .sign(), because `deploy()` adds an account update that requires signature authorization
@@ -65,14 +71,15 @@ describe('Add', () => {
     let serializedProof = JSON.stringify(proof.toJSON());
 
     let deserializedProof = await ClaimRollupProof.fromJSON(JSON.parse(serializedProof));
-
+    
     let firstAction = ClaimAction.init();
     firstAction.owner = PrivateKey.random().toPublicKey();
     firstAction.issuer = PrivateKey.random().toPublicKey();
     firstAction.type = UInt64.from(ClaimActionType.ISSUED);
-    let secondAction = ClaimAction.init();
+    // let secondAction = ClaimAction.init();
 
     const txn = await Mina.transaction(deployer, async () => {
+      zkApp.account.zkappUri.set(zkappUri);
       await zkApp.closeVoting(
         Field(claimUid), 
         deserializedProof,
@@ -86,8 +93,7 @@ describe('Add', () => {
           requiredVotes: Field(4),
           result: Field(ClaimResult.APPROVED)
         }, 
-        firstAction,
-        secondAction
+        firstAction
       );
     });
     await txn.prove();
@@ -96,5 +102,6 @@ describe('Add', () => {
     // let lastRetrieved = zkApp.retrieveLast();
     //console.log(lastRetrieved.owner.toBase58());
     //console.log(lastRetrieved.issuer.toBase58());
+    console.log("uri", zkApp.account.zkappUri.get())
   });
 });

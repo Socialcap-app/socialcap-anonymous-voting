@@ -12,7 +12,7 @@ enum ClaimResult {
   VOTING = 0,    // still voting, no final result
   APPROVED = 20, // totalVotes >= requiredVotes, positives >= requiredPositives 
   REJECTED = 19, // totalVotes >= requiredVotes, positives < requiredPositives 
-  IGNORED = 18, // totatlVotes < requiredVotes 
+  IGNORED = 18, // totalVotes < requiredVotes 
 }   
 
 enum ClaimActionType {

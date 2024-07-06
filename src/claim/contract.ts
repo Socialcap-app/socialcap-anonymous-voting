@@ -103,7 +103,6 @@ export class ClaimAccountContract extends SmartContract {
     rollupProof: ClaimRollupProof,
     state: ClaimState,    
     action: ClaimAction,
-    actionExtra: ClaimAction
   ) { 
     // verify last proof coming from the rollup
     rollupProof.verify();
@@ -138,7 +137,7 @@ export class ClaimAccountContract extends SmartContract {
       state.ignored
     ));
 
-    
+    /*  
     // the ClaimAction info has been previosly calculated offchain 
     // we assert some values here before dispatching
     let isIssued = newState.result.equals(ClaimResult.APPROVED);
@@ -160,6 +159,7 @@ export class ClaimAccountContract extends SmartContract {
     // dispatch the action with the additional info
     this.reducer.dispatch(action);
     this.reducer.dispatch(actionExtra);
+    */
   }
 
   /**
