@@ -5,7 +5,7 @@
 import { Response } from "../semaphore/index.js";
 import { selectElectors } from "./selection.js";
 import { assignTasks, getAssignedTasks } from "./assignments.js";
-import { receiveVotes } from "./reception.js";
+import { receiveVotes } from "./voting.js";
 
 
 export async function assignElectorsHandler(

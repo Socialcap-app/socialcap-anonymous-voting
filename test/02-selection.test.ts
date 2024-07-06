@@ -8,7 +8,7 @@ import { getGroupMembers } from "../src/services/groups";
 import {
   communityUid, 
   tmpFolder
-} from "./test-params"
+} from "./helper-params"
 
 describe('Select electors for voting on claims', () => {
 

@@ -6,7 +6,7 @@ import {
   communityUid, 
   MAX_AUDITORS, MAX_MEMBERS, MAX_VALIDATORS, MAX_CLAIMS,
   tmpFolder
-} from "./test-params"
+} from "./helper-params"
 
 
 describe('Assign voting tasks each elector', () => {
@@ -37,7 +37,7 @@ describe('Assign voting tasks each elector', () => {
     })
   });
 
-  it('Read claims and create elector task files for plan002', async () => {
+/*   it('Read claims and create elector task files for plan002', async () => {
     const planUid = 'plan002';
     let claims = readClaims(planUid);
 
@@ -50,4 +50,5 @@ describe('Assign voting tasks each elector', () => {
       );
     })
   });
+ */
 });

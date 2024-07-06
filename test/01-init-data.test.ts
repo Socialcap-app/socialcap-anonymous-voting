@@ -11,7 +11,7 @@ import {
   MAX_AUDITORS, MAX_MEMBERS, MAX_VALIDATORS, 
   MAX_CLAIMS,
   tmpFolder, 
-} from "./test-params"
+} from "./helper-params"
 
 describe('Init test data', () => {
 

@@ -13,7 +13,7 @@ import {
   identityCommitment, 
   identityFile,
   tmpFolder 
-} from "./test-params";
+} from "./helper-params";
 
 describe('Creates all identity proofs for all electors', () => {
 

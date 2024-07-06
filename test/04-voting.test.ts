@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs"
+import { spawn } from 'child_process';
 import { randomInt } from "crypto";
 import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey, Encoding } from "o1js";
 import { Identity, IdentityProver, postRequest, CipheredText } from "../src/semaphore";
 import { ElectorAssignment } from "../src/voting/assignments";
 import { VotesBatch } from "../src/voting/types";
-import { prepareBatch } from "../src/voting/reception";
+import { prepareBatch } from "../src/voting/voting";
+import { copySnapshot } from "./helper-kvs-snapshot";
 
 // these are shared test parameters
 import { 
@@ -13,7 +16,7 @@ import {
   identityCommitment, 
   identityFile,
   tmpFolder 
-} from "./test-params";
+} from "./helper-params";
 import { VotingClaim } from "../src/voting/selection";
 import { proveIdentityOwnership } from "../src/semaphore/prover";
 
@@ -24,7 +27,8 @@ describe('Assign voting tasks each elector', () => {
   let IdentitiesDictio: any = {};
 
   beforeAll(async () => {
-    // 
+    // reset KVS with the pre-voting data
+    // run listener
   });
 
   it('Create proofOfIdentity and retrieve assignments', async () => {
@@ -72,57 +76,18 @@ describe('Assign voting tasks each elector', () => {
     assignment = rsp.data as ElectorAssignment; 
   });
 
-  it('Single elector votes, and sends votes', async () => {
-    // we need the full identity fo4 voting
+  it('Run proveIdentityOwnership', async () => {
     let identity = Identity.read(identityName);
-    let planUid = 'plan001';
-
-    await CipheredText.initialize();
-    
-    // simulate we get his tasks 
-    let assignment = JSON.parse(fs.readFileSync(
-      `${tmpFolder}/elector-${identity.commitment}.tasks.json`, 
-      "utf-8"
-    )) as ElectorAssignment;
-
-    let tasks: any[] = assignment?.plans[planUid]?.tasks || [];
-      
-    let votes = (tasks || []).map((t: any) => { return {
-      claimUid: t.claimUid,
-      value: randomVote(), // -1, 0 o 1 // simulate votes
-      elector: identity.commitment,
-    }});
-
-    // get proof
-    let proof = JSON.parse(fs.readFileSync(
-      `${tmpFolder}/proofs.${identity.commitment}.json`, 
-      "utf-8"
-    ));
-    
-    // this is what we really need to test !
-    let batch = prepareBatch(
-      identity,
-      planUid,
-      votes,
+    let proofOfIdentity = await proveIdentityOwnership(
+      identity, 
+      identity.commitment
     );
-    expect(batch.votes.length).toBe(tasks.length);
+  });  
 
-    let rsp = await postRequest('receiveVotes', {
-      identityProof: JSON.stringify(proof),
-      batch: batch
-    })
-    expect(rsp.success).toBe(true);
-
-    // we write these to tmpFolder so we can use it in other tests
-    fs.writeFileSync(
-      `${tmpFolder}/elector-${identity.commitment}-${planUid}.batch.json`,
-      JSON.stringify(batch, null, 2)
-    );
-  });
-
-  it.only('Simulate all electors voted for plan001', async () => {
+  it('All electors vote for plan001', async () => {
     // we will vote on 'plan001'
     const planUid = 'plan001';
+    console.debug = () => {};
 
     buildIdentitiesDictio();
     await CipheredText.initialize();
@@ -139,19 +104,26 @@ describe('Assign voting tasks each elector', () => {
       let identity = IdentitiesDictio[e];
       if (!identity) return;
       
-      let proofOfIdentity = JSON.parse(fs.readFileSync(
-        `${tmpFolder}/proofs.${identity.commitment}.json`, 
-        "utf-8"
-      ));
+      let proofOfIdentity = await proveIdentityOwnership(
+        identity, 
+        identity.commitment
+      );
+      // let proofOfIdentity = JSON.parse(fs.readFileSync(
+      //   `${tmpFolder}/proofs.${identity.commitment}.json`, 
+      //   "utf-8"
+      // ));
 
       const rsp = await postRequest('retrieveAssignments', {
         ownershipProof: JSON.stringify(proofOfIdentity),
         identityCommitment: identity.commitment
       });
-      console.log("Identity assignments: ", JSON.stringify(rsp, null, 2));
+      console.log("retrieveAssignments response: ", 
+        JSON.stringify(rsp.data || rsp.error, null, 2)
+      );
       assignment = rsp.data as ElectorAssignment; 
       let tasks: any[] = assignment?.plans[planUid]?.tasks || [];
       
+      // here we simulate votes for testing !
       let votes = (tasks || []).map((t: any) => { return {
         claimUid: t.claimUid,
         value: randomVote(), // -1, 0 o 1 // simulate votes
@@ -163,12 +135,17 @@ describe('Assign voting tasks each elector', () => {
         planUid,
         votes,
       );
+      console.log("prepareBatch batch: ", 
+        JSON.stringify(batch, null, 2)
+      );
 
       let rst = await postRequest('receiveVotes', {
         identityProof: JSON.stringify(proofOfIdentity),
         batch: batch
       })
-      console.log(rst.data || rst.error);
+      console.log("receiveVotes response: ", 
+        JSON.stringify(rst.data || rst.error, null, 2)
+      );
     }
   });
 

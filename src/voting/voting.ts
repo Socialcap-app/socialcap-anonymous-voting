@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Poseidon, Signature, PrivateKey, Encoding } from "o1js";
 import { Response, Identity, CipheredText } from "../semaphore/index.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
@@ -89,7 +90,7 @@ function prepareBatch(
   batch.votes = messages;
   batch.signature = JSON.stringify(signature.toJSON());
   batch.hash = cbhash.toString();
-  console.log("voting.prepareBatch batch: ", JSON.stringify(batch, null, 2));
+  console.debug("voting.prepareBatch batch: ", JSON.stringify(batch, null, 2));
 
   return batch;
 }
@@ -138,7 +139,7 @@ async function receiveVotes(
   saveMerkle(guid, map as AnyMerkleMap);
 
   // save the batch contents in KVS 
-  KVS.put(`batch-${hash}`, batch);
+  KVS.put(`batches.${hash}`, batch);
 
   // insert into nullifiers 
   (votes || []).forEach((t: any) => {

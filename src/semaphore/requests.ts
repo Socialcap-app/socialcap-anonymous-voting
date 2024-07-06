@@ -32,7 +32,7 @@ async function postRequest(
     timeout: 5*60*1000, 
     debug: false 
   });
-  console.log(`semaphore.postRequest connected to ${NATS_SERVER}`);
+  console.debug(`semaphore.postRequest connected to ${NATS_SERVER}`);
 
   try {
     const msg: any = await nc.request(
@@ -45,19 +45,19 @@ async function postRequest(
     )
     
     const response: any = codec.decode(msg.data);
-    console.log("semaphore.postRequest postRequest response: ", response);
+    console.debug("semaphore.postRequest postRequest response: ", response);
     if (!response.success) 
       throw Error(response.error);
 
     return { success: true, data: response.data, error: null }
   }
   catch (error: any) {
-    console.log(`semaphore.postRequest ${command} error: `, error);
+    console.debug(`semaphore.postRequest ${command} error: `, error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    console.log("semaphore.postRequest cleanup (drained)");
+    console.debug("semaphore.postRequest cleanup (drained)");
     await nc.drain();
   }
 }

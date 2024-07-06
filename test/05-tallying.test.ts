@@ -11,7 +11,7 @@ import {
   identityCommitment, 
   identityFile,
   tmpFolder 
-} from "./test-params";
+} from "./helper-params";
 import { VotingClaim } from "../src/voting/selection";
 import { proveIdentityOwnership } from "../src/semaphore/prover";
 
