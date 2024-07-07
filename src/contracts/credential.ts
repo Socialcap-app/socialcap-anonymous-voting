@@ -190,16 +190,33 @@ class CredentialContract extends SmartContract {
   /**
    * Proves that the sender is the owner of the Credential
    */
-  @method async isOwner(claimUid: Field) {
+  @method async isOwner(
+    claimUid: Field,
+    now: UInt64
+  ) {
     const sender = this.sender.getAndRequireSignature();
 
-    // verify is Owner
-    let owner = this.owner.getAndRequireEquals();
-    owner.assertEquals(sender);
-
-    // verify using signature
+    // very basic test
     this.claimUid.getAndRequireEquals()
-      .assertEquals(claimUid);
+      .assertEquals(claimUid, "Invalid claim uid");
+
+    // verify if it is real Owner
+    let owner = this.owner.getAndRequireEquals();
+    let ok = owner.equals(sender);
+    ok.assertTrue("Not the owner");
+
+    // we need some info stored in the last action to check that 
+    // it is not revoked, suspended or expired
+    let last = this.retrieveLast();
+
+    let revoked = last.type.equals(UInt64.from(CredentialActionType.REVOKED));
+    revoked.assertFalse("Credential was revoked"); 
+
+    let suspended = last.type.equals(UInt64.from(CredentialActionType.SUSPENDED));
+    suspended.assertFalse("Credential was suspended"); 
+
+    let expired = now.greaterThan(last.expiresUTC);
+    expired.assertFalse("Credential has expired");
   }
 
   /**
