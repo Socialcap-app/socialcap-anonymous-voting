@@ -5,7 +5,7 @@ import {
   ClaimRollup, ClaimRollupProof, ClaimAccountContract,
   ClaimAction, ClaimActionType, ClaimResult,
   pack2bigint
-} from "../src/claim/index.js";
+} from "../src/contracts/index.js";
 
 const MINA = 1e9;
 const TXNFEE = 300_000_000;
@@ -17,8 +17,8 @@ describe('Add', () => {
   // let client: Client | undefined;
   
   let deployer = {
-    pk: PublicKey.fromBase58(process.env.DEPLOYER_PK+''),
-    sk: PrivateKey.fromBase58(process.env.DEPLOYER_SK+''),
+    pk: PublicKey.fromBase58(process.env.DEVNET_DEPLOYER_PK+''),
+    sk: PrivateKey.fromBase58(process.env.DEVNET_DEPLOYER_SK+''),
   }
 
   let zkAppAddress: PublicKey, 

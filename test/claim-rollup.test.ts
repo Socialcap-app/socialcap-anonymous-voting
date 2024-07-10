@@ -3,7 +3,7 @@ import Client from 'mina-signer';
 import { 
   ClaimRollup, ClaimRollupProof, ClaimAccountContract,
   ClaimAction, ClaimActionType, ClaimResult 
-} from "../src/claim/index.js";
+} from "../src/contracts/index.js";
 
 const MINA = 1e9;
 const TXNFEE = 150_000_000;

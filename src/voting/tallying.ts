@@ -9,7 +9,7 @@ import { KVS } from "../services/lmdb-kvs.js";
 import { VotesBatch } from "./types.js";
 import { VotingClaim } from "./selection.js";
 import { PlanStrategy } from "./strategy.js";
-import { ClaimState, ClaimRollup, ClaimResult } from "../claim/index.js";
+import { ClaimState, ClaimRollup, ClaimResult } from "../contracts/index.js";
 
 async function processBatches(
   communityUid: string, 
@@ -47,8 +47,8 @@ async function processBatches(
     let previousProof = await ClaimRollup.init(state);
 
     // traverse the batches from this plan
-    // we will not be very efficient here, but we do not want to hold votes 
-    // in memory if there are many claims     
+    // we are not be very efficient here, as we traverse the full batches set
+    // for every claim, but we do not want to hold votes in memory 
     for (let b=0; b < batches.length; b++) {
       let batch = KVS.get('batch-'+batches[b]);
       if (!batch) continue;
@@ -86,7 +86,7 @@ async function processBatches(
         // we are ready to roll !
         let state = previousProof.publicOutput;
 
-        let rolledProof = await ClaimVotingRollup.rollup(
+        let rolledProof = await ClaimRollup.rollup(
           state,
           previousProof, 
           electorsGroup, 
@@ -110,7 +110,7 @@ async function processBatches(
     }
     
     // we get final result
-    let finalProof = ClaimVotingRollup.final(
+    let finalProof = ClaimRollup.final(
       previousProof.publicOutput,
       previousProof
     );
