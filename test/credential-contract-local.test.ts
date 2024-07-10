@@ -52,10 +52,12 @@ describe('Add', () => {
 
     const txn = await Mina.transaction(deployer, async () => {
       zkapp.account.zkappUri.set(zkappUri);
+      let claim = PublicKey.empty(); 
       await zkapp.issue(
         Field(claimUid), 
         Field(planUid),
         Field(communityUid),
+        claim,
         owner,
         issuer,
         Field(1001),
@@ -96,11 +98,13 @@ describe('Add', () => {
   });
 
   it('Try to reissue (must FAIL)', async () => {
+    let claim = PublicKey.empty(); 
     const txn = await Mina.transaction(deployer, async () => {
       await zkapp.issue(
         Field(claimUid), 
         Field(planUid),
         Field(communityUid),
+        claim,
         owner,
         issuer,
         Field(1001),

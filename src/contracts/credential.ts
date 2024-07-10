@@ -85,12 +85,12 @@ class CredentialContract extends SmartContract {
   // only the owner or the issuer can make changes to it
   @state(PublicKey) owner = State<PublicKey>(); 
 
-  // the root of the metadata MerkleTree, where each Leaf in the tree
+  // the root of the data+metadata MerkleTree, where each Leaf in the tree
   // refers to exactly one metadata property, being:
   //  leaf value = hash(stringified([propertyName, propertyValue])) 
   // metadata is stored off-chain in IPFS and the account zkappUri contains 
   // the final IPFS url
-  @state(Field) metadataRoot = State<Field>();
+  @state(Field) dataRoot = State<Field>();
   @state(Field) tokenRef = State<Field>();
   @state(UInt64) value = State<UInt64>();
 
@@ -105,7 +105,7 @@ class CredentialContract extends SmartContract {
     this.claimUid.set(Field(0));
     this.owner.set(PublicKey.empty());
     this.tokenRef.set(Field(0));
-    this.metadataRoot.set(Field(0));
+    this.dataRoot.set(Field(0));
     this.value.set(UInt64.from(0));
     this.lastActionState.set(Reducer.initialActionState);
 
