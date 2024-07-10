@@ -1,0 +1,68 @@
+$ pnpm test test/big-actions.test.ts
+
+> tmp@0.1.0 test /home/mzito/dev/work/socialcap/anonymous-voting
+> node --experimental-vm-modules --enable-source-maps node_modules/jest/bin/jest.js --detectOpenHandles "test/big-actions.test.ts"
+
+(node:1988319) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ts-jest[versions] (WARN) Version 5.5.2 of typescript installed has not been tested with ts-jest. If you're experiencing issues, consider using a supported version (>=4.3.0 <5.0.0-0). Please do not report issues in ts-jest if you are using unsupported versions.
+ FAIL  test/big-actions.test.ts (5.294 s)
+  Dispatch Actions
+    ✓ should deploy contract (257 ms)
+    ✕ should dispatch 1 action (762 ms)
+
+  ● Dispatch Actions › should dispatch 1 action
+
+    Exceeded array maximum size (max 16 < got 17)
+
+      at s (../../../../../trivo/.opam/default/lib/ocaml/stdlib.ml:29:14)
+      at ../../../../../trivo/.opam/default/lib/base/printf.ml:6:43
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:32:12)
+      at ../../../../../../builtin/+stdlib.js:42:14
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:28:22)
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:34:12)
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:34:12)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:40)
+      at bin_write_t (../../../../../../workspace_root/src/mina/src/lib/bounded_types/bounded_types.ml:35:11)
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:32:12)
+      at ../../../../../../builtin/+stdlib.js:42:14
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:28:22)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:40)
+      at bin_write_list (../../../../../trivo/.opam/default/lib/bin_prot/write.ml:267:25)
+      at bin_write_t$9 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:107243:30)
+      at bin_write_list$0 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:115287:30)
+      at bin_write_list$0 (../../../../../trivo/.opam/default/lib/core_kernel/std_internal.ml:164:1)
+      at write_account_update (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:408859:35)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:28)
+      at bin_write_t$95 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:411656:34)
+      at bin_write_t$95 (../../../../../../workspace_root/src/mina/src/lib/mina_base/zkapp_command.ml:11:9)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:28)
+      at bin_write_t$94 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:411328:34)
+      at bin_write_t$94 (../../../../../../workspace_root/src/mina/src/lib/mina_base/with_stack_hash.ml:6:5)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:28)
+      at bin_write_list (../../../../../trivo/.opam/default/lib/bin_prot/write.ml:267:25)
+      at bin_write_t$9 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:107243:30)
+      at bin_write_list$0 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:115287:30)
+      at bin_write_list$0 (../../../../../trivo/.opam/default/lib/core_kernel/std_internal.ml:164:1)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:28)
+      at bin_write_t (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:91753:26)
+      at caml_call3 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6805:28)
+      at to_bigstring (../../../../../trivo/.opam/default/lib/core_kernel/binable0.ml:189:13)
+      at to_string$25 (../../../../../trivo/.opam/default/lib/core_kernel/binable.ml:7:41)
+      at node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:425175:65
+      at caml_call1 (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/dist/node/bindings/compiled/_node_bindings/o1js_node.bc.cjs:6801:28)
+      at hash_zkapp_command (../../../../../../workspace_root/src/mina/src/lib/transaction/transaction_hash.ml:84:11)
+      at hash_zkapp_command$0 (../../../../../../workspace_root/src/bindings/ocaml/lib/consistency_test.ml:292:7)
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:32:12)
+      at caml_call_gen (../../../../../../builtin/+stdlib.js:34:12)
+      at Object.hashZkAppCommand (../../../../../../builtin/+jslib.js:289:12)
+      at node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/src/lib/mina/local-blockchain.ts:283:43
+      at sendTransaction (node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/src/lib/mina/transaction.ts:586:10)
+      at node_modules/.pnpm/o1js@1.4.0/node_modules/o1js/src/lib/mina/transaction.ts:525:36
+      at Object.<anonymous> (test/big-actions.test.ts:125:5)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   0 total
+Time:        5.338 s, estimated 6 s
+Ran all test suites matching /test\/big-actions.test.ts/i.
