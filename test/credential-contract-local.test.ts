@@ -81,7 +81,7 @@ describe('Add', () => {
 
   it('Checks ownership (must FAIL)', async () => {
     const txn = await Mina.transaction(deployer, async () => {
-      await zkapp.isOwner(Field(claimUid))
+      await zkapp.isOwner(Field(claimUid), UInt64.from(Date.now()))
     });
     await txn.prove();
     await txn.sign([deployer.key]).send();
@@ -89,7 +89,7 @@ describe('Add', () => {
 
   it('Checks ownership (must PASS)', async () => {
     const txn = await Mina.transaction(owner, async () => {
-      await zkapp.isOwner(Field(claimUid))
+      await zkapp.isOwner(Field(claimUid), UInt64.from(Date.now()))
     });
     await txn.prove();
     await txn.sign([owner.key]).send();

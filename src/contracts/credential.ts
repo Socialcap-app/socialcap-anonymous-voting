@@ -14,9 +14,10 @@ class CredentialState extends Struct({
   planUid: Field,
   claimUid: Field,
   communityUid: Field,
+  claim: PublicKey, // address of the ClaimVoting account
   issuer: PublicKey, 		// who issued this Credential (usually a Community account)
   owner: PublicKey, 		// the final owner of the credential
-  tokenId: Field, 			// the token linked to this credential
+  tokenRef: Field, 			// the token linked to this credential
   value: UInt64, 			// the token amount assigned to it
   issuedUTC: UInt64,      // issued date (UTC timestamp)
   expiresUTC: UInt64,     // expiration date (UTC timestamp), or zero if no expiration
@@ -51,6 +52,7 @@ class CredentialAction extends Struct({
   // and it is never changed again by any other action
   planUid: Field, // the credential master plan (is the 'type' of the credential)
   communityUid: Field,
+  claim: PublicKey,
   issuer: PublicKey, 		// who issued this Credential (usually a Community account)
   issuedUTC: UInt64,      // issued date (UTC timestamp)
   expiresUTC: UInt64,     // expiration date (UTC timestamp), or zero if no expiration
@@ -61,7 +63,8 @@ class CredentialAction extends Struct({
       type: UInt64.from(CredentialActionType.INITIAL),
       actionUTC: UInt64.from(0),
       planUid: Field(0),
-      communityUid: Field(0),     
+      communityUid: Field(0), 
+      claim: PublicKey.empty(),    
       issuer: PublicKey.empty(),
       issuedUTC: UInt64.from(0),  
       expiresUTC: UInt64.from(0), 
@@ -154,6 +157,7 @@ class CredentialContract extends SmartContract {
     claimUid: Field,
     planUid: Field,
     communityUid: Field,
+    claim: PublicKey,
     owner: PublicKey,
     issuer: PublicKey,
     tokenRef: Field,
@@ -180,6 +184,7 @@ class CredentialContract extends SmartContract {
       actionUTC: timestamp,
       planUid: planUid, 
       communityUid: communityUid,
+      claim: claim,
       issuer: issuer,
       issuedUTC: timestamp,
       expiresUTC: expires, 
@@ -228,12 +233,13 @@ class CredentialContract extends SmartContract {
     return {
       owner: this.owner.get(),
       claimUid: this.claimUid.get(),
-      tokenId: this.tokenRef.get(),
+      tokenRef: this.tokenRef.get(),
       value: this.value.get(),
       // this state props comes from the last action
       status: UInt64.from(last.type),
       planUid: last.planUid,
       communityUid: last.communityUid,
+      claim: last.claim,
       issuer: last.issuer,
       issuedUTC: last.issuedUTC,  
       expiresUTC: last.expiresUTC, 
@@ -242,43 +248,3 @@ class CredentialContract extends SmartContract {
     }
   }
 }
-
-/*
-  // ver https://github.com/zkcloudworker/rollup-contract/blob/main/src/contract/domain-contract.ts
-  export class BlockParams extends Struct({
-    txsCount: UInt32,
-    timeCreated: UInt64,
-    isValidated: Bool,
-    isFinal: Bool,
-    isProved: Bool,
-    isInvalid: Bool,
-  }) {
-    pack(): Field {
-      const txsCount = this.txsCount.value.toBits(32);
-      const timeCreated = this.timeCreated.value.toBits(64);
-      return Field.fromBits([
-        ...txsCount,
-        ...timeCreated,
-        this.isValidated,
-        this.isFinal,
-        this.isProved,
-        this.isInvalid,
-      ]);
-    }
-    static unpack(packed: Field) {
-      const bits = packed.toBits(32 + 64 + 4);
-      const txsCount = UInt32.from(0);
-      const timeCreated = UInt64.from(0);
-      txsCount.value = Field.fromBits(bits.slice(0, 32));
-      timeCreated.value = Field.fromBits(bits.slice(32, 96));
-      return new BlockParams({
-        txsCount,
-        timeCreated,
-        isValidated: bits[96],
-        isFinal: bits[97],
-        isProved: bits[98],
-        isInvalid: bits[99],
-      });
-    }
-  }
-*/    
