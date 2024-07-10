@@ -1,3 +1,4 @@
+# Voting process flow
 
 ### Electors anonymous identity
 
@@ -38,7 +39,8 @@
 
 ### Voting
 
-1. Elector proves that he is the right owner of his identity by verifying his identity "commitment", and signs it with his identity privateKey, thus creating his `proofOfIdentity`. Note: he will be able to use this proof only once, he will need to recreate it everytime it is needed !  `MISSING`
+1. Elector proves that he is the right owner of his identity by verifying his identity "commitment", and signs it with his identity privateKey, thus creating his `proofOfIdentity`. `DONE`  
+   Note: he will be able to use this proof only once, he will need to recreate it everytime it is needed !  `MISSING`
 2. Elector gets the list of all the tasks assigned to him for the given plan (or campaign) by giving the previous proof. `DONE`
 3. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.`DONE` (simulated)
 4. Elector creates a list where each item contains: the identity "commitment", the claimUid, the encrypted (vote, encryptionKey), a nullifier created from hash(identity sk, pin, claimUid).`DONE`
