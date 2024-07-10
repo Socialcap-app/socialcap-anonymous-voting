@@ -1,0 +1,2475 @@
+
+> tmp@0.1.0 test /home/mzito/dev/work/socialcap/anonymous-voting
+> node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles "test/01-init-data.test.ts"
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        guid: 'communities.cmn021abc.members',
+        size: 1,
+        root: '3946219146582101731128804400474968188581395093051533306771588247325322599393',
+        status: "Group 'communities.cmn021abc.members' has been registered."
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        guid: 'communities.cmn021abc.validators',
+        size: 1,
+        root: '3946219146582101731128804400474968188581395093051533306771588247325322599393',
+        status: "Group 'communities.cmn021abc.validators' has been registered."
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        guid: 'communities.cmn021abc.auditors',
+        size: 1,
+        root: '3946219146582101731128804400474968188581395093051533306771588247325322599393',
+        status: "Group 'communities.cmn021abc.auditors' has been registered."
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn0.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnqzS1Tj5VzfeSZZ6uDUYH9Y4K8ejMkKCz6Tw3eTYReWhxfiJJ6v'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn0.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn1.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkJaqfRbFAGikmH1uj2D7XQ3Le7YSQE5j1craY2TpehYXhdcV8v2'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn1.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn2.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qifnuEjrigUidhvxQ4r9jcHiHsJzrfFUmPqALchA27J9rHqPVW4k'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn2.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn3.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqrvNGRamd2hnskpy6z31tQcy7bv3BgktgeY3fStdLZAgkocaiLC'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn3.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn4.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qk6rgiLE8SZTxFP7sNfnz2zo4mFZpczBMxihDh5iFmRgHRREFhhD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn4.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn5.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qktFP8Di535YSA6MT2rCzhhRCcGEg1hXPTEtBiCfssM8kyXm67PD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn5.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn6.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qq5LcWHHPAh7tDBcktx5WDPumvpivDxZxzYPbV4fW4ZkrcMyNVuF'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn6.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn7.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqZFw6AjQxoH5ekJ8tYHqdyjzjhtTy6MdEoW7nAz6tNWpf9xVb3x'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn7.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn8.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn8.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn9.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qoQLfL387acbbedxHZS29kdiZX1JYwtfbVZp4Ffa7r437Dj2CNxS'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn9.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn10.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjn3FAYTdbanFNhQXkmRgV8jBD69yPczVNGNYrAb1TTqPkkgkB25'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn10.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn11.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnxCVDVnQTFuKBk45RuwfqDExbQMaH3Wqgat3MTSdPRS7ktmMMff'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn11.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn12.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpEgb67oK9y3YFXFufpt8PRdA6yvftJ1WWTQj2Zre4dcA7uuvKKf'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn12.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn13.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnZ8LbgRJmdecwbxXXfYh57MsPXX4tgZHu1R96qxs1bwcyoC6yfx'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn13.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn14.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqAxJWGyiqqJqPDqSZkH6ToZd82jXqQ4t2LynG8msWUFyjhdixsS'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn14.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn15.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qoKLK2Ye4uT7Ga68YhFcy4GGDPX4wUXJBbnrt3wm1xLQfNAZV1i2'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn15.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn16.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qngf1MKYTvyLeD339sjpMeVUiZocW9A9e9TeUgijqUCNEpMbxwpo'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn16.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn17.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qn442xjXT6MvxoWSMDNggCMXjh2F6fmnxgfrQMdDQ1f5gRdvsgpg'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn17.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn18.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjTaLgESSi7EM1Cr22Q2WHoYutBK23wfrJd3oVtbcfnkxyQDj3zo'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn18.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn19.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmYTajMY3HLuQBxSt4JUrHUjhs7P2JzTjQBCa1mSeRJf2LVqdcZe'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn19.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn20.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkRPCyKQoKKkUG1d22TWGExCWJcjkdPkMeV6PSGY2FZA1gr2gKCt'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn20.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn21.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkMULh1KLcZsQnWZzdnH5AYjXkVuuEYmRh8Foyzuk5YMfGBdo8G9'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn21.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn22.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qotX1XUHujE2mu6QkGqHpYFnh5uGw3bUHa6s1yvhNgjymkoVNK2k'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn22.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn23.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qm2agDsg6r9LvYSCJGYTYHohj8WRwcHyxvSkKAzbnFds38eDBKgK'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn23.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn24.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjQTDp6dtKCKsHo1SzFmjhEtnWbjFN2AaCvSF8PcY5r1WuBFMxv2'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn24.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn25.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn25.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn26.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qrQEt7WANY5Vs9nwySyroynjHiWNFq2sis8cGEpQTgkC1eMFvpDH'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn26.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn27.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qiVP93T1HSWdLHDJM24G6qL3KJXysi32Ptj2JV11vYGfZCLUioe7'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn27.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn28.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpmHS1JzRpfftV3qTzk4A2LaxPjFav3nZgKhazsFfiim73pTVmzT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn28.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn29.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpcomzescCjhfYDvjefKv6Brqxs1HzXTSuYvyKFY426cauraw19Z'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn29.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn30.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qo4vEKu9mdRqAhEvdp15aDf4f61Q9bqfvKUfwyAVoALd2K4v7gAX'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn30.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn31.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkyqZm9Td9cZvuv7tLRxxxY1AadwD3PDD2hZRTdzM5pLuWnuVFYT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn31.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn32.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmP2kPAycmZWTT1JuiUYiv8zeSiXAmDWHc6FYiJcYA5QmgonjLu1'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn32.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn33.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjUUuAku9JcWbZDzxtPJwZNAXp2oxM83653GP6NEcGo4nxJ98tEa'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn33.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn34.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qk38j1cnY4ftTaMim1koyxWtxAyYJy4v2KLy1XRxcDfBDcJiyMwz'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn34.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn35.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjYm5cXSxeuuxy6CR7HAK3df2duT7RFsnZcy1vt7qXrMzW4XXsD8'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn35.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn36.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qn5dqYbvzcBRazdFguNLSDDfQvJ16FLVdp6q3z8ESNbYKTARgccT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn36.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn37.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qoUEen315YvRJ9YxEud6kashW8KA8HyN1BhBEtR8QPA7iubn92tP'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn37.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn38.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmy5BzbDLg2wpdacCPoJNdLe3Zig1i9tKcvTw9xao7ZB8LjER8ru'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn38.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn39.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjEik1c464dhLDrj6a2TnqQk7VjXA2v4vmTktLuxgzZoyAvNoVNj'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn39.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn40.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjV2AqJGNP33sE4Qz5yo5sGJeJJ1Xyy4vQsZUDxmcPF72VX6mx79'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn40.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn41.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqw8FADVtku7jZXFqGkEAg7xY5PvUhPcHUe1Jt7ssXys8JZTP1Kf'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn41.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn42.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpdEBXMvGyWR8rHSjiEM5jVWnqqGeyhFYtm47cDYqV2iFaHRkYrD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn42.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn43.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkF44ymhjb61psS5CyCUEFtRmaTsGCBj7HNZHhE3UPZgNGioR9DX'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn43.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn44.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnBiFKj1SeJXypGnvbsDu3NWAeYGwyxjg3XHN9bEsEp64CYnZ6CS'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn44.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn45.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qrHNJ1zBo5yJVVwsRb6TtTWTYPWuAwSuK4gk7PVHLht8s842s32o'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn45.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn46.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmKaKSvgB6TZfYR8yDWyipGMBcyeNyYkzwGb1suQHZsTeTYEhZER'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn46.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn47.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qrm3zoBgAcks1SmPFpMXYLRkQy6qVhAiav3tGcEuESFNQHbehq74'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn47.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn48.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpAPNNEH4bBxWsznFDwuGodS6vy8KShjK58CqxWqVXh6Xv9uJvR3'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn48.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn49.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qq5r7DsgimaB2R4YtkEJmvk2PDfk8c6eb6v3W2XUBQUD8yDBqBbT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn49.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn50.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnPav66s3JeNoHLaJbvr62KThhh9KWdd67KrTpxTMmfnncqnGgoT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn50.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn51.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qoysqAokzPcDhKe7XQy6WtFLPqmRYArjUpbbuDS4fgfFuS7Vmn6d'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn51.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn52.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnU3g4jJc5pdCZnwqhLax5r3MVi58HLJB3kdHeR6YHCGaUhYKo15'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn52.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn53.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qphDEUSLgtqKkpawt4RYbHc4eWE1neuZ4dFq4Gxe7V2yCenQeF8n'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn53.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn54.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjJr7qwKMqfVRacHu6rVSF3DUpq9eyxtvRDdVUKbus6oCrmgKrUF'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn54.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn55.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqDRQj6MHm53uBFEHBhH5YdWU9MkSCxF6J7sX9VV6Ks8vkzYSAbp'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn55.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn56.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qrH9Ei1Xu6a2339dCG2DoavaaRM9uhpfwaNPFP1R9E1ftcPRmxzq'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn56.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn57.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qoynQKvBDQDheDJySTtbs6dii8tJuMohhnTUgD6Z23gi12sLwi8N'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn57.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn58.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpzaKrMXatxDAhhe6kjoKVsmw4whUhXRMHRoMbpcg2gmXjj4xHhd'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn58.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn59.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqToHfhwmz4xhSc31nQsebdiRQ6xjDfhDSAY2mhrZdbadUpxuWcD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.log
+    File has been saved to /home/mzito/.private/idn59.identity.json
+
+      at savePrivateFile (src/semaphore/private.ts:24:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qktFP8Di535YSA6MT2rCzhhRCcGEg1hXPTEtBiCfssM8kyXm67PD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qphDEUSLgtqKkpawt4RYbHc4eWE1neuZ4dFq4Gxe7V2yCenQeF8n'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqDRQj6MHm53uBFEHBhH5YdWU9MkSCxF6J7sX9VV6Ks8vkzYSAbp'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qotX1XUHujE2mu6QkGqHpYFnh5uGw3bUHa6s1yvhNgjymkoVNK2k'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqAxJWGyiqqJqPDqSZkH6ToZd82jXqQ4t2LynG8msWUFyjhdixsS'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpdEBXMvGyWR8rHSjiEM5jVWnqqGeyhFYtm47cDYqV2iFaHRkYrD'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmP2kPAycmZWTT1JuiUYiv8zeSiXAmDWHc6FYiJcYA5QmgonjLu1'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpcomzescCjhfYDvjefKv6Brqxs1HzXTSuYvyKFY426cauraw19Z'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qq5LcWHHPAh7tDBcktx5WDPumvpivDxZxzYPbV4fW4ZkrcMyNVuF'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjn3FAYTdbanFNhQXkmRgV8jBD69yPczVNGNYrAb1TTqPkkgkB25'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmYTajMY3HLuQBxSt4JUrHUjhs7P2JzTjQBCa1mSeRJf2LVqdcZe'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: false,
+      data: null,
+      error: 'Identity commitment: 16364942073592941746310384369598289387051744029503367258411813296622545809623 already exists in Group: communities.cmn021abc.validators'
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 16364942073592941746310384369598289387051744029503367258411813296622545809623 already exists in Group: communities.cmn021abc.validators
+        at postRequest (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/requests.ts:50:13)
+        at processTicksAndRejections (node:internal/process/task_queues:95:5)
+        at registerIdentity (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/identity.ts:94:13)
+        at Object.<anonymous> (/home/mzito/dev/work/socialcap/anonymous-voting/test/01-init-data.test.ts:54:17)
+
+      at postRequest (src/semaphore/requests.ts:55:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjJr7qwKMqfVRacHu6rVSF3DUpq9eyxtvRDdVUKbus6oCrmgKrUF'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjYm5cXSxeuuxy6CR7HAK3df2duT7RFsnZcy1vt7qXrMzW4XXsD8'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: false,
+      data: null,
+      error: 'Identity commitment: 9214213137163460508082751818552641007266442904247877318718815364720208280241 already exists in Group: communities.cmn021abc.validators'
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 9214213137163460508082751818552641007266442904247877318718815364720208280241 already exists in Group: communities.cmn021abc.validators
+        at postRequest (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/requests.ts:50:13)
+        at processTicksAndRejections (node:internal/process/task_queues:95:5)
+        at registerIdentity (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/identity.ts:94:13)
+        at Object.<anonymous> (/home/mzito/dev/work/socialcap/anonymous-voting/test/01-init-data.test.ts:54:17)
+
+      at postRequest (src/semaphore/requests.ts:55:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qn5dqYbvzcBRazdFguNLSDDfQvJ16FLVdp6q3z8ESNbYKTARgccT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qmy5BzbDLg2wpdacCPoJNdLe3Zig1i9tKcvTw9xao7ZB8LjER8ru'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qnBiFKj1SeJXypGnvbsDu3NWAeYGwyxjg3XHN9bEsEp64CYnZ6CS'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qkRPCyKQoKKkUG1d22TWGExCWJcjkdPkMeV6PSGY2FZA1gr2gKCt'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qpmHS1JzRpfftV3qTzk4A2LaxPjFav3nZgKhazsFfiim73pTVmzT'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qjV2AqJGNP33sE4Qz5yo5sGJeJJ1Xyy4vQsZUDxmcPF72VX6mx79'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+

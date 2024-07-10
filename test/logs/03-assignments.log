@@ -1,0 +1,5 @@
+
+> tmp@0.1.0 test /home/mzito/dev/work/socialcap/anonymous-voting
+> node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles "test/03-assignments.test.ts"
+
+[14:44:14.426] [32mINFO[39m (2181957): [36mOpen KVStore path='./kvstorage'[39m
