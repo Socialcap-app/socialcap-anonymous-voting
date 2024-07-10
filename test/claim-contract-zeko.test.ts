@@ -1,17 +1,11 @@
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
-import Client from 'mina-signer';
-import { 
-  ClaimRollup, ClaimRollupProof, ClaimAccountContract,
-  ClaimAction, ClaimActionType, ClaimResult,
-  pack2bigint, waitForTransaction
-} from "../src/contracts/index.js";
+import { ClaimVotingContract, ClaimResult, ClaimAction, pack2bigint } from '../src/contracts/index.js';
+import { ClaimRollup, ClaimRollupProof } from "../src/voting/rollup.js";
+import logger from '../src/services/logger.js';
 
 const MINA = 1e9;
 const TXNFEE = 300_000_000;
-const MIN_PAYMENT = 5*MINA;
-
-let proofsEnabled = true;
 
 describe('ClaimAccount creation and txns', () => {
   // let client: Client | undefined;
@@ -24,7 +18,7 @@ describe('ClaimAccount creation and txns', () => {
 
   let zkAppAddress: PublicKey, 
     zkAppPrivateKey: PrivateKey, 
-    zkApp: ClaimAccountContract;
+    zkApp: ClaimVotingContract;
 
   // claim data
   let claimUid = '1234';
@@ -35,44 +29,42 @@ describe('ClaimAccount creation and txns', () => {
     graphqlEndpoint = 'https://devnet.zeko.io/graphql';
     const Network = Mina.Network(graphqlEndpoint);
     Mina.setActiveInstance(Network);
-    console.log('Zeko network instance configured.');
-    //client = new Client({ network: Network.getNetworkId() }); 
-  
+    logger.info(`Zeko network instance configured.`);
+
     await ClaimRollup.compile();
-    await ClaimAccountContract.compile();
+    await ClaimVotingContract.compile();
   
     zkAppPrivateKey = PrivateKey.random();
     zkAppAddress = zkAppPrivateKey.toPublicKey();
-    zkApp = new ClaimAccountContract(zkAppAddress);
+    zkApp = new ClaimVotingContract(zkAppAddress);
     
-    console.log('zkApp :', zkAppAddress.toBase58(), zkAppPrivateKey.toBase58());
-    console.log("Done compile: ", (new Date()).toISOString());
+    logger.info(`zkApp : ${zkAppAddress.toBase58()}, ${zkAppPrivateKey.toBase58()}`);
+    logger.info(`Done compile: ${(new Date()).toISOString()}`);
   });
 
-  it('Generates and deploys the smart contract', async () => {
+  it('Deploys the smart contract', async () => {
     const txn = await Mina.transaction(
       { sender: deployer.pk, fee: TXNFEE }, 
       async () => {
         AccountUpdate.fundNewAccount(deployer.pk);
         await zkApp.deploy();
         zkApp.claimUid.set(Field(claimUid));
+        zkApp.requiredVotes.set(Field(4));
+        zkApp.requiredPositives.set(Field(3));
         zkApp.votes.set(Field(pack2bigint(0,0,0)));
-        zkApp.required.set(Field(pack2bigint(4,3,0))); // minVotes, minPositives  
-        zkApp.account.zkappUri.set(zkappUri);
       }
     );
     await txn.prove();
 
-    // this tx needs .sign(), because `deploy()` adds an account update that 
-    // requires signature authorization
     let pendingTxn = await txn.sign([deployer.sk, zkAppPrivateKey]).send();
-    console.log("pendingTxn hash:", pendingTxn.hash)
+    logger.info(`pendingTxn hash: ${pendingTxn.hash}`)
 
-    await waitForTransaction(graphqlEndpoint, pendingTxn.hash);
-    console.log("Done deploy: ", (new Date()).toISOString());
+    // await pendingTxn.wait();
+    logger.info(`Done deploy: ${(new Date()).toISOString()}`);
   });
 
-  it('Closes voting using deployed contract', async () => {
+  it('Rollup votes and creates claim', async () => {
+    logger.info(`ClaimRollup init`);
     let proof = await ClaimRollup.init({
       claimUid: Field(claimUid),
       positives: Field(0),
@@ -81,47 +73,37 @@ describe('ClaimAccount creation and txns', () => {
       total: Field(0),
       requiredPositives: Field(3),
       requiredVotes: Field(4),
-      result: Field(ClaimResult.IGNORED)
+      result: Field(ClaimResult.VOTING) // contract will change this
     })
-    let serializedProof = JSON.stringify(proof.toJSON());
+    logger.info(`proof.publicOutput: ${JSON.stringify(proof.publicOutput,null,2)}`);
 
-    let deserializedProof = await ClaimRollupProof.fromJSON(
-      JSON.parse(serializedProof)
-    );
-    
-    let firstAction = ClaimAction.init();
-    firstAction.owner = PrivateKey.random().toPublicKey();
-    firstAction.issuer = PrivateKey.random().toPublicKey();
-    firstAction.type = UInt64.from(ClaimActionType.ISSUED);
-    // let secondAction = ClaimAction.init();
+    // let serializedProof = JSON.stringify(proof.toJSON());
+    // let deserializedProof = await ClaimRollupProof.fromJSON(JSON.parse(serializedProof));
+
+    let packedVotesAction = ClaimAction.init();
 
     const txn = await Mina.transaction(
       { sender: deployer.pk, fee: TXNFEE }, 
       async () => {
         zkApp.account.zkappUri.set(zkappUri);
         await zkApp.closeVoting(
-          Field(claimUid), 
-          deserializedProof,
-          {
-            claimUid: Field(claimUid),
-            positives: Field(3),
-            negatives: Field(1),
-            ignored: Field(1),
-            total: Field(5),
-            requiredPositives: Field(3),
-            requiredVotes: Field(4),
-            result: Field(ClaimResult.APPROVED)
-          }, 
-          firstAction
+          proof,
+          packedVotesAction
         );
       }
     );
     await txn.prove();
 
-    let pendingTxn = await txn.sign([deployer.sk, zkAppPrivateKey]).send();
-    console.log("pendingTxn hash:", pendingTxn.hash)
+    let pendingTxn = await txn.sign([deployer.sk]).send();
+    logger.info(`pendingTxn hash: ${pendingTxn.hash}`)
+    console.log(pendingTxn.hash);
 
-    await waitForTransaction(graphqlEndpoint, pendingTxn.hash);
-    console.log("Done @method closeVoting: ", (new Date()).toISOString());
+    //await pendingTxn.wait();
+    logger.info(`Done closeVoting: ${(new Date()).toISOString()}`);
   });
+
+  it('Get all last actions', async () => {
+    // Zeko does not provide an archive node
+    logger.info(`Zeko does not provide an archive node`);
+  });  
 });

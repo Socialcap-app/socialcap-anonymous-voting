@@ -18,7 +18,7 @@
     "buildw": "tsc --watch",
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "format": "prettier --write --ignore-unknown **/*",
-    "test": "node --experimental-vm-modules --enable-source-maps node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test": "node --experimental-vm-modules --enable-source-maps node_modules/jest/bin/jest.js",
     "testw": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "lint": "npx eslint src/* --fix"
   },
@@ -43,6 +43,7 @@
     "node": ">=18.14.0"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "lmdb": "^3.0.12",
     "nats": "^2.27.0",

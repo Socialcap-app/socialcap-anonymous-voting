@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import Client from 'mina-signer';
-import { ClaimVotingContract, ClaimResult, ClaimAction } from '../src/contracts/index.js';
+import { ClaimVotingContract, ClaimResult, ClaimAction, pack2bigint } from '../src/contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from "../src/voting/rollup.js";
 
 const MINA = 1e9;
@@ -45,14 +45,17 @@ describe('Add', () => {
       zkApp.claimUid.set(Field(claimUid));
       zkApp.requiredVotes.set(Field(4));
       zkApp.requiredPositives.set(Field(3));
+      zkApp.votes.set(Field(pack2bigint(0,0,0)));
     });
     await txn.prove();
     await txn.sign([deployer.key, zkAppPrivateKey]).send();
   }
 
-  it('Deploys contract, rollup votes and creates claim', async () => {
+  it('Deploys contract', async () => {
     await localDeploy();
+  });
 
+  it('Rollup votes and creates claim', async () => {
     let proof = await ClaimRollup.init({
       claimUid: Field(claimUid),
       positives: Field(0),
@@ -68,20 +71,27 @@ describe('Add', () => {
     let serializedProof = JSON.stringify(proof.toJSON());
     let deserializedProof = await ClaimRollupProof.fromJSON(JSON.parse(serializedProof));
 
-    let votesAction = ClaimAction.init();
+    let packedVotesAction = ClaimAction.init();
 
     const txn = await Mina.transaction(deployer, async () => {
       zkApp.account.zkappUri.set(zkappUri);
       await zkApp.closeVoting(
-        Field(claimUid), 
         deserializedProof,
-        votesAction
+        packedVotesAction
       );
     });
     await txn.prove();
-    await txn.sign([deployer.key, zkAppPrivateKey]).send();
+    await txn.sign([deployer.key]).send();
 
     console.log("Result: ", zkApp.result.get().toString());
     expect(zkApp.result.get().toString()).toBe(ClaimResult.IGNORED.toString())
   });
+
+  it('Get all last actions', async () => {
+    let initialActionState = zkApp.initialActionState.get();
+    let response = await Mina.fetchActions(zkAppAddress, {
+      fromActionState: initialActionState
+    });
+    console.log("fetchActions response: ", JSON.stringify(response, null, 2));
+  });  
 });
