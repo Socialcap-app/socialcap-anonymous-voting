@@ -1,169 +1,141 @@
 /**
- * Recursive Tally.
- * It collects and process (counts) all received signals for a given claim.
+ * Recursive Aggregator.
+ * It counts all received signals for a given claim.
  */
-import { Field, Signature, Poseidon, PublicKey } from "o1js";
-import { ZkProgram, SelfProof, Provable, Struct } from "o1js";
-import { SmallMerkleMap, MediumMerkleMap } from "../services/merkles.js";
+import { Field, Signature, PublicKey, Struct } from "o1js";
+import { getOrCreate, getSortedKeys, saveMerkle} from "../services/merkles.js";
 import { ClaimResult } from "../contracts/claim.js";
+import { ClaimState, ClaimRollup, ClaimRollupProof } from "../contracts/aggregator.js";
+import { Experimental, SelfProof } from 'o1js';
+
+const { IndexedMerkleMap } = Experimental;
+
+class SmallMerkleMap extends IndexedMerkleMap(12) {} // max 4096 nodes
+
 
 export {
-  ClaimRollup,
-  ClaimRollupProof,
+  CollectedVote,
+  rollupClaim
 }
 
-export class ClaimState extends Struct({
-  claimUid: Field,
-  positives: Field,
-  negatives: Field,
-  ignored: Field,
-  total: Field,
-  result: Field,
-  requiredVotes: Field,
-  requiredPositives: Field  
+let VerificationKey: any | null = null;
+
+class CollectedVote extends Struct({
+  elector: Field, // the identity commitment
+  electorPk: PublicKey, // the elector's pk (related to its identity)
+  // the Semaphore signal needed to prove origin of vote
+  signal: Field, // the vote signal as included in the batch
+  nullifier: Field, // the vote nullifier as included in the batch
+  signature: Signature, // the vote signature as included in the batch
+  value: Field // the vote value itself
 }) {}
 
-const ClaimRollup = ZkProgram({
-  name: "claim-voting-rollup",
-  publicInput: ClaimState,
-  publicOutput: ClaimState,
+async function isCompiled(vk: any | null): Promise<any | null> {
+  if (!vk) {
+    // TODO: use cache !
+    try {
+      let t0 = Date.now()
+      const compiled = await ClaimRollup.compile();
+      vk = compiled.verificationKey;
+      let dt = (Date.now() - t0)/1000;
+      console.log(`Compiled time=${dt}secs`);
+      return vk;
+    }
+    catch (err) {
+      throw Error("Unable to compile ClaimRollup contract");
+    }
+  }
+  return vk;
+}
 
-  methods: {
-    /**
-     * Setup the claim initial values and requirements
-     */
-    init: {
-      privateInputs: [],
-      async method(
-        state: ClaimState, // public input
-      ) {
-        state.positives.assertEquals(Field(0));
-        state.negatives.assertEquals(Field(0));
-        state.ignored.assertEquals(Field(0));
-        state.total.assertEquals(Field(0));
-        state.result.assertEquals(Field(ClaimResult.VOTING));
-        state.requiredPositives.assertGreaterThan(Field(0));
-        state.requiredVotes.assertGreaterThan(Field(0));
-        state.requiredPositives.assertLessThanOrEqual(state.requiredVotes);
-        state.claimUid.assertGreaterThan(Field(0))
-        return state;
-      },
-    },
+async function rollupClaim(
+  communityUid: string,
+  claimUid: string,
+  requiredPositives: number,
+  requiredVotes: number,
+  votes: CollectedVote[]
+): Promise<ClaimRollupProof> {
 
-    /**
-     * Verify received signal and recursively count votes
-     */
-    rollup: {
-      privateInputs: [
-        SelfProof, 
-        MediumMerkleMap.provable,
-        SmallMerkleMap.provable,
-        SmallMerkleMap.provable,
-        Field,
-        PublicKey,
-        Field,
-        Field,
-        Signature,
-        Field
-      ],
-      async method(
-        state: ClaimState,
-        previousProof: SelfProof<ClaimState, ClaimState>,
-        electorsGroup: MediumMerkleMap, 
-        claimElectors: SmallMerkleMap,
-        claimNullifiers: SmallMerkleMap,
-        // the elector's data
-        elector: Field, // the identity commitment
-        electorPk: PublicKey, // the elector's pk (related to its identity)
-        // the Semaphore signal needed to prove origin of vote
-        signal: Field, // the vote signal as included in the batch
-        nullifier: Field, // the vote nullifier as included in the batch
-        signature: Signature, // the vote signature as included in the batch
-        vote: Field // the vote value itself
-      ) {
-        // verify the proof received from previous state change
-        previousProof.verify();
+  await isCompiled(VerificationKey);
 
-        // assert the elector is a registered community elector
-        electorsGroup.getOption(elector).isSome.assertTrue("Elector not registered in this community");
+  const validatorsGroup = getOrCreate(`communities.${communityUid}.validators`);
+  const auditorsGroup = getOrCreate(`communities.${communityUid}.auditors`);
 
-        //  assert the elector has been assigned to this claim
-        claimElectors.getOption(elector).isSome.assertTrue("Elector not assigned to claim");
+  // we will also need some Merkles belonging to this claim
+  let sclaimElectors = getOrCreate(`claims.${claimUid}.electors`,'no_cache');
+  let sclaimNullifiers = getOrCreate(`claims.${claimUid}.nullifiers`,'no_cache');
 
-        //  assert the elector has not voted before on this claim
-        claimNullifiers.getOption(elector).isSome.assertFalse("Vote already counted");
+  // rebuild Merkles here otherwise they fail in provable code
+  // probably the problem is the serialization/deserialization
+  let claimElectors = new SmallMerkleMap(); {
+    let keys = getSortedKeys(sclaimElectors);
+    for (let j=0; j < keys.length; j++) claimElectors.insert(
+      Field(keys[j]), Field(1)
+    );
+  }
 
-        //  assert he vote signal contains the correct values
-        let computedSignal = Poseidon.hash([state.claimUid, elector, vote])
-        computedSignal.assertEquals(signal, "Invalid signal received");
+  let claimNullifiers = new SmallMerkleMap(); {
+    // let keys = getSortedKeys(sclaimNullifiers);
+    // for (let j=0; j < keys.length; j++) claimNullifiers.insert(
+    //   Field(keys[j]), Field(1)
+    // );
+  }
 
-        // verify the vote signal signature is ok 
-        signature.verify(electorPk, [signal, nullifier]);  
+  // initialize the recursive tally
+  let state: ClaimState = {
+    claimUid: Field(claimUid),
+    requiredPositives: Field(requiredPositives),
+    requiredVotes: Field(requiredVotes),
+    positives: Field(0),
+    negatives: Field(0),
+    ignored: Field(0),
+    total: Field(0),
+    result: Field(ClaimResult.VOTING)
+  };
 
-        // all asserts ok, so we must mark this nullifier as used
-        claimNullifiers.insert(nullifier, Field(1));
+  let previousProof = await ClaimRollup.init(state);
+  let rolledProof = previousProof;
 
-        // now we count votes
-        let positives = Provable.if(vote.equals(Field(1)), 
-          state.positives.add(1), 
-          state.positives
-        );
-        let negatives = Provable.if(vote.equals(Field(-1)), 
-          state.negatives.add(1), 
-          state.negatives
-        );
-        let ignored = Provable.if(vote.equals(Field(0)), 
-          state.ignored.add(1), 
-          state.ignored
-        );
-        let total = Field(0).add(positives).add(negatives).add(ignored);
+  for (let j=0; j < votes.length; j++) {
+    // we are ready to roll !
+    let state = previousProof.publicOutput;
 
-        // we return the new changed state
-        return {
-          claimUid: state.claimUid,
-          requiredVotes: state.requiredVotes,
-          requiredPositives: state.requiredPositives,  
-          positives: positives,
-          negatives: negatives,
-          ignored: ignored,
-          total: total,
-          result: state.result,
-        };
-      },
-    },
+    let vote = votes[j];
 
-    /**
-     * Evaluate final result. Note that we can not do it until we are sure
-     * that we have received and counted all votes, that is why this final
-     * step is necessary.
-     */
-    final: {
-      privateInputs: [
-        SelfProof 
-      ],
-      async method(
-        state: ClaimState,
-        previousProof: SelfProof<ClaimState, ClaimState>,
-      ) {
-        // verify the proof received from previous state change
-        previousProof.verify();
+    console.log("Nullifier ", vote.nullifier.toString());
 
-        // we evaluate the final result and state
-        let newState = state;
-        let requiredQuorum = state.total.greaterThanOrEqual(state.requiredVotes);
-        let requiredPositives = state.positives.greaterThanOrEqual(state.requiredPositives);
-        newState.result = Provable.if(requiredQuorum,
-          Provable.if(requiredPositives, 
-            Field(ClaimResult.APPROVED), // quorum reached and enough +1
-            Field(ClaimResult.REJECTED)  // quorum reached but NOT enough +1
-          ), 
-          Field(ClaimResult.IGNORED) // quorum NOT reached, claim was IGNORED
-        );
+    rolledProof = await ClaimRollup.rollup(
+      state,
+      previousProof, 
+      validatorsGroup, 
+      auditorsGroup,
+      claimElectors,
+      claimNullifiers,
+      Field(vote.elector), 
+      vote.electorPk,
+      Field(vote.signal), 
+      Field(vote.nullifier),
+      Signature.fromJSON(vote.signature),
+      Field(vote.value), 
+    );
+    console.log(`Rolled #${j} sum: `
+      +`${rolledProof.publicOutput.positives}`
+      +` ${rolledProof.publicOutput.negatives}`
+      +` ${rolledProof.publicOutput.ignored}`);
 
-        return newState;
-      },
-    },    
-  },  
-});
+    // mark the vote nullifier as used
+    claimNullifiers.insert(Field(vote.nullifier), Field(1));
+    console.log("Nullifiers: ", getSortedKeys(claimNullifiers));
+    //await saveMerkle(`claims.${claimUid}.nullifiers`, claimNullifiers);
 
-class ClaimRollupProof extends ZkProgram.Proof(ClaimRollup) { }
+    // prepare for next roll
+    previousProof = rolledProof;
+
+    console.log('rolledProof: ', 
+      JSON.stringify(rolledProof.publicOutput, null, 2)
+    );
+
+  }
+
+  return rolledProof;
+}

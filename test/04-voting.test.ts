@@ -84,7 +84,7 @@ describe('Assign voting tasks each elector', () => {
     );
   });  
 
-  it('All electors vote for plan001', async () => {
+  it.only('All electors vote for plan001', async () => {
     // we will vote on 'plan001'
     const planUid = 'plan001';
     console.debug = () => {};

@@ -18,6 +18,8 @@ interface PlanStrategy {
   minAuditors: number;
   minValidators: number;
   auditFrequency: number;
+  requiredVotes?: number;
+  requiredPositives?: number;
 }
 
 const getMembers: any = {

@@ -186,7 +186,7 @@ function deserializeMap(serialized: string, type?: string): AnyMerkleMap {
       sortedLeaves: [...sortedLeaves],
     };
   });
-  console.log("root restored:", restoredMap.root.toJSON());
+  // console.log("root restored:", restoredMap.root.toJSON());
   return restoredMap;
 }
 

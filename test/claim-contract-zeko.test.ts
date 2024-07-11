@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import { ClaimVotingContract, ClaimResult, ClaimAction, pack2bigint } from '../src/contracts/index.js';
-import { ClaimRollup, ClaimRollupProof } from "../src/voting/rollup.js";
+import { ClaimRollup, ClaimRollupProof } from "../src/contracts/aggregator.js";
 import logger from '../src/services/logger.js';
 
 const MINA = 1e9;

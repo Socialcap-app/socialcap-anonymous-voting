@@ -1,7 +1,7 @@
 
 import { SmartContract, state, State, method, Reducer } from "o1js";
 import { Field, Struct,  Provable, UInt64 } from "o1js";
-import { ClaimRollupProof } from "../voting/rollup.js";
+import { ClaimRollupProof } from "./aggregator.js";
 
 export enum ClaimResult { 
   VOTING = 0,    // still voting, no final result

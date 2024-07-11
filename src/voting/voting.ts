@@ -73,7 +73,7 @@ function prepareBatch(
       encrypted: encrypted, // encrypted message
       signal: signal.toString(),
       nullifier: nullifier.toString(),
-      signature: signature.toString()
+      signature: signature.toJSON()
     });
 
     // compose the batch hash using claimUids 

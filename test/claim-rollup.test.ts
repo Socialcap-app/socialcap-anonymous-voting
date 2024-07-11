@@ -1,9 +1,7 @@
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import Client from 'mina-signer';
-import { 
-  ClaimRollup, ClaimRollupProof, ClaimAccountContract,
-  ClaimAction, ClaimActionType, ClaimResult 
-} from "../src/contracts/index.js";
+import { ClaimVotingContract } from '../src/contracts/index.js';
+import { ClaimRollup } from "../src/contracts/aggregator.js";
 
 const MINA = 1e9;
 const TXNFEE = 150_000_000;
@@ -17,7 +15,7 @@ describe('Add', () => {
   let payer: Mina.TestPublicKey;
   let zkAppAddress: PublicKey, 
     zkAppPrivateKey: PrivateKey, 
-    zkApp: ClaimAccountContract;
+    zkApp: ClaimVotingContract;
 
   beforeAll(async () => {
     const Local = await Mina.LocalBlockchain({ proofsEnabled });
@@ -27,11 +25,11 @@ describe('Add', () => {
   
     await ClaimRollup.compile();
 
-    await ClaimAccountContract.compile();
+    await ClaimVotingContract.compile();
   
     zkAppPrivateKey = PrivateKey.random();
     zkAppAddress = zkAppPrivateKey.toPublicKey();
-    zkApp = new ClaimAccountContract(zkAppAddress);
+    zkApp = new ClaimVotingContract(zkAppAddress);
   });
 
   async function localDeploy() {
