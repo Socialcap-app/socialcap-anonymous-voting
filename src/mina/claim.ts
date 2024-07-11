@@ -1,21 +1,19 @@
 /**
  * Deploys ClaimVoting account and settles on MINA the voting results.
- */
+*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount } from 'o1js';
 import { ClaimVotingContract, ClaimAction, pack2bigint } from '../contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from '../contracts/aggregator.js';
 import logger from '../services/logger.js';
 import { waitForAccount } from '../mina/wait-account.js';
-import { setChain } from './chains.js';
+import { setChain, TXNFEE, getPayers } from './chains.js';
 
 export {
   deployClaimVoting,
   settleClaimVoting
 }
-
-const MINA = 1e9;
-const TXNFEE = 300_000_000;
 
 let ClaimRollupVK: any | null = null;
 let ClaimVotingVK: any | null = null;
@@ -32,14 +30,6 @@ async function isCompiled() {
   }
 }
 
-function getPayers() {
-  let deployer = {
-    pk: PublicKey.fromBase58(process.env.DEVNET_DEPLOYER_PK+''),
-    sk: PrivateKey.fromBase58(process.env.DEVNET_DEPLOYER_SK+''),
-  }
-  return [ deployer ];
-}
-
 async function deployClaimVoting(
   claimUid: string,
   requiredPositives: number,
@@ -48,12 +38,13 @@ async function deployClaimVoting(
 ): Promise<string> {
   await setChain(chainId || 'devnet');
 
+  await isCompiled();
+  let [ deployer ] = getPayers();
+
   let zkappSk = PrivateKey.random();
   let zkappPk = zkappSk.toPublicKey();
   let zkapp = new ClaimVotingContract(zkappPk);
   logger.debug(`New ClaimVoting address: ${zkappPk.toBase58()}`)
-    
-  let [ deployer ] = getPayers();
 
   const txn = await Mina.transaction(
     { sender: deployer.pk, fee: TXNFEE }, 

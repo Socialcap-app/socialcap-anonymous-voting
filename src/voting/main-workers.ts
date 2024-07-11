@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { registerApplicationHandler } from "../services/dispatcher.js";
-import { startListener } from "../services/listener.js"
+import { startListenerFor } from "../services/listener.js"
 import { 
   assignElectorsHandler, 
   retrieveAssignmentsHandler,
@@ -12,5 +12,15 @@ registerApplicationHandler('assignElectors', assignElectorsHandler);
 registerApplicationHandler('retrieveAssignments', retrieveAssignmentsHandler);
 registerApplicationHandler('receiveVotes', receiveVotesHandler);
 
+// registerApplicationHandler('processBatches', processBatchesHandler);
+
+/*
+These are individual workers ... 
+registerApplicationHandler('deployClaim', deployClaimHandler);
+registerApplicationHandler('rollupClaim', rollupClaimHandler);
+registerApplicationHandler('issueCredential', receiveVotesHandler);
+*/
+
+
 // start the NATSClient and we are running !
-startListener();
+startListenerFor("socialcap:workers");

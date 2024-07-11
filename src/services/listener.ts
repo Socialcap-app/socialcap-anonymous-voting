@@ -12,7 +12,7 @@ import logger from "./logger.js";
 import { handleSignal } from './dispatcher.js';
 
 export {
-  startListener
+  startListenerFor
 }
 
 // Create a JSON codec for encoding and decoding messages
@@ -59,7 +59,7 @@ function listen(
   })();
 }
 
-async function startListener() {
+async function startListenerFor(subject: string) {
   try {
     logger.info(`NATS listener connecting to: ${process.env.NATS_SERVER} ...`);
 
@@ -70,7 +70,7 @@ async function startListener() {
     logger.info(`NATS listener connected: ${process.env.NATS_SERVER}`);
 
     // listen to subjects
-    listen(nc, "socialcap:semaphore");
+    listen(nc, subject);
     logger.info(`NATS listener subscribed and listening ...`);
   } catch (error) {
     logger.error('Error connecting to NATS server:', error);

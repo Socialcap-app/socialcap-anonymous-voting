@@ -11,6 +11,7 @@ import { Experimental, SelfProof } from 'o1js';
 const { IndexedMerkleMap } = Experimental;
 
 class SmallMerkleMap extends IndexedMerkleMap(12) {} // max 4096 nodes
+class MediumMerkleMap extends IndexedMerkleMap(16) {}
 
 
 export {
@@ -58,22 +59,37 @@ async function rollupClaim(
 
   await isCompiled(VerificationKey);
 
-  const validatorsGroup = getOrCreate(`communities.${communityUid}.validators`);
-  const auditorsGroup = getOrCreate(`communities.${communityUid}.auditors`);
-
-  // we will also need some Merkles belonging to this claim
-  let sclaimElectors = getOrCreate(`claims.${claimUid}.electors`,'no_cache');
-  let sclaimNullifiers = getOrCreate(`claims.${claimUid}.nullifiers`,'no_cache');
-
-  // rebuild Merkles here otherwise they fail in provable code
+  // we need to rebuild Merkles here otherwise they fail in provable code
   // probably the problem is the serialization/deserialization
-  let claimElectors = new SmallMerkleMap(); {
-    let keys = getSortedKeys(sclaimElectors);
-    for (let j=0; j < keys.length; j++) claimElectors.insert(
+  // TODO: Fix deserialization code !
+
+  const tmp1 = getOrCreate(`communities.${communityUid}.validators`, "no_cache");
+  let validatorsGroup = new MediumMerkleMap(); {
+    let keys = getSortedKeys(tmp1);
+    for (let j=0; j < keys.length; j++) validatorsGroup.insert(
       Field(keys[j]), Field(1)
     );
   }
 
+  const tmp2 = getOrCreate(`communities.${communityUid}.auditors`, "no_cache");
+  let auditorsGroup = new MediumMerkleMap(); {
+    let keys = getSortedKeys(tmp2);
+    for (let j=0; j < keys.length; j++) auditorsGroup.insert(
+      Field(keys[j]), Field(1)
+    );
+  }
+
+  let tmp3 = getOrCreate(`claims.${claimUid}.electors`,'no_cache');
+  let claimElectors = new SmallMerkleMap(); {
+    let keys = getSortedKeys(tmp3);
+    for (let j=0; j < keys.length; j++) claimElectors.insert(
+      Field(keys[j]), Field(1)
+    );
+  }
+  
+  let tmp4 = getOrCreate(`claims.${claimUid}.nullifiers`,'no_cache');
+  // NOTE: while testing we start with an empty Nullifier merkle
+  // TODO: enable for production code
   let claimNullifiers = new SmallMerkleMap(); {
     // let keys = getSortedKeys(sclaimNullifiers);
     // for (let j=0; j < keys.length; j++) claimNullifiers.insert(
@@ -81,8 +97,8 @@ async function rollupClaim(
     // );
   }
 
-  // initialize the recursive tally
-  let state: ClaimState = {
+  // initialize recursive count
+  let initialState: ClaimState = {
     claimUid: Field(claimUid),
     requiredPositives: Field(requiredPositives),
     requiredVotes: Field(requiredVotes),
@@ -93,16 +109,14 @@ async function rollupClaim(
     result: Field(ClaimResult.VOTING)
   };
 
-  let previousProof = await ClaimRollup.init(state);
+  let previousProof = await ClaimRollup.init(initialState);
   let rolledProof = previousProof;
 
   for (let j=0; j < votes.length; j++) {
     // we are ready to roll !
-    let state = previousProof.publicOutput;
-
     let vote = votes[j];
-
-    console.log("Nullifier ", vote.nullifier.toString());
+    
+    let state = previousProof.publicOutput;
 
     rolledProof = await ClaimRollup.rollup(
       state,
@@ -134,7 +148,6 @@ async function rollupClaim(
     console.log('rolledProof: ', 
       JSON.stringify(rolledProof.publicOutput, null, 2)
     );
-
   }
 
   return rolledProof;

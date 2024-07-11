@@ -89,17 +89,18 @@ const ClaimRollup = ZkProgram({
         previousProof.verify();
 
         // assert the elector is a registered community elector
-        //let isValidator = validatorsGroup.getOption(elector).isSome;
-        //let isAuditor = auditorsGroup.getOption(elector).isSome; 
-        //isValidator.or(isAuditor).assertTrue("Elector not registered in this community");
+        let isValidator = validatorsGroup.getOption(elector).isSome;
+        let isAuditor = auditorsGroup.getOption(elector).isSome; 
+        isValidator.or(isAuditor)
+          .assertTrue("Elector not registered in this community");
 
         //  assert the elector has been assigned to this claim
-        claimElectors.getOption(elector).isSome.assertTrue("Elector not assigned to claim");
+        claimElectors.getOption(elector).isSome
+          .assertTrue("Elector not assigned to claim");
 
         //  assert the elector has not voted before on this claim
-        Provable.log("Provable nullifier: ", nullifier);
-        let hasVoted = claimNullifiers.getOption(nullifier).isSome;
-        hasVoted.assertFalse("Vote already counted");
+        claimNullifiers.getOption(nullifier).isSome
+          .assertFalse("Vote already counted");
 
         //  assert he vote signal contains the correct values
         let computedSignal = Poseidon.hash([state.claimUid, elector, vote])

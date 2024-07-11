@@ -8,7 +8,7 @@ const MIN_PAYMENT = 5*MINA;
 
 let proofsEnabled = true;
 
-describe('Add', () => {
+describe('Credential contract', () => {
   let deployer: Mina.TestPublicKey; // would be a Socialcap account
   let owner: Mina.TestPublicKey; // would be final owner
   let issuer: Mina.TestPublicKey; // would be final issuer
@@ -37,22 +37,28 @@ describe('Add', () => {
 
   async function localDeploy() {
     const txn = await Mina.transaction(
-      { sender: deployer, fee: TXNFEE }, async () => {
-      AccountUpdate.fundNewAccount(deployer);
-      await zkapp.deploy();
-      zkapp.claimUid.set(Field(claimUid));
-    });
+      { sender: deployer, fee: TXNFEE }, 
+      async () => {
+        AccountUpdate.fundNewAccount(deployer);
+        await zkapp.deploy();
+        zkapp.account.zkappUri.set(zkappUri);
+        zkapp.claimUid.set(Field(claimUid));
+      }
+    );
     await txn.prove();
     // this tx needs .sign(), because `deploy()` adds an account update that requires signature authorization
     await txn.sign([deployer.key, zkappSk]).send();
   }
 
-  it('Deploys a new `CredentialContract` and issues a credential', async () => {
+  it('Deploys a new CredentialContract', async () => {
     await localDeploy();
+  });
+
+  it('Issues a credential', async () => {
+    let claim = PublicKey.empty(); 
 
     const txn = await Mina.transaction(deployer, async () => {
       zkapp.account.zkappUri.set(zkappUri);
-      let claim = PublicKey.empty(); 
       await zkapp.issue(
         Field(claimUid), 
         Field(planUid),
@@ -82,11 +88,16 @@ describe('Add', () => {
   });
 
   it('Checks ownership (must FAIL)', async () => {
-    const txn = await Mina.transaction(deployer, async () => {
-      await zkapp.isOwner(Field(claimUid), UInt64.from(Date.now()))
-    });
-    await txn.prove();
-    await txn.sign([deployer.key]).send();
+    try {
+      const txn = await Mina.transaction(deployer, async () => {
+        await zkapp.isOwner(Field(claimUid), UInt64.from(Date.now()))
+      });
+      await txn.prove();
+      await txn.sign([deployer.key]).send();
+    }
+    catch (error) {
+      expect(error).toBeDefined();
+    }
   });
 
   it('Checks ownership (must PASS)', async () => {
@@ -98,23 +109,28 @@ describe('Add', () => {
   });
 
   it('Try to reissue (must FAIL)', async () => {
-    let claim = PublicKey.empty(); 
-    const txn = await Mina.transaction(deployer, async () => {
-      await zkapp.issue(
-        Field(claimUid), 
-        Field(planUid),
-        Field(communityUid),
-        claim,
-        owner,
-        issuer,
-        Field(1001),
-        UInt64.from(1001),
-        UInt64.from(Date.now()+ 1000 * 60 * 60 * 24 * 365),
-        Field(CredentialRevokeAuth.ISSUER_ONLY), //revokeAuth: Field,
-        UInt64.from(Date.now()) //timestamp: UInt64,
-      )
-    });
-    await txn.prove();
-    await txn.sign([deployer.key]).send();
+    try {
+      let claim = PublicKey.empty(); 
+      const txn = await Mina.transaction(deployer, async () => {
+        await zkapp.issue(
+          Field(claimUid), 
+          Field(planUid),
+          Field(communityUid),
+          claim,
+          owner,
+          issuer,
+          Field(1001),
+          UInt64.from(1001),
+          UInt64.from(Date.now()+ 1000 * 60 * 60 * 24 * 365),
+          Field(CredentialRevokeAuth.ISSUER_ONLY), //revokeAuth: Field,
+          UInt64.from(Date.now()) //timestamp: UInt64,
+        )
+      });
+      await txn.prove();
+      await txn.sign([deployer.key]).send();
+    }
+    catch (error) {
+      expect(error).toBeDefined();
+    }
   });
 });

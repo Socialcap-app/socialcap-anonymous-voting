@@ -2,7 +2,7 @@
  * Count votes and update the ClaimVoting account
  */
 import { Field, PublicKey, initializeBindings } from "o1js";
-import { CipheredText } from "../semaphore/index.js";
+import { CipheredText, postRequest } from "../semaphore/index.js";
 // import { verifyOwnershipProof } from "../services/verifiers.js";
 import { getOrCreate, getSortedKeys } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
@@ -43,7 +43,7 @@ async function processBatches(
     let collectedVotes: CollectedVote[] = [];
   
     logger.info('---');
-    logger.info(`Processing claim: ${claim.uid}`)
+    logger.info(`Processing claim #${k+1}: ${claim.uid}`)
 
     // traverse the batches from this plan
     // we are not be very efficient here, as we traverse the full batches set
@@ -87,16 +87,25 @@ async function processBatches(
       }
     }
     
-    // we can dispatch the rollup 
-    try {
-      let finalProof: ClaimRollupProof = await rollupClaim(
-        communityUid,
-        claim.uid,
-        requiredPositives,
-        requiredVotes,
-        collectedVotes
-      );
+    await postRequest('socialcap:workers.claimRollup', {
+      claimUid: claim.uid,
+      communityUid,
+      requiredPositives,
+      requiredVotes,
+      collectedVotes
+    })
 
+    /*
+    // we can dispatch the rollup 
+    let finalProof: ClaimRollupProof = await rollupClaim(
+      communityUid,
+      claim.uid,
+      requiredPositives,
+      requiredVotes,
+      collectedVotes
+    );
+
+    try {
       KVS.put(`claims.${claim.uid}.proof`, JSON.stringify(
         finalProof.toJSON()
       ));
@@ -108,6 +117,7 @@ async function processBatches(
       logger.error(`rollupClaim claim: ${claim.uid} error: ${errmsg}`)
       claim.error = errmsg 
     }
+    */
 
     // we can now settle this result on MINA
     // we will need claim info for this !

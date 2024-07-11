@@ -1,19 +1,14 @@
 /**
  * Issue claim accounts and credentials 
- */
+*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
+import logger from '../services/logger';
+import { KVS } from '../services/lmdb-kvs';
 import { deployClaimVoting, settleClaimVoting } from '../mina/claim';
-
-import { Field, PublicKey, initializeBindings } from "o1js";
-import { CipheredText } from "../semaphore/index.js";
-// import { verifyOwnershipProof } from "../services/verifiers.js";
-import { getOrCreate, getSortedKeys } from "../services/merkles.js";
-import { KVS } from "../services/lmdb-kvs.js";
-import logger from "../services/logger.js";
-import { VotingClaim } from "./selection.js";
-import { ClaimRollupProof } from "../contracts/aggregator.js";
-import { rollupClaim, CollectedVote } from "../voting/rollup.js";
 import { PlanStrategy } from './strategy';
+import { VotingClaim } from './selection';
+import { ClaimRollupProof } from '../contracts/aggregator';
 
 export {
   issueCredential
@@ -23,22 +18,20 @@ async function issueCredential(
   communityUid: string, 
   planUid: string,
   strategy: PlanStrategy,
-  claims: VotingClaim[]
+  claimUid: string,
+
 ) {
   // traverse all claims
-  for (let k=0; k < (claims || []).length; k++) {
     let claim = claims[k];
     
-    // we can dispatch the settlement
     try {
-      let serializedProof = KVS.get(`claims.${claim.uid}.proof`);
-
       let address = await deployClaimVoting(
         claim.uid,
         strategy.requiredPositives as number, 
         strategy.requiredVotes as number
       );
-
+      
+      let serializedProof = KVS.get(`claims.${claim.uid}.proof`);
       let finalProof = await ClaimRollupProof.fromJSON(
         JSON.parse(serializedProof)
       );
