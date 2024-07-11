@@ -1,6 +1,6 @@
 
 > tmp@0.1.0 test /home/mzito/dev/work/socialcap/anonymous-voting
-> node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles "test/01-init-data.test.ts"
+> node --experimental-vm-modules --enable-source-maps node_modules/jest/bin/jest.js "test/01-init-data.test.ts"
 
   console.debug
     semaphore.postRequest connected to nats.socialcap.dev:4222
@@ -88,7 +88,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnqzS1Tj5VzfeSZZ6uDUYH9Y4K8ejMkKCz6Tw3eTYReWhxfiJJ6v'
+        encryptionPk: 'B62qquoRhT6Ft6M2vfgq9bqa4aLsywBU7zn8BYjRUf9uHzTJMLThTS1'
       },
       error: null
     }
@@ -119,7 +119,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkJaqfRbFAGikmH1uj2D7XQ3Le7YSQE5j1craY2TpehYXhdcV8v2'
+        encryptionPk: 'B62qqZQJut6uohj4BCuA4NEntsUYDhrHYvKfgicRfGyxMZiporya5DS'
       },
       error: null
     }
@@ -150,7 +150,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qifnuEjrigUidhvxQ4r9jcHiHsJzrfFUmPqALchA27J9rHqPVW4k'
+        encryptionPk: 'B62qkWJKqs8quYi7zKExS6NEZRQXH9zHhVPuHFYmoRzaBGG7SCQjw3y'
       },
       error: null
     }
@@ -181,7 +181,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqrvNGRamd2hnskpy6z31tQcy7bv3BgktgeY3fStdLZAgkocaiLC'
+        encryptionPk: 'B62qoruuQwmqHYCMbrFaTvpZjouhnfxdc2E4UKswkchYQzwH5KYr81j'
       },
       error: null
     }
@@ -212,7 +212,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qk6rgiLE8SZTxFP7sNfnz2zo4mFZpczBMxihDh5iFmRgHRREFhhD'
+        encryptionPk: 'B62qk6oK9u3R1wNGMme7cKLtPQnyrpTMNNc94Ldz52MKmPq2MMoWnbG'
       },
       error: null
     }
@@ -243,7 +243,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qktFP8Di535YSA6MT2rCzhhRCcGEg1hXPTEtBiCfssM8kyXm67PD'
+        encryptionPk: 'B62qk8HdDqkj3C4BafkmZD7MMKUk8mQVKwBJKnDFNXreRaqdxiBJXf7'
       },
       error: null
     }
@@ -274,7 +274,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qq5LcWHHPAh7tDBcktx5WDPumvpivDxZxzYPbV4fW4ZkrcMyNVuF'
+        encryptionPk: 'B62qn7JkLeHs6cQgnP2k9K1qG7N6NBX5ynvCKR287vviwVNKhWQ39gb'
       },
       error: null
     }
@@ -305,7 +305,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqZFw6AjQxoH5ekJ8tYHqdyjzjhtTy6MdEoW7nAz6tNWpf9xVb3x'
+        encryptionPk: 'B62qnxMY5eTwFYpVrEnuDmSqoTqgjfcJQUdbTzNCa88wtvBtwMVUGTR'
       },
       error: null
     }
@@ -336,7 +336,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
+        encryptionPk: 'B62qn9HsCRXoEtCPSH4s23hxHbJ2RW9uUCjLsFMLEn4j9mNp1rdCKNq'
       },
       error: null
     }
@@ -367,7 +367,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qoQLfL387acbbedxHZS29kdiZX1JYwtfbVZp4Ffa7r437Dj2CNxS'
+        encryptionPk: 'B62qok98dhQZu3GKEdfobccuBeExHiCzZdDePyLiGapu8F5DTX8c1YW'
       },
       error: null
     }
@@ -398,7 +398,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjn3FAYTdbanFNhQXkmRgV8jBD69yPczVNGNYrAb1TTqPkkgkB25'
+        encryptionPk: 'B62qq2mmP26QN4AJrw9jn9gBybhD2AbSiiirudXLWsrN43dLyE3DRd5'
       },
       error: null
     }
@@ -429,7 +429,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnxCVDVnQTFuKBk45RuwfqDExbQMaH3Wqgat3MTSdPRS7ktmMMff'
+        encryptionPk: 'B62qip2FC1Yquyn1SurABF4rp243c9j7bNHZDgV5zrfCptdscVgobqp'
       },
       error: null
     }
@@ -460,7 +460,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpEgb67oK9y3YFXFufpt8PRdA6yvftJ1WWTQj2Zre4dcA7uuvKKf'
+        encryptionPk: 'B62qnKG56PgAg3vmM9LrYYTqEqr5LiYxWWhPQX5ZUZo8hRGGjVv9BGY'
       },
       error: null
     }
@@ -491,7 +491,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnZ8LbgRJmdecwbxXXfYh57MsPXX4tgZHu1R96qxs1bwcyoC6yfx'
+        encryptionPk: 'B62qiava5z3WcN9qiD289CyibmXX29stNF5yBqYb9nYK3r9r4kStEto'
       },
       error: null
     }
@@ -522,7 +522,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqAxJWGyiqqJqPDqSZkH6ToZd82jXqQ4t2LynG8msWUFyjhdixsS'
+        encryptionPk: 'B62qpfoL6PR5igWdrg13fGZQvFHS2mypENVQ438DVVYNc9Y4KpFsFJM'
       },
       error: null
     }
@@ -553,7 +553,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qoKLK2Ye4uT7Ga68YhFcy4GGDPX4wUXJBbnrt3wm1xLQfNAZV1i2'
+        encryptionPk: 'B62qmK4hnh7bbrmYnEJ8JYzoBmCptv9jn2yY3pzrfV3mAKRXuroYWof'
       },
       error: null
     }
@@ -584,7 +584,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qngf1MKYTvyLeD339sjpMeVUiZocW9A9e9TeUgijqUCNEpMbxwpo'
+        encryptionPk: 'B62qkNKvdUcozKYwqBgeCVr5WQc5SBE7UvWQZ9MtQ7dR2opKdY9Kumy'
       },
       error: null
     }
@@ -615,7 +615,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qn442xjXT6MvxoWSMDNggCMXjh2F6fmnxgfrQMdDQ1f5gRdvsgpg'
+        encryptionPk: 'B62qpUyXmcrF2Pr51YSyUXLJHMzuoiAmrLa64Jd45VeDKYpbC19pEqH'
       },
       error: null
     }
@@ -646,7 +646,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjTaLgESSi7EM1Cr22Q2WHoYutBK23wfrJd3oVtbcfnkxyQDj3zo'
+        encryptionPk: 'B62qjxMQZjoLZjGSX7r9EsqcnYkJsCuvsHKTXs1MRfeATzuAZKowByR'
       },
       error: null
     }
@@ -677,7 +677,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmYTajMY3HLuQBxSt4JUrHUjhs7P2JzTjQBCa1mSeRJf2LVqdcZe'
+        encryptionPk: 'B62qovy2CgYNZJtDQcrYejJSvotuTScmH1m6o45cmFVSEcGJmS6SK84'
       },
       error: null
     }
@@ -708,7 +708,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkRPCyKQoKKkUG1d22TWGExCWJcjkdPkMeV6PSGY2FZA1gr2gKCt'
+        encryptionPk: 'B62qoLREjNd3g2SicdyWCVG4gM8thJStDjez5Epd3vypquH5Nz3Cbes'
       },
       error: null
     }
@@ -739,7 +739,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkMULh1KLcZsQnWZzdnH5AYjXkVuuEYmRh8Foyzuk5YMfGBdo8G9'
+        encryptionPk: 'B62qqXua9DpBjU1UooPTSwtU8U45Hbcvwet6M3uvZHK59K9fyKwHmtL'
       },
       error: null
     }
@@ -770,7 +770,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qotX1XUHujE2mu6QkGqHpYFnh5uGw3bUHa6s1yvhNgjymkoVNK2k'
+        encryptionPk: 'B62qpJwRc57vCV4dH9Djd1NFiJQfmVWaB7QmaQMrpHh2ecABmLCbDU3'
       },
       error: null
     }
@@ -801,7 +801,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qm2agDsg6r9LvYSCJGYTYHohj8WRwcHyxvSkKAzbnFds38eDBKgK'
+        encryptionPk: 'B62qphfDBrBA5XXHYFYHPFJjdP6f1tjXRNbCUcKB7d1zwkhVxCJ4BcZ'
       },
       error: null
     }
@@ -832,7 +832,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjQTDp6dtKCKsHo1SzFmjhEtnWbjFN2AaCvSF8PcY5r1WuBFMxv2'
+        encryptionPk: 'B62qm5gAeN1wPPigD7kEtNfhvVLWyDVUC7DYEVLA1mGKvdQvpptFTjE'
       },
       error: null
     }
@@ -863,7 +863,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
+        encryptionPk: 'B62qmn5KYiatpGKAuWm8aYjKxKgqeustNnUs1pimZwVnQpaHS2Co9Ef'
       },
       error: null
     }
@@ -894,7 +894,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qrQEt7WANY5Vs9nwySyroynjHiWNFq2sis8cGEpQTgkC1eMFvpDH'
+        encryptionPk: 'B62qnYk8bzyYTNNZX2gxFX4zWWKi9pqC1d2xmN1PEuGR35v3oT8vXiw'
       },
       error: null
     }
@@ -925,7 +925,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qiVP93T1HSWdLHDJM24G6qL3KJXysi32Ptj2JV11vYGfZCLUioe7'
+        encryptionPk: 'B62qoiRxAuSu6WfVQtBj3SyLQQCqmRmWTxZGdNVRmqFdkA1x3hVNgCZ'
       },
       error: null
     }
@@ -956,7 +956,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpmHS1JzRpfftV3qTzk4A2LaxPjFav3nZgKhazsFfiim73pTVmzT'
+        encryptionPk: 'B62qjATAcP6rqdQ1bwEjr82ZrHhMTpdDhCtAuWpow5NBKX5UyURe52d'
       },
       error: null
     }
@@ -987,7 +987,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpcomzescCjhfYDvjefKv6Brqxs1HzXTSuYvyKFY426cauraw19Z'
+        encryptionPk: 'B62qnNctP1k9X4ccaXUW6QwQ9ENaiZkU1kCSGZSEbqnG7zMisd449fS'
       },
       error: null
     }
@@ -1018,7 +1018,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qo4vEKu9mdRqAhEvdp15aDf4f61Q9bqfvKUfwyAVoALd2K4v7gAX'
+        encryptionPk: 'B62qqfb9f6Fq6EAWVwiWB6GaWToB7Ye15xLfqhsB6ijrjPj1CHwBKFu'
       },
       error: null
     }
@@ -1049,7 +1049,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkyqZm9Td9cZvuv7tLRxxxY1AadwD3PDD2hZRTdzM5pLuWnuVFYT'
+        encryptionPk: 'B62qm1vGpz7DSZxA1x4LJnbZ1oyr2bF5K5Topdk3zzJG6daKcCwc1kp'
       },
       error: null
     }
@@ -1080,7 +1080,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmP2kPAycmZWTT1JuiUYiv8zeSiXAmDWHc6FYiJcYA5QmgonjLu1'
+        encryptionPk: 'B62qrRaeFavkWdB59n6xSNhZojLCaZnAAnpykXodHvd3caqEGwKDroM'
       },
       error: null
     }
@@ -1111,7 +1111,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjUUuAku9JcWbZDzxtPJwZNAXp2oxM83653GP6NEcGo4nxJ98tEa'
+        encryptionPk: 'B62qksG7JphM29Upn18N1e8T3jmU1td4pYbMx5v7VcXFaw2sXqeRYT7'
       },
       error: null
     }
@@ -1142,7 +1142,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qk38j1cnY4ftTaMim1koyxWtxAyYJy4v2KLy1XRxcDfBDcJiyMwz'
+        encryptionPk: 'B62qjK74Gs5g5ukUttkB38MC87ovBAb7QCTXe8PbS5gT3EVoVKQPww1'
       },
       error: null
     }
@@ -1173,7 +1173,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjYm5cXSxeuuxy6CR7HAK3df2duT7RFsnZcy1vt7qXrMzW4XXsD8'
+        encryptionPk: 'B62qjULi1jCLYiRhSoWwzL3jnDBEJYUF1hC68kxdx7wwxwFfTmArNp1'
       },
       error: null
     }
@@ -1204,7 +1204,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qn5dqYbvzcBRazdFguNLSDDfQvJ16FLVdp6q3z8ESNbYKTARgccT'
+        encryptionPk: 'B62qrYRfoQmrNSCBhLhTVQtFTvBpgvu8jowkD4KVzAMd1Qf4hARHw27'
       },
       error: null
     }
@@ -1235,7 +1235,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qoUEen315YvRJ9YxEud6kashW8KA8HyN1BhBEtR8QPA7iubn92tP'
+        encryptionPk: 'B62qoJ1iccXUgedVMUjqvDv2CGMxHWbgVFtyb3CPLirfmkS9FsZhy9Y'
       },
       error: null
     }
@@ -1266,7 +1266,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmy5BzbDLg2wpdacCPoJNdLe3Zig1i9tKcvTw9xao7ZB8LjER8ru'
+        encryptionPk: 'B62qmgaRKNxPsxWZZcoBzR2Mu5QJeg1F5Xh92i97Xhog2BtJywZrNe5'
       },
       error: null
     }
@@ -1297,7 +1297,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjEik1c464dhLDrj6a2TnqQk7VjXA2v4vmTktLuxgzZoyAvNoVNj'
+        encryptionPk: 'B62qoPYsxvh7XKC1mgFPCY4nTcurJ7qUZNn3NXTnqeHUU3VUB746oGe'
       },
       error: null
     }
@@ -1328,7 +1328,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjV2AqJGNP33sE4Qz5yo5sGJeJJ1Xyy4vQsZUDxmcPF72VX6mx79'
+        encryptionPk: 'B62qmNETzrpLSMUpAQwtBZr5Pc8hyT72i9nj1rqfaBNYWJV3RTq77mq'
       },
       error: null
     }
@@ -1359,7 +1359,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqw8FADVtku7jZXFqGkEAg7xY5PvUhPcHUe1Jt7ssXys8JZTP1Kf'
+        encryptionPk: 'B62qmKEA3URB57zd1WZZwSghr5Q6pbK7wL2ikjwFbZJasHp9Tm78xrc'
       },
       error: null
     }
@@ -1390,7 +1390,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpdEBXMvGyWR8rHSjiEM5jVWnqqGeyhFYtm47cDYqV2iFaHRkYrD'
+        encryptionPk: 'B62qpTuB7SEUPfVcidgZPNow3gYAPw43Rro8VbtAKgTjCrgcnwayCF3'
       },
       error: null
     }
@@ -1421,7 +1421,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkF44ymhjb61psS5CyCUEFtRmaTsGCBj7HNZHhE3UPZgNGioR9DX'
+        encryptionPk: 'B62qruXGi3UiVvNXW8qDnnMS3chevdH2j8BbMffXfL9CAwtX81X9K2Z'
       },
       error: null
     }
@@ -1452,7 +1452,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnBiFKj1SeJXypGnvbsDu3NWAeYGwyxjg3XHN9bEsEp64CYnZ6CS'
+        encryptionPk: 'B62qnEyuk1w1DYc8cig4SsqbsC743HraXYqgpZ7ik1Y64zyTUn1dpbu'
       },
       error: null
     }
@@ -1483,7 +1483,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qrHNJ1zBo5yJVVwsRb6TtTWTYPWuAwSuK4gk7PVHLht8s842s32o'
+        encryptionPk: 'B62qkPs1CnpWTTqhiJ59szAkeKKT2WmaULhJTeGA8pP6akChjE4cYU9'
       },
       error: null
     }
@@ -1514,7 +1514,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmKaKSvgB6TZfYR8yDWyipGMBcyeNyYkzwGb1suQHZsTeTYEhZER'
+        encryptionPk: 'B62qqYFKe3p8vFtdSkxD8dGWw31fDkb1e4aTednaPUa4d3dJppz9L1i'
       },
       error: null
     }
@@ -1545,7 +1545,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qrm3zoBgAcks1SmPFpMXYLRkQy6qVhAiav3tGcEuESFNQHbehq74'
+        encryptionPk: 'B62qrnNWm4FGMoAndtF4q4BeXc5CzMXSCBcg81h3GNfi52X377yGnLz'
       },
       error: null
     }
@@ -1576,7 +1576,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpAPNNEH4bBxWsznFDwuGodS6vy8KShjK58CqxWqVXh6Xv9uJvR3'
+        encryptionPk: 'B62qjyLZjNQKY6YKHCDvs35DuV28rEBPXcfjjek7RsRrzEsAoPCCdFg'
       },
       error: null
     }
@@ -1607,7 +1607,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qq5r7DsgimaB2R4YtkEJmvk2PDfk8c6eb6v3W2XUBQUD8yDBqBbT'
+        encryptionPk: 'B62qqEsqHUNff7bqVszsxEUfASQcPSPiNEsdidnqXsyuFzdMyWLtDaG'
       },
       error: null
     }
@@ -1638,7 +1638,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnPav66s3JeNoHLaJbvr62KThhh9KWdd67KrTpxTMmfnncqnGgoT'
+        encryptionPk: 'B62qr17uGuhxGXQutM3zAN5kXcheX4QpWC83q8XiWSPpBuxZWNLKEyi'
       },
       error: null
     }
@@ -1669,7 +1669,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qoysqAokzPcDhKe7XQy6WtFLPqmRYArjUpbbuDS4fgfFuS7Vmn6d'
+        encryptionPk: 'B62qp49otEH6FGyiNWNVigf7pWeGcMjpUubDW43umhBm2sHbENPbcBb'
       },
       error: null
     }
@@ -1700,7 +1700,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnU3g4jJc5pdCZnwqhLax5r3MVi58HLJB3kdHeR6YHCGaUhYKo15'
+        encryptionPk: 'B62qrbx7BD7S3bB14575bMTDtUzbrtdwhCCJj4CAbZQhJ3LSYhwJTw8'
       },
       error: null
     }
@@ -1731,7 +1731,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qphDEUSLgtqKkpawt4RYbHc4eWE1neuZ4dFq4Gxe7V2yCenQeF8n'
+        encryptionPk: 'B62qoLebgWM1kG469RmGNNN9qmYDyEr4N6xzSVm2yyEnc9jVCiYi5YR'
       },
       error: null
     }
@@ -1762,7 +1762,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjJr7qwKMqfVRacHu6rVSF3DUpq9eyxtvRDdVUKbus6oCrmgKrUF'
+        encryptionPk: 'B62qnsNG29j5uEzXQBFk8mPVqw8ToaYYSq5bbB7NGG2GGBkjtWcsXZh'
       },
       error: null
     }
@@ -1793,7 +1793,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqDRQj6MHm53uBFEHBhH5YdWU9MkSCxF6J7sX9VV6Ks8vkzYSAbp'
+        encryptionPk: 'B62qkfywn81rJcBvaAWTvSu4g2BV56FS2ZsVB76QcKFoVrMeMhGDb5p'
       },
       error: null
     }
@@ -1824,7 +1824,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qrH9Ei1Xu6a2339dCG2DoavaaRM9uhpfwaNPFP1R9E1ftcPRmxzq'
+        encryptionPk: 'B62qno8dHvZhsfRHSs8iPrUkD5RDx3EmqjB9asKBDjwkcfmixS9weh4'
       },
       error: null
     }
@@ -1855,7 +1855,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qoynQKvBDQDheDJySTtbs6dii8tJuMohhnTUgD6Z23gi12sLwi8N'
+        encryptionPk: 'B62qm76EdYFq2vKyu4niDNEPgEGYdKT4BaqFdACp75F1nLxR62KQYYZ'
       },
       error: null
     }
@@ -1886,7 +1886,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpzaKrMXatxDAhhe6kjoKVsmw4whUhXRMHRoMbpcg2gmXjj4xHhd'
+        encryptionPk: 'B62qqp1KGqnrURr66xi4NMjnsTGUKBo7cBZMJQdVd9R1NhgLSGiQim9'
       },
       error: null
     }
@@ -1917,7 +1917,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqToHfhwmz4xhSc31nQsebdiRQ6xjDfhDSAY2mhrZdbadUpxuWcD'
+        encryptionPk: 'B62qqVQgvgSnddoL36fijfgcibCuDiUiAUAh177FNYjVJA8hgqmFj1W'
       },
       error: null
     }
@@ -1943,7 +1943,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qktFP8Di535YSA6MT2rCzhhRCcGEg1hXPTEtBiCfssM8kyXm67PD'
+        encryptionPk: 'B62qmgaRKNxPsxWZZcoBzR2Mu5QJeg1F5Xh92i97Xhog2BtJywZrNe5'
       },
       error: null
     }
@@ -1964,7 +1964,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qphDEUSLgtqKkpawt4RYbHc4eWE1neuZ4dFq4Gxe7V2yCenQeF8n'
+        encryptionPk: 'B62qoLebgWM1kG469RmGNNN9qmYDyEr4N6xzSVm2yyEnc9jVCiYi5YR'
       },
       error: null
     }
@@ -1985,7 +1985,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqDRQj6MHm53uBFEHBhH5YdWU9MkSCxF6J7sX9VV6Ks8vkzYSAbp'
+        encryptionPk: 'B62qmKEA3URB57zd1WZZwSghr5Q6pbK7wL2ikjwFbZJasHp9Tm78xrc'
       },
       error: null
     }
@@ -2006,7 +2006,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qotX1XUHujE2mu6QkGqHpYFnh5uGw3bUHa6s1yvhNgjymkoVNK2k'
+        encryptionPk: 'B62qpfoL6PR5igWdrg13fGZQvFHS2mypENVQ438DVVYNc9Y4KpFsFJM'
       },
       error: null
     }
@@ -2027,7 +2027,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qqAxJWGyiqqJqPDqSZkH6ToZd82jXqQ4t2LynG8msWUFyjhdixsS'
+        encryptionPk: 'B62qnYk8bzyYTNNZX2gxFX4zWWKi9pqC1d2xmN1PEuGR35v3oT8vXiw'
       },
       error: null
     }
@@ -2048,7 +2048,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpdEBXMvGyWR8rHSjiEM5jVWnqqGeyhFYtm47cDYqV2iFaHRkYrD'
+        encryptionPk: 'B62qq2mmP26QN4AJrw9jn9gBybhD2AbSiiirudXLWsrN43dLyE3DRd5'
       },
       error: null
     }
@@ -2069,7 +2069,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmP2kPAycmZWTT1JuiUYiv8zeSiXAmDWHc6FYiJcYA5QmgonjLu1'
+        encryptionPk: 'B62qiava5z3WcN9qiD289CyibmXX29stNF5yBqYb9nYK3r9r4kStEto'
       },
       error: null
     }
@@ -2090,7 +2090,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
+        encryptionPk: 'B62qkNKvdUcozKYwqBgeCVr5WQc5SBE7UvWQZ9MtQ7dR2opKdY9Kumy'
       },
       error: null
     }
@@ -2111,7 +2111,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qpcomzescCjhfYDvjefKv6Brqxs1HzXTSuYvyKFY426cauraw19Z'
+        encryptionPk: 'B62qrRaeFavkWdB59n6xSNhZojLCaZnAAnpykXodHvd3caqEGwKDroM'
       },
       error: null
     }
@@ -2132,7 +2132,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
+        encryptionPk: 'B62qnsNG29j5uEzXQBFk8mPVqw8ToaYYSq5bbB7NGG2GGBkjtWcsXZh'
       },
       error: null
     }
@@ -2153,7 +2153,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qq5LcWHHPAh7tDBcktx5WDPumvpivDxZxzYPbV4fW4ZkrcMyNVuF'
+        encryptionPk: 'B62qnKG56PgAg3vmM9LrYYTqEqr5LiYxWWhPQX5ZUZo8hRGGjVv9BGY'
       },
       error: null
     }
@@ -2174,7 +2174,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjn3FAYTdbanFNhQXkmRgV8jBD69yPczVNGNYrAb1TTqPkkgkB25'
+        encryptionPk: 'B62qqVQgvgSnddoL36fijfgcibCuDiUiAUAh177FNYjVJA8hgqmFj1W'
       },
       error: null
     }
@@ -2195,7 +2195,49 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmYTajMY3HLuQBxSt4JUrHUjhs7P2JzTjQBCa1mSeRJf2LVqdcZe'
+        encryptionPk: 'B62qrbx7BD7S3bB14575bMTDtUzbrtdwhCCJj4CAbZQhJ3LSYhwJTw8'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qqYFKe3p8vFtdSkxD8dGWw31fDkb1e4aTednaPUa4d3dJppz9L1i'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qrYRfoQmrNSCBhLhTVQtFTvBpgvu8jowkD4KVzAMd1Qf4hARHw27'
       },
       error: null
     }
@@ -2216,13 +2258,13 @@
     semaphore.postRequest postRequest response:  {
       success: false,
       data: null,
-      error: 'Identity commitment: 16364942073592941746310384369598289387051744029503367258411813296622545809623 already exists in Group: communities.cmn021abc.validators'
+      error: 'Identity commitment: 8997642106414017867228356974780591450916720502782042167458166145498751389320 already exists in Group: communities.cmn021abc.validators'
     }
 
       at postRequest (src/semaphore/requests.ts:48:13)
 
   console.debug
-    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 16364942073592941746310384369598289387051744029503367258411813296622545809623 already exists in Group: communities.cmn021abc.validators
+    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 8997642106414017867228356974780591450916720502782042167458166145498751389320 already exists in Group: communities.cmn021abc.validators
         at postRequest (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/requests.ts:50:13)
         at processTicksAndRejections (node:internal/process/task_queues:95:5)
         at registerIdentity (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/identity.ts:94:13)
@@ -2244,7 +2286,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjJr7qwKMqfVRacHu6rVSF3DUpq9eyxtvRDdVUKbus6oCrmgKrUF'
+        encryptionPk: 'B62qm1vGpz7DSZxA1x4LJnbZ1oyr2bF5K5Topdk3zzJG6daKcCwc1kp'
       },
       error: null
     }
@@ -2265,7 +2307,28 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qjYm5cXSxeuuxy6CR7HAK3df2duT7RFsnZcy1vt7qXrMzW4XXsD8'
+        encryptionPk: 'B62qqfb9f6Fq6EAWVwiWB6GaWToB7Ye15xLfqhsB6ijrjPj1CHwBKFu'
+      },
+      error: null
+    }
+
+      at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest cleanup (drained)
+
+      at postRequest (src/semaphore/requests.ts:60:13)
+
+  console.debug
+    semaphore.postRequest connected to nats.socialcap.dev:4222
+
+      at postRequest (src/semaphore/requests.ts:35:11)
+
+  console.debug
+    semaphore.postRequest postRequest response:  {
+      success: true,
+      data: {
+        encryptionPk: 'B62qphfDBrBA5XXHYFYHPFJjdP6f1tjXRNbCUcKB7d1zwkhVxCJ4BcZ'
       },
       error: null
     }
@@ -2286,13 +2349,13 @@
     semaphore.postRequest postRequest response:  {
       success: false,
       data: null,
-      error: 'Identity commitment: 9214213137163460508082751818552641007266442904247877318718815364720208280241 already exists in Group: communities.cmn021abc.validators'
+      error: 'Identity commitment: 11808801773528724511351672744907759069572826211407053955707915932205210254584 already exists in Group: communities.cmn021abc.validators'
     }
 
       at postRequest (src/semaphore/requests.ts:48:13)
 
   console.debug
-    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 9214213137163460508082751818552641007266442904247877318718815364720208280241 already exists in Group: communities.cmn021abc.validators
+    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 11808801773528724511351672744907759069572826211407053955707915932205210254584 already exists in Group: communities.cmn021abc.validators
         at postRequest (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/requests.ts:50:13)
         at processTicksAndRejections (node:internal/process/task_queues:95:5)
         at registerIdentity (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/identity.ts:94:13)
@@ -2314,7 +2377,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qn5dqYbvzcBRazdFguNLSDDfQvJ16FLVdp6q3z8ESNbYKTARgccT'
+        encryptionPk: 'B62qqEsqHUNff7bqVszsxEUfASQcPSPiNEsdidnqXsyuFzdMyWLtDaG'
       },
       error: null
     }
@@ -2335,7 +2398,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qmy5BzbDLg2wpdacCPoJNdLe3Zig1i9tKcvTw9xao7ZB8LjER8ru'
+        encryptionPk: 'B62qruXGi3UiVvNXW8qDnnMS3chevdH2j8BbMffXfL9CAwtX81X9K2Z'
       },
       error: null
     }
@@ -2356,7 +2419,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qnBiFKj1SeJXypGnvbsDu3NWAeYGwyxjg3XHN9bEsEp64CYnZ6CS'
+        encryptionPk: 'B62qk6oK9u3R1wNGMme7cKLtPQnyrpTMNNc94Ldz52MKmPq2MMoWnbG'
       },
       error: null
     }
@@ -2375,14 +2438,21 @@
 
   console.debug
     semaphore.postRequest postRequest response:  {
-      success: true,
-      data: {
-        encryptionPk: 'B62qr8QL51qJGTsu49upPYeTB343VRm7fudf69GvSaLsVfbp5SsPYzU'
-      },
-      error: null
+      success: false,
+      data: null,
+      error: 'Identity commitment: 20153745512266142309468139908344240898290417782409539726175886199583469475201 already exists in Group: communities.cmn021abc.auditors'
     }
 
       at postRequest (src/semaphore/requests.ts:48:13)
+
+  console.debug
+    semaphore.postRequest registerIdentity error:  Error: Identity commitment: 20153745512266142309468139908344240898290417782409539726175886199583469475201 already exists in Group: communities.cmn021abc.auditors
+        at postRequest (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/requests.ts:50:13)
+        at processTicksAndRejections (node:internal/process/task_queues:95:5)
+        at registerIdentity (/home/mzito/dev/work/socialcap/anonymous-voting/src/semaphore/identity.ts:94:13)
+        at Object.<anonymous> (/home/mzito/dev/work/socialcap/anonymous-voting/test/01-init-data.test.ts:61:17)
+
+      at postRequest (src/semaphore/requests.ts:55:13)
 
   console.debug
     semaphore.postRequest cleanup (drained)
@@ -2398,70 +2468,7 @@
     semaphore.postRequest postRequest response:  {
       success: true,
       data: {
-        encryptionPk: 'B62qkRPCyKQoKKkUG1d22TWGExCWJcjkdPkMeV6PSGY2FZA1gr2gKCt'
-      },
-      error: null
-    }
-
-      at postRequest (src/semaphore/requests.ts:48:13)
-
-  console.debug
-    semaphore.postRequest cleanup (drained)
-
-      at postRequest (src/semaphore/requests.ts:60:13)
-
-  console.debug
-    semaphore.postRequest connected to nats.socialcap.dev:4222
-
-      at postRequest (src/semaphore/requests.ts:35:11)
-
-  console.debug
-    semaphore.postRequest postRequest response:  {
-      success: true,
-      data: {
-        encryptionPk: 'B62qozVh3pCp58eeBgZr88AuXQ8tJRomn6dhtyTqc3Kv2MyYanntwMz'
-      },
-      error: null
-    }
-
-      at postRequest (src/semaphore/requests.ts:48:13)
-
-  console.debug
-    semaphore.postRequest cleanup (drained)
-
-      at postRequest (src/semaphore/requests.ts:60:13)
-
-  console.debug
-    semaphore.postRequest connected to nats.socialcap.dev:4222
-
-      at postRequest (src/semaphore/requests.ts:35:11)
-
-  console.debug
-    semaphore.postRequest postRequest response:  {
-      success: true,
-      data: {
-        encryptionPk: 'B62qpmHS1JzRpfftV3qTzk4A2LaxPjFav3nZgKhazsFfiim73pTVmzT'
-      },
-      error: null
-    }
-
-      at postRequest (src/semaphore/requests.ts:48:13)
-
-  console.debug
-    semaphore.postRequest cleanup (drained)
-
-      at postRequest (src/semaphore/requests.ts:60:13)
-
-  console.debug
-    semaphore.postRequest connected to nats.socialcap.dev:4222
-
-      at postRequest (src/semaphore/requests.ts:35:11)
-
-  console.debug
-    semaphore.postRequest postRequest response:  {
-      success: true,
-      data: {
-        encryptionPk: 'B62qjV2AqJGNP33sE4Qz5yo5sGJeJJ1Xyy4vQsZUDxmcPF72VX6mx79'
+        encryptionPk: 'B62qphfDBrBA5XXHYFYHPFJjdP6f1tjXRNbCUcKB7d1zwkhVxCJ4BcZ'
       },
       error: null
     }

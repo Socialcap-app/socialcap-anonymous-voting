@@ -15,6 +15,24 @@ export const identityFile = "idn43"
 // a folder for temp file storage
 export const tmpFolder = "test/files";
 
+// plan params
+export const planUid = 'plan001';
+
+export const plan001Strategy = {
+  planUid: "plan001",
+  name: "Strategy #1: Random from validators and auditors, always audit. RAND V=3 A=1 F=1",
+  source: 'validators',
+  variant: 'random',  
+  minValidators: 3,
+  minAuditors: 1,
+  auditFrequency: 1,
+  requiredVotes: 3,
+  requiredPositives: 3
+}; 
+
+////////////////////////////////////////////////////////////////////////////////
+
+/*
 let Network: any;
 let chainId = '';
 
@@ -71,3 +89,4 @@ export function getTestAccounts() {
     ]  
   }
 }
+*/  
