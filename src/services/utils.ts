@@ -91,3 +91,8 @@ export function toBase(x: bigint, base: bigint) {
   }
   return digits;
 }
+
+
+export async function delay(n: number) {
+  await new Promise((resolve) => setTimeout(resolve, n*1000));
+}
