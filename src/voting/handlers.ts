@@ -6,6 +6,7 @@ import { Response } from "../semaphore/index.js";
 import { selectElectors } from "./selection.js";
 import { assignTasks, getAssignedTasks } from "./assignments.js";
 import { receiveVotes } from "./voting.js";
+import { processBatches } from "./tallying.js";
 
 
 export async function assignElectorsHandler(
@@ -66,5 +67,23 @@ export async function receiveVotesHandler(
   return {
     success: true, error: null,
     data: received
+  }
+}
+
+
+/** @throw any errors thrown here will be catched by the dispatcher */
+export async function processBatchesHandler(
+  data: any
+): Promise<Response> {
+  let done = await processBatches(
+    data.communityUid,
+    data.planUid,
+    data.claims, 
+    data.requiredVotes,
+    data.requiredPositives
+  );
+  return {
+    success: true, error: null,
+    data: done
   }
 }

@@ -8,8 +8,7 @@ import { getOrCreate, getSortedKeys } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import logger from "../services/logger.js";
 import { VotingClaim } from "./selection.js";
-import { ClaimRollupProof } from "../contracts/aggregator.js";
-import { rollupClaim, CollectedVote } from "../voting/rollup.js";
+import { CollectedVote } from "../workers/rollups.js";
 
 export {
   processBatches
@@ -21,7 +20,7 @@ async function processBatches(
   claims: VotingClaim[],
   requiredVotes: number,
   requiredPositives: number
-) {
+): Promise<any> {
   // initialize and compile contracts and o1js deps
   // $$$ await ClaimRollup.compile();
   await initializeBindings();
@@ -150,4 +149,6 @@ async function processBatches(
     // assignar custom tokens a la credencial
     */
   }
+
+  return 
 }
