@@ -78,7 +78,7 @@ See [docs/semaphore](./semaphore.md) for more information on these objects.
 
 ### Community groups
 
-There are three community groups per community:
+There are 5 community groups per community:
 
 **Members**: Will hold all registered members of a community. 
 
@@ -101,6 +101,40 @@ All groups are represented using an `IndexedMerkleMap` used to check inclusion o
 Each group is updated every time a member/validator/auditor registers his identity in the group.
 
 Each leaf has **key** = ` ${identityCommitment}` and **value** = ` Field(1)`. 
+
+**Plans**: Will hold all planned campaigns released by this community.
+
+- The group name is: `communities.${communityUid}.plans`. 
+
+All groups are represented using an `IndexedMerkleMap` used to check inclusion or exclusion of a given identity in the group. 
+
+The group is updated every time a plan registers his Uid in the group.
+
+Each leaf has **key** = ` ${planUid}` and **value** = ` Field(1)`. 
+
+**Claims**: Will hold all  claims posted to this community and (usually) binded to a given plan.
+
+The group is updated every time an applicant posts a claim.
+
+Each leaf has **key** = ` ${claimUid}` and **value** = ` Field(1)`. 
+
+### Plans
+
+When a plan is registered, the full data of the plan is stored in KVS, where:
+
+-  **key** = `plans.${planUid}` 
+- **value** = `{uid, communityUid, state, strategy, startsUTC, endsUTC, votingStartsUTC, votingEndsUTC }`
+
+This  plan is also added to the Plans community group.
+
+### Claims
+
+When a claim is registered, the full data of the claim is stored in KVS, where:
+
+-  **key** = `claims.${claimUid}` 
+- **value** = `{uid, address, applicantUid, applicantAddress, communityUid, communityAddress, planUid, createdUTC}`
+
+This  claim is also added to the Claims community group.
 
 ### Claim groups
 
@@ -168,8 +202,7 @@ The list is initially empty during the claiming period. When the voting period
 
 The list will latter be using during the Tally process to aggregate votes. 
 
-There exists one `CollectedVotes` list per plan. This list will be stored 
-  off-chain in the IndexerDb, in the trusted API environment.
+There exists one `CollectedVotes` list per plan. This list will be stored off-chain in the IndexerDb, in the trusted API environment.
 
 **Aggregator**
 

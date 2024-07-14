@@ -111,9 +111,112 @@ TODO
 
 ## Voting messages
 
-The **Request** and **Response** methods and structs are similar to the Semaphore protocol messages.
+The **Request** and **Response** methods and structs are similar to the Semaphore protocol messages.
 
 Following is the list of all available messages related to the Socialcap Voting protocol.
+
+### registerCommunity
+
+Registers a community that will latter create campaign plans, receive claims and act as issuer of credentials
+
+We need to check that the given community address is correct.
+
+**Request**
+
+~~~
+postRequest('registerCommunity', {
+	uid: string,
+	address: string,
+	state: string,
+  name: string,
+  description: string,
+  image: string,
+	tokenRef: string, // the token contract
+})	
+~~~
+
+**Response**
+
+ ~~~
+{ 
+  success: true, error: false,
+	data: { done: true }
+}  
+ ~~~
+
+### registerPlan
+
+Registers a campaign plan that will latter receive the claims that will be voted.
+
+**Request**
+
+~~~
+postRequest('registerPlan', {
+	uid: string,
+	state: string,
+  communityUid: string,
+  name: string,
+  description: string,
+  image: string,
+  strategy: {
+    source: string, // 'validators' | 'auditors' | 'all',
+    variant: string, // 'random' | 'all';  
+    minAuditors: number,
+    minValidators: number,
+    auditFrequency: number,
+    requiredVotes: number,
+    requiredPositives: number,
+	},    
+  expiration; string,
+  revocable: string,
+	tokenRef: string,
+	value: string, // the value of this credential in tokenRef
+	startsUTC: string,
+	endsUTC: string, 
+	votingStartsUTC: string, 
+	votingEndsUTC: string,
+})	
+~~~
+
+**Response**
+
+ ~~~
+{ 
+  success: true, error: false,
+	data: { done: true }
+}  
+ ~~~
+
+### registerClaim
+
+Registers a claim that will be voted. This will create a ClaimVoting account for the claim in MINA.
+
+We need to check that the Plan and the Community are already registered.
+
+**Request**
+
+~~~
+postRequest('registerClaim', {
+	uid: string,
+  address: string,
+ 	state: string,
+  planUid: string,
+  communityUid: string,
+	applicantUid: string, 
+	applicantAddress: string, 
+	createdUTC: string, 
+	evidence: string // encrypted stringified object
+})
+~~~
+
+**Response**
+
+ ~~~
+{ 
+  success: true, error: false,
+	data: { done: true }
+}  
+ ~~~
 
 ### assignElectors
 
