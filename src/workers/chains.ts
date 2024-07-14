@@ -8,11 +8,14 @@ import logger from '../services/logger.js';
 export {
   setChain,
   getPayers,
-  MINA, TXNFEE
+  MINA, TXNFEE,
+  MAX_RETRIES
 }
 
 const MINA = 1e9;
 const TXNFEE = 300_000_000;
+const MAX_RETRIES = 5; // max number of times we will retry a transaction
+
 
 async function setChain(chainId: string) {
   const Network = Mina.Network({

@@ -1,6 +1,7 @@
 /**
  * Test params shared across different test groups
  */
+import { randomUUID } from 'crypto';
 import { Mina, PrivateKey, PublicKey } from 'o1js';
 
 // community params
@@ -29,6 +30,8 @@ export const plan001Strategy = {
   requiredVotes: 3,
   requiredPositives: 3
 }; 
+
+export const uuid = () => BigInt('0x'+randomUUID().replaceAll('-','')).toString();
 
 ////////////////////////////////////////////////////////////////////////////////
 
