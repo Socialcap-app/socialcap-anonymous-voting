@@ -78,7 +78,7 @@ async function postWorkers(
   params: object,
 ): Promise<Response> {
   const codec = JSONCodec();
-  const natsSubject = `socialcap:workers`;
+  const natsSubject = `socialcap:tasks`;
 
   const nc = await connect({ 
     servers: NATS_SERVER,
@@ -86,15 +86,19 @@ async function postWorkers(
     debug: false 
   });
   console.debug(`semaphore.postWorkers connected to ${NATS_SERVER}`);
-
+  
+  // Publish the task
   try {
-    await nc.publish(
+    const jetStream = nc.jetstream();
+
+    await jetStream.publish(
       natsSubject, 
       codec.encode({
         "post": command,
         "params": JSON.stringify(params)
       }),
     )
+    
     return { success: true, data: { done: true }, error: null }
   }
   catch (error: any) {
