@@ -7,6 +7,7 @@ import { selectElectors } from "./selection.js";
 import { assignTasks, getAssignedTasks } from "./assignments.js";
 import { receiveVotes } from "./voting.js";
 import { processBatches } from "./tallying.js";
+import { emitCredentials } from "./issuing.js";
 
 
 export async function assignElectorsHandler(
@@ -81,6 +82,23 @@ export async function processBatchesHandler(
     data.claims, 
     data.requiredVotes,
     data.requiredPositives
+  );
+  return {
+    success: true, error: null,
+    data: done
+  }
+}
+
+/** @throw any errors thrown here will be catched by the dispatcher */
+export async function emitCredentialsHandler(
+  data: any
+): Promise<Response> {
+  let done = {} 
+  await emitCredentials(
+    data.communityUid,
+    data.planUid,
+    data.claims,
+    data.chainId || 'devnet'
   );
   return {
     success: true, error: null,

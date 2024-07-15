@@ -98,7 +98,7 @@ export class ClaimVotingContract extends SmartContract {
 
     // we only can set the result if it has never been set before
     this.result.getAndRequireEquals()
-      .assertEquals(Field(ClaimResult.VOTING));
+      .assertEquals(Field(ClaimResult.VOTING), "This claim is closed. Can not change results.");
 
     // very basic check for the claimUid 
     this.claimUid.getAndRequireEquals()

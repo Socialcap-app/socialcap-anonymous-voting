@@ -5,7 +5,8 @@ import {
   assignElectorsHandler, 
   retrieveAssignmentsHandler,
   receiveVotesHandler,
-  processBatchesHandler 
+  processBatchesHandler,
+  issueCredentialsHandler
 } from "./handlers.js";
 import { 
   registerCommunityHandler,
@@ -18,6 +19,7 @@ registerApplicationHandler('assignElectors', assignElectorsHandler);
 registerApplicationHandler('retrieveAssignments', retrieveAssignmentsHandler);
 registerApplicationHandler('receiveVotes', receiveVotesHandler);
 registerApplicationHandler('processBatches', processBatchesHandler);
+registerApplicationHandler('issueCredentialsHandler', issueCredentialsHandler);
 registerApplicationHandler('registerCommunity', registerCommunityHandler);
 registerApplicationHandler('registerPlan', registerPlanHandler);
 registerApplicationHandler('registerClaim', registerClaimHandler);
