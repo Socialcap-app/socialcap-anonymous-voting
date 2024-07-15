@@ -1,7 +1,4 @@
 /**
- *  
- */
-/**
  * Dispatches the task to all handlers to which the Semaphore service will 
  * delegate the handling of each particular signal/message. 
  * 
@@ -20,6 +17,7 @@ import { handleGroupRegistration } from "./groups.js";
 export {
   type SignalHandlerFunction,
   handleSignal,
+  handleTask,
   registerApplicationHandler,
   nullHandler,
 }  
@@ -60,7 +58,7 @@ function registerApplicationHandler(
 }
 
 /**
- * Handles the received sinal and dispatches it to the correct worker.
+ * Handles the received signal and dispatches it to the correct worker.
  * @param data 
  * @returns 
  */
@@ -87,3 +85,6 @@ async function handleSignal(data: any) {
 
   return await handler(parsed);
 }
+
+// for now it is a synonym for handleSignal, can change in the FUTURE
+const handleTask = handleSignal;
