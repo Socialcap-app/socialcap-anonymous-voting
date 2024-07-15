@@ -12,12 +12,16 @@ import logger from "./logger.js";
 import { handleTask } from './dispatcher.js';
 
 export {
-  startConsumer
+  startConsumer,
+  consumerId
 }
+
+let consumerId = null;
 
 async function startConsumer(id: string) {
   logger.info(`Worker #${id}`);
   let myId = Number(id);
+  consumerId = myId;
 
   // we wait some time before real starting so that 
   // thye do no start as exactly the same time
@@ -42,7 +46,7 @@ async function startConsumer(id: string) {
     //durable_name: "workers",
     //ack_policy: AckPolicy.Explicit       
   });
-  logger.info(`${myId}:  started. Waiting for messages...`);
+  logger.info(`C#${myId}:  started. Waiting for messages...`);
 
   // get and process messages
   let consumer = await jetStream.consumers.get(qname);
@@ -52,7 +56,7 @@ async function startConsumer(id: string) {
     await delay(randomInt(3));
 
     // one message at a time ...
-    logger.info(`${myId}:  get another task`);
+    logger.info(`C#${myId}:  get another task`);
     const messages = await consumer.fetch({
       max_messages: 1
     });
@@ -67,13 +71,13 @@ async function startConsumer(id: string) {
       } catch (error: any) {
         if (error.api_error?.err_code === 10057) {
           // was removed by some other consumer
-          logger.info(`${myId}:  ignored task: ${msg.subject} ${msg.seq}`);
+          logger.info(`C#${myId}:  ignored task: ${msg.subject} ${msg.seq}`);
           return {
             alreadyRemoved: true
           };
         } else {
           const errMsg = error.message || JSON.stringify(error);
-          logger.error(`${myId}:  error removing task: ${errMsg}`);
+          logger.error(`C#${myId}:  error removing task: ${errMsg}`);
           throw Error(errMsg)
         }
       }
@@ -82,7 +86,7 @@ async function startConsumer(id: string) {
     for await (const msg of messages) {
       try {
         let data = codec.decode(msg.data);
-        logger.info(`${myId}:  received subject: '${msg.subject}' data: ${JSON.stringify(data)}`);
+        logger.info(`C#${myId}:  received subject: '${msg.subject}' data: ${JSON.stringify(data)}`);
 
         // delete it so that no other consumer gets it
         const {
@@ -93,17 +97,16 @@ async function startConsumer(id: string) {
           continue;
 
         // Perform processing logic here
-        logger.info(`${myId}:  working ...`);
-        await delay(10);
+        logger.info(`C#${myId}:  working ...`);
         let response = await handleTask(data);
         if (!response.success)
           throw Error(response.error);
 
         msg.ack();
-        logger.info(`${myId}:  done !`);
+        logger.info(`C#${myId}:  done !`);
       } catch (error: any) {
         const errMsg = error.message || JSON.stringify(error);
-        logger.error(`${myId}:  error processing task: ${errMsg}`);
+        logger.error(`C#${myId}:  error processing task: ${errMsg}`);
       }
     }
 

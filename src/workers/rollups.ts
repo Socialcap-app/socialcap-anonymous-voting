@@ -3,7 +3,7 @@
  * It counts all received signals for a given claim.
  */
 import { Field, Signature, PublicKey, Struct } from "o1js";
-import { Response, postRequest } from '../semaphore/index.js';
+import { Response, postWorkers } from '../semaphore/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { getOrCreate, getSortedKeys, saveMerkle} from "../services/merkles.js";
 import { ClaimResult } from "../contracts/claim.js";
@@ -17,10 +17,22 @@ class MediumMerkleMap extends IndexedMerkleMap(16) {}
 
 export {
   rollupClaimHandler,
-  CollectedVote
+  CollectedVote,
+  SerializableVote
 }
 
 let VerificationKey: any | null = null;
+
+interface SerializableVote {
+  // same as CollectedVotes but can serialize and dispatch on wire
+  // because they dont have any o1js field
+  elector: string;
+  electorPk: string;
+  signal: string; 
+  nullifier: string; 
+  signature: any; 
+  value: string;
+}
 
 class CollectedVote extends Struct({
   elector: Field, // the identity commitment
@@ -55,7 +67,7 @@ async function rollupClaim(
   claimUid: string,
   requiredPositives: number,
   requiredVotes: number,
-  votes: CollectedVote[]
+  votes: SerializableVote[]
 ): Promise<ClaimRollupProof> {
 
   await isCompiled(VerificationKey);
@@ -115,7 +127,14 @@ async function rollupClaim(
 
   for (let j=0; j < votes.length; j++) {
     // we are ready to roll !
-    let vote = votes[j];
+    let vote: CollectedVote = {
+      elector: Field(votes[j].elector), 
+      electorPk: PublicKey.fromBase58(votes[j].electorPk), 
+      signal: Field(votes[j].signal),
+      nullifier: Field(votes[j].nullifier), 
+      signature: Signature.fromJSON(votes[j].signature), 
+      value: Field(votes[j].value) 
+    };   
     
     let state = previousProof.publicOutput;
 
@@ -126,11 +145,11 @@ async function rollupClaim(
       auditorsGroup,
       claimElectors,
       claimNullifiers,
-      Field(vote.elector), 
+      vote.elector, 
       vote.electorPk,
-      Field(vote.signal), 
-      Field(vote.nullifier),
-      Signature.fromJSON(vote.signature),
+      vote.signal, 
+      vote.nullifier,
+      vote.signature,
       Field(vote.value), 
     );
     console.log(`Rolled #${j} sum: `
@@ -175,7 +194,7 @@ async function rollupClaimHandler(data: any): Promise<Response> {
   const proofRef = `claims.${claimUid}.proof`;
   KVS.put(proofRef, serializedProof);
 
-  await postRequest('closeClaim', {
+  await postWorkers('closeClaim', {
     claimUid,
     proofRef,
     retries: 0  

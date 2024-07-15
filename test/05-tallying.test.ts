@@ -26,13 +26,19 @@ describe('Tally all votes for plan001', () => {
   });
 
   it('Process received plan batches', async () => {
-    let results = await processBatches(
+    // we will use just first 2 claims for testing
+    let testClaims = [claims[2], claims[3]];
+
+    let response = await postRequest('processBatches', {
       communityUid,
       planUid,
-      claims,
-      planStrategy.requiredVotes as number,
-      planStrategy.requiredPositives as number
-    );
+      claims: testClaims, 
+      requiredVotes: planStrategy.requiredVotes as number,
+      requiredPositives: planStrategy.requiredPositives as number
+    })
+
+    expect(response.error).toBe(null);
+    expect(response.data).toBeDefined();
   });
 
 });

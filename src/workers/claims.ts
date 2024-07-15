@@ -156,12 +156,14 @@ async function deployClaimHandler(data: any): Promise<Response> {
       +` ${error || error.message}`);
 
     if (retries < MAX_RETRIES) {
-      await delay(60) ; // wait 1 min before sending retry request
-      await postWorkers('deployClaim', {
-        claimUid, 
-        chainId, 
-        retries: retries+1
-      })
+      // wait 1 min before sending retry request
+      setTimeout(async () => {
+        await postWorkers('deployClaim', {
+          claimUid, 
+          chainId, 
+          retries: retries+1
+        })
+      }, 60*1000)
     }
   }
 
@@ -200,14 +202,20 @@ async function closeClaimHandler(data: any): Promise<Response> {
   catch (error: any) {
     logger.error(`closeVoting transaction failed claimUid: ${claimUid}`
       +`error: ${error || error.message}`);
-    if (retries < MAX_RETRIES) {
-      // resend request so we can retry
-      await postWorkers('closeVoting', {
-        claimUid, 
-        proofRef, 
-        chainId, 
-        retries: retries+1
-      })
+    
+    // check if error is an assertion error, if it is then do not retry 
+    const isAssertError =  (error.message || '').includes('.assert'); 
+      
+    if (!isAssertError && retries < MAX_RETRIES) {
+      // resend request so we can retry, but wait 1 min before resending
+      setTimeout(async () => {
+        await postWorkers('closeVoting', {
+          claimUid, 
+          proofRef, 
+          chainId, 
+          retries: retries+1
+        })
+      }, 60*1000)
     }
   }
 

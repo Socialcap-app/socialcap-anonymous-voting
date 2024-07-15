@@ -78,7 +78,7 @@ async function postWorkers(
   params: object,
 ): Promise<Response> {
   const codec = JSONCodec();
-  const natsSubject = `socialcap:tasks`;
+  const natsSubject = `tasks`;
 
   const nc = await connect({ 
     servers: NATS_SERVER,
@@ -90,6 +90,11 @@ async function postWorkers(
   // Publish the task
   try {
     const jetStream = nc.jetstream();
+
+    console.log({
+      "post": command,
+      "params": JSON.stringify(params)
+    });
 
     await jetStream.publish(
       natsSubject, 
