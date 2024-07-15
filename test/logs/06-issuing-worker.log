@@ -1,0 +1,83 @@
+mzito@zen3:~/dev/work/socialcap/anonymous-voting$ ./run-worker.sh 
+
+> tmp@0.1.0 build /home/mzito/dev/work/socialcap/anonymous-voting
+> tsc
+
+Debugger listening on ws://127.0.0.1:39599/8d7454a0-380f-492f-ae81-668f64ce213f
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+Waiting for the debugger to disconnect...
+Debugger listening on ws://127.0.0.1:45545/f6edecc2-11de-4b18-b446-2d9952dbb45c
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+[14:34:16.806] INFO (4025449): Worker #1
+[14:34:18.096] INFO (4025449):
+    messages: 0
+    bytes: 0
+    first_seq: 239
+    first_ts: "1970-01-01T00:00:00Z"
+    last_seq: 238
+    last_ts: "2024-07-15T17:30:50.203571542Z"
+    consumer_count: 2
+[14:34:18.354] INFO (4025449): C#1:  started. Waiting for messages...
+[14:34:19.609] INFO (4025449): C#1:  get another task
+[14:34:55.128] INFO (4025449): C#1:  get another task
+[14:34:55.894] INFO (4025449): C#1:  received subject: 'tasks' data: {"post":"deployCredential","params":"{\"claimUid\":\"41774015325480237320957810870096372478\",\"chainId\":\"devnet\"}"}
+[14:34:56.163] INFO (4025449): C#1:  working ...
+[14:34:56.164] INFO (4025449): Devnet network instance is active
+[14:34:56.164] INFO (4025449): Open KVStore path='./kvstorage'
+[14:34:57.074] INFO (4025449): Devnet network instance is active
+[14:35:17.324] INFO (4025449): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[14:39:31.132] INFO (4025449): deployCredentialAccount txn done: B62qoBZQ3HKagXs3caPpSPbHx69c3PD6bGEQbi1nJVppE3AJmR2GiYN 2024-07-15T17:39:31.132Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+[14:39:32.396] INFO (4025449): deployCredentialAccount isReady: true 2024-07-15T17:39:32.396Z
+semaphore.postWorkers connected to nats.socialcap.dev:4222
+{
+  post: 'issueCredential',
+  params: '{"claimUid":"41774015325480237320957810870096372478","chainId":"devnet"}'
+}
+semaphore.postWorkers cleanup (drained)
+[14:39:39.268] INFO (4025449): C#1:  done !
+[14:39:44.271] INFO (4025449): C#1:  get another task
+[14:39:44.529] INFO (4025449): C#1:  received subject: 'tasks' data: {"post":"deployCredential","params":"{\"claimUid\":\"259719963650179137679341407955682458470\",\"chainId\":\"devnet\"}"}
+[14:39:44.795] INFO (4025449): C#1:  working ...
+[14:39:44.796] INFO (4025449): Devnet network instance is active
+[14:39:45.125] INFO (4025449): Devnet network instance is active
+[14:39:45.126] INFO (4025449): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[14:42:35.103] INFO (4025449): deployCredentialAccount txn done: B62qoL4ampGfLypjTjkCjHTnXQEaEv1sgW3LVdgLb1FZCseWNRwFssu 2024-07-15T17:42:35.103Z
+[14:42:35.881] INFO (4025449): deployCredentialAccount isReady: true 2024-07-15T17:42:35.881Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+semaphore.postWorkers connected to nats.socialcap.dev:4222
+{
+  post: 'issueCredential',
+  params: '{"claimUid":"259719963650179137679341407955682458470","chainId":"devnet"}'
+}
+semaphore.postWorkers cleanup (drained)
+[14:42:44.488] INFO (4025449): C#1:  done !
+[14:42:50.491] INFO (4025449): C#1:  get another task
+[14:42:50.747] INFO (4025449): C#1:  received subject: 'tasks' data: {"post":"issueCredential","params":"{\"claimUid\":\"41774015325480237320957810870096372478\",\"chainId\":\"devnet\"}"}
+[14:42:51.013] INFO (4025449): C#1:  working ...
+[14:42:51.014] INFO (4025449): Devnet network instance is active
+[14:42:51.014] INFO (4025449): Devnet network instance is active
+[14:42:56.738] INFO (4025449): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[14:43:06.235] INFO (4025449): issueCredentialTransaction issue address: B62qoBZQ3HKagXs3caPpSPbHx69c3PD6bGEQbi1nJVppE3AJmR2GiYN
+[14:43:37.280] INFO (4025449): issueCredentialTransaction issued pendingTxn: 5JvETtpi8fPhcBiT65s4Cg1WyQS9b4TU4FXwWPYrUsNwBrdJuVGB
+[14:45:23.176] INFO (4025449): issueCredentialTransaction issued done: 2024-07-15T17:45:23.176Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+[14:45:24.142] INFO (4025449): C#1:  done !
+[14:45:30.145] INFO (4025449): C#1:  get another task
+[14:45:30.400] INFO (4025449): C#1:  received subject: 'tasks' data: {"post":"issueCredential","params":"{\"claimUid\":\"259719963650179137679341407955682458470\",\"chainId\":\"devnet\"}"}
+[14:45:30.667] INFO (4025449): C#1:  working ...
+[14:45:30.667] INFO (4025449): Devnet network instance is active
+[14:45:30.667] INFO (4025449): Devnet network instance is active
+[14:45:33.752] INFO (4025449): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[14:45:38.599] INFO (4025449): issueCredentialTransaction issue address: B62qoL4ampGfLypjTjkCjHTnXQEaEv1sgW3LVdgLb1FZCseWNRwFssu
+[14:45:53.810] INFO (4025449): issueCredentialTransaction issued pendingTxn: 5Juv7puk55LQXvMGkqrDQXt8W4Fq8TQQsqftBpRMUvyeYxHxXnu3
+[14:48:40.651] INFO (4025449): issueCredentialTransaction issued done: 2024-07-15T17:48:40.651Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+[14:48:41.438] INFO (4025449): C#1:  done !
+[14:48:48.442] INFO (4025449): C#1:  get another task
+[14:49:25.703] INFO (4025449): C#1:  get another task
+[14:50:00.961] INFO (4025449): C#1:  get another task
+[14:50:37.221] INFO (4025449): C#1:  get another task
+[14:51:13.482] INFO (4025449): C#1:  get another task

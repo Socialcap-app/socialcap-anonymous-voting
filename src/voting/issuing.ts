@@ -3,53 +3,41 @@
 */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import { PlanStrategy } from './strategy.js';
+import { postWorkers } from '../semaphore/requests.js';
+import { KVS } from '../services/lmdb-kvs.js';
+import { VotingClaim } from './selection.js';
 
 export {
-  issueCredential
+  emitCredentials
 }
 
-async function issueCredential(
+async function emitCredentials(
   communityUid: string, 
   planUid: string,
-  strategy: PlanStrategy,
-  claimUid: string,
-
+  claims: VotingClaim[],
+  chainId?: string,
 ) {
-  return;
   // traverse all claims
-//     let claim = claims[k];
-//     
-//     try {
-//       let address = await deployClaimVoting(
-//         claim.uid,
-//         strategy.requiredPositives as number, 
-//         strategy.requiredVotes as number
-//       );
-//       
-//       let serializedProof = KVS.get(`claims.${claim.uid}.proof`);
-//       let finalProof = await ClaimRollupProof.fromJSON(
-//         JSON.parse(serializedProof)
-//       );
-//   
-//       await settleClaimVoting(
-//         claim.uid,
-//         address,
-//         "", // the IPFS url here
-//         finalProof as ClaimRollupProof
-//       ); 
-//     }
-//     catch (error: any) {
-//       const errmsg = (claim.error || '')+(error || error.message); 
-//       logger.error(`ClaimVoting settlement claim: ${claim.uid} error: ${errmsg}`)
-//       claim.error = errmsg 
-//     }
-// 
-//     // we can now settle this result on MINA
-//     // we will need claim info for this !
-//     // needed: applicant accountId, issuer accountId, 
-//     // revocable, transferable, dueDate, tokenId and token amount
-//     // TODO
-//     // assignar custom tokens a la credencial
-//   }
+  let count = 0;
+  for (let k=0; k < (claims || []).length; k++) {
+
+    let claim = KVS.get(`claims.${claims[k].uid}`) ;
+    if (!claim) continue;
+
+    // already issued
+    if (claim.issued && claim.issued?.address) 
+      continue;
+
+    // dispatch to worker 
+    await postWorkers('deployCredential', {
+      claimUid: claim.uid,
+      chainId
+    })
+    count++;
+  }  
+
+  return { 
+    success: true, error: null,
+    data: { count: count }
+  }
 }

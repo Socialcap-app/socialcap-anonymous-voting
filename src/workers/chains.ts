@@ -31,5 +31,6 @@ function getPayers() {
     pk: PublicKey.fromBase58(process.env.DEVNET_DEPLOYER_PK+''),
     sk: PrivateKey.fromBase58(process.env.DEVNET_DEPLOYER_SK+''),
   }
+  logger.info(`Payer pk: ${deployer.pk.toBase58()}`)
   return [ deployer ];
 }

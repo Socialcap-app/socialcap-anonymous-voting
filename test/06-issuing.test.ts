@@ -1,15 +1,13 @@
 import fs from "fs"
-import { randomInt } from "crypto";
-import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey, Encoding } from "o1js";
 import { Identity, IdentityProver, postRequest, CipheredText } from "../src/semaphore";
 import { type VotingClaim } from "../src/voting/selection";
 import { type PlanStrategy } from "../src/voting/strategy";
-import { processBatches } from "../src/voting/tallying";
+import { emitCredentials } from "../src/voting/issuing";
 
 // these are shared test parameters
 import { communityUid, tmpFolder, plan001Strategy, planUid } from "./helper-params";
 
-describe('Tally all votes for plan001', () => {
+describe('Issue some credentials for plan001', () => {
 
   let claims: VotingClaim[] = [];
   let planStrategy: PlanStrategy = plan001Strategy;
@@ -25,14 +23,19 @@ describe('Tally all votes for plan001', () => {
     planStrategy = plan001Strategy;
   });
 
-  it('Process received plan batches', async () => {
-    let results = await processBatches(
+  it('Issue a limited set of credentials', async () => {
+    // we will use just first 2 claims for testing
+    let testClaims = [claims[0], claims[1]];
+
+    let response = await postRequest('emitCredentials', {
       communityUid,
       planUid,
-      claims,
-      planStrategy.requiredVotes as number,
-      planStrategy.requiredPositives as number
-    );
+      claims: testClaims, 
+      chainId: 'devnet'
+    })
+
+    expect(response.error).toBe(null);
+    expect(response.data).toBeDefined();
   });
 
 });
