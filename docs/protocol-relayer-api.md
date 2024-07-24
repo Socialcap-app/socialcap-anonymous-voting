@@ -118,6 +118,8 @@ Where:
 - If the **request is successful**: success = true, error = null, and data contains the response data.
 - If the **request fails**: success = false, data = null, and error contains the error messages.
 
+
+
 ### registerIdentity
 
 Registers a new Semaphore identity.
@@ -177,11 +179,14 @@ When the request is received the following happens:
 Where:
 - `encryptionKey` is the exclusive encryption public key created by the service and given to the user for sending encrypted messages to the service.
 
+
+
 ### registerGroup
 
 Registers a new Semaphore group. 
 
 **Request**
+
 ~~~~
 postRequest('registerGroup', {
   guid: string,
@@ -221,6 +226,8 @@ When the request is received the following happens:
 	}
 }
 ~~~
+
+
 
 ### registerCommunity
 
@@ -273,6 +280,8 @@ In this case only the protocol itself can add them to the community groups AFTER
 	data: { done: true }
 }  
 ~~~
+
+
 
 ### registerPlan
 
@@ -330,6 +339,8 @@ When registering a plan, with a given 'uid', the following will happen:
 	data: { hash: "..." }
 }  
 ~~~
+
+
 
 ### registerClaim
 
@@ -394,6 +405,16 @@ When registering a plan, with a given 'uid', the following will happen:
   }
 }  
 ~~~
+
+
+
+### registerValidator
+
+
+
+### registerAuditor
+
+
 
 ### assignElectors
 
@@ -467,6 +488,8 @@ Finally for each selected elector:
 
 It returns the received set of claims with the electors assigned to each one, and errors for each claim if they existed.
 
+
+
 ### retrieveAssignments
 
 Retrieves all assigned tasks of the given identity. Note that the user/elector will first have to prove that he/she effectively owns this identity (see [proofOfOwnership]()).
@@ -520,7 +543,11 @@ interface AssignedClaim {
 }
 ~~~
 
+
+
 ### receiveVotes
+
+
 
 ### processBatches
 
@@ -549,8 +576,6 @@ Where:
 This request can be sent by a community owner when voting has ended.
 
 **Actions**
-
-
 
 ## Relayer (NATS) configuration
 
