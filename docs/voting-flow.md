@@ -1,4 +1,14 @@
-# Voting process flow
+# Voting flow
+
+## Architecture
+
+We redesigned the Voting process to be completely decoupled from the Socialcap API, so we can manage more use cases.
+
+A critical component is the Relayer described in [Relayer API](./protocol-relayer-api-md).
+
+![](/home/mzito/dev/socialcap/anonymous-voting/docs/Architecture_1.png)
+
+## Voting process flow
 
 ### Electors anonymous identity
 
@@ -44,21 +54,25 @@
 2. Elector gets the list of all the tasks assigned to him for the given plan (or campaign) by giving the previous proof. `DONE`
 3. Elector looks at the list of claims and defines his vote for some of them, by clicking the preferred  option for each one.`DONE` (simulated)
 4. Elector creates a list where each item contains: the identity "commitment", the claimUid, the encrypted (vote, encryptionKey), a nullifier created from hash(identity sk, pin, claimUid).`DONE`
-
-1. Elector packs the list of votes, signs the pack and broadcasts it to the Protocol. The broadcast includes the data pack, the elector's identity "commitment", a hash of the pack, and the signature.`TO DO`
-2. Protocol receives the batch and stores it for latter use in the tallying.
+5. Elector packs the list of votes, signs the pack and broadcasts it to the Protocol. The broadcast includes the data pack, the elector's identity "commitment", a hash of the pack, and the signature.`DONE`
+6. Protocol receives the batch and stores it for latter use in the tallying. `DONE`
 
 ### Tallying
 
-1. Protocol creates a claims pool to store and order the collected votes for each claim.
-2. Protocol traverses all received batches, and for each batch needs to verify the signature and prove that signal was broadcasted by this elector.
+1. Protocol creates a claims pool to store and order the collected votes for each claim. `DONE`
+2. Protocol traverses all received batches, and for each batch needs to verify the signature and prove that signal was broadcasted by this elector. `DONE`
 3. If the proof is correct then protocol will extract all votes from the pack  and add the vote entry to the corresponding claim.
 4. Protocol now traverses all claims and for each claim:
    - Using the vote identity gets the corresponding encryptionKey, end decrypts the vote, adding it to the claim decrypted list.
-   - Now it will run a recursive proof using the received votes, adding the votes and calculating the final result. For each vote we need to check that the identity commitment is in the electors set for the community, that it is in the electors group for the claim and that the nullifier has not been used.
-   - When all votes have been processed, we will create a transaction to update the ClaimVoting account, passing it the final result and the recursive proof.
-   - Questions: We are not sure about dispatching actions for each vote. Or we may pack all of the votes in just one action ? We can pack as much as 100 fields in the action,that means as much as 100 votes per action, but may use some of the action fields for other purposes. We do not need to pack the identities, just the votes ?
-   - Send a NATS notification indicating the Claim result.
+   - Now it will run a recursive proof using the received votes, adding the votes and calculating the final result. For each vote we need to check that the identity commitment is in the electors set for the community, that it is in the electors group for the claim and that the nullifier has not been used. `DONE`
+   - When all votes have been processed, we will create a transaction to update the ClaimVoting account, passing it the final result and the recursive proof. `DONE`
+   - Send a NATS notification indicating the Claim result `DONE`.
+
+### Issuing
+
+1. After claims has been processed we can issue all APPROVED credentials
+2. This requieres first to deploy a credential account `DONE`
+3. And then to issue the credential using this account `DONE`
 
 ## Protocol objects 
 

@@ -25,8 +25,8 @@ async function emitCredentials(
     if (!claim) continue;
 
     // already issued
-    if (claim.issued && claim.issued?.address) 
-      continue;
+    // if (claim.issued && claim.issued?.address) 
+    //   continue;
 
     // dispatch to worker 
     await postWorkers('deployCredential', {

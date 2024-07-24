@@ -60,7 +60,7 @@ async function deployCredentialAccount(
   let zkappPk = zkappSk.toPublicKey();
   let address = zkappPk.toBase58();
   let zkapp = new CredentialContract(zkappPk);
-  logger.debug(`deployCredentialAccount new address: ${address}`)
+  logger.info(`deployCredentialAccount new address: ${address}`)
     
   const txn = await Mina.transaction(
     { sender: deployer.pk, fee: TXNFEE }, 
@@ -75,7 +75,7 @@ async function deployCredentialAccount(
   // this tx needs .sign(), because `deploy()` adds 
   // an account update that requires signature authorization
   let pendingTxn = await txn.sign([deployer.sk, zkappSk]).send();
-  logger.debug(`deployCredentialAccount pendingTxn: ${pendingTxn.hash}`)
+  logger.info(`deployCredentialAccount pendingTxn: ${pendingTxn.hash}`)
 
   await pendingTxn.wait();
   logger.info(`deployCredentialAccount txn done: ${address} ${(new Date()).toISOString()}`);

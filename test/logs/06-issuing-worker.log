@@ -81,3 +81,59 @@ semaphore.postNotification connected to nats.socialcap.dev:4222
 [14:50:00.961] INFO (4025449): C#1:  get another task
 [14:50:37.221] INFO (4025449): C#1:  get another task
 [14:51:13.482] INFO (4025449): C#1:  get another task
+
+---
+
+[12:33:25.071] INFO (931696): C#1:  received subject: 'tasks' data: {"post":"deployCredential","params":"{\"claimUid\":\"41774015325480237320957810870096372478\",\"chainId\":\"devnet\"}"}
+[12:33:25.337] INFO (931696): C#1:  working ...
+[12:33:25.337] INFO (931696): Devnet network instance is active
+[12:33:25.337] INFO (931696): Open KVStore path='./kvstorage'
+[12:33:26.480] INFO (931696): Devnet network instance is active
+[12:33:37.662] INFO (931696): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[12:36:29.238] INFO (931696): deployCredentialAccount txn done: B62qkB74GsyimiJsyYwMxXebrKQSwpSUScNFTXJd8sUU5eNnSFaNYd8 2024-07-16T15:36:29.238Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+[12:36:30.500] INFO (931696): deployCredentialAccount isReady: true 2024-07-16T15:36:30.500Z
+semaphore.postWorkers connected to nats.socialcap.dev:4222
+{
+  post: 'issueCredential',
+  params: '{"claimUid":"41774015325480237320957810870096372478","chainId":"devnet"}'
+}
+semaphore.postWorkers cleanup (drained)
+[12:36:32.860] INFO (931696): C#1:  done !
+[12:36:37.865] INFO (931696): C#1:  get another task
+[12:36:38.119] INFO (931696): C#1:  received subject: 'tasks' data: {"post":"deployCredential","params":"{\"claimUid\":\"259719963650179137679341407955682458470\",\"chainId\":\"devnet\"}"}
+[12:36:38.386] INFO (931696): C#1:  working ...
+[12:36:38.386] INFO (931696): Devnet network instance is active
+[12:36:39.188] INFO (931696): Devnet network instance is active
+[12:36:39.189] INFO (931696): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[12:39:31.133] INFO (931696): deployCredentialAccount txn done: B62qpwvLvxRyA8KQeBWWh1aZbpvxAAD69LUSZLLMpUw2WjduJuZvv9R 2024-07-16T15:39:31.133Z
+[12:39:31.982] INFO (931696): deployCredentialAccount isReady: true 2024-07-16T15:39:31.982Z
+semaphore.postNotification connected to nats.socialcap.dev:4222
+semaphore.postWorkers connected to nats.socialcap.dev:4222
+{
+  post: 'issueCredential',
+  params: '{"claimUid":"259719963650179137679341407955682458470","chainId":"devnet"}'
+}
+semaphore.postWorkers cleanup (drained)
+[12:39:34.293] INFO (931696): C#1:  done !
+[12:39:41.298] INFO (931696): C#1:  get another task
+[12:39:41.554] INFO (931696): C#1:  received subject: 'tasks' data: {"post":"issueCredential","params":"{\"claimUid\":\"41774015325480237320957810870096372478\",\"chainId\":\"devnet\"}"}
+[12:39:41.812] INFO (931696): C#1:  working ...
+[12:39:41.812] INFO (931696): Devnet network instance is active
+[12:39:41.812] INFO (931696): Devnet network instance is active
+[12:39:41.813] INFO (931696): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[12:39:42.617] INFO (931696): issueCredentialTransaction issue address: B62qkB74GsyimiJsyYwMxXebrKQSwpSUScNFTXJd8sUU5eNnSFaNYd8
+[12:39:53.567] INFO (931696): issueCredentialTransaction issued pendingTxn: 5JtvDDz8W7UHKGtpFkTjLBufjLpdvFgwSi6mSS9Wd9C8nK829SXY
+semaphore.postNotification connected to nats.socialcap.dev:4222
+[12:42:41.168] INFO (931696): issueCredentialTransaction issued done: 2024-07-16T15:42:41.168Z
+[12:42:41.952] INFO (931696): C#1:  done !
+[12:42:46.956] INFO (931696): C#1:  get another task
+[12:42:47.211] INFO (931696): C#1:  received subject: 'tasks' data: {"post":"issueCredential","params":"{\"claimUid\":\"259719963650179137679341407955682458470\",\"chainId\":\"devnet\"}"}
+[12:42:47.478] INFO (931696): C#1:  working ...
+[12:42:47.478] INFO (931696): Devnet network instance is active
+[12:42:47.478] INFO (931696): Devnet network instance is active
+[12:42:47.478] INFO (931696): Payer pk: B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp
+[12:42:48.749] INFO (931696): issueCredentialTransaction issue address: B62qpwvLvxRyA8KQeBWWh1aZbpvxAAD69LUSZLLMpUw2WjduJuZvv9R
+[12:42:56.998] INFO (931696): issueCredentialTransaction issued pendingTxn: 5JvA37o6cu9hrLPSEagYnsD9DVTNHBzZsqAbANkbnBcXs2umBMHp
+[12:48:33.256] INFO (931696): issueCredentialTransaction issued done: 2024-07-16T15:48:33.256Z
+semaphore.postNotification connected to nats.socialcap.dev:4222

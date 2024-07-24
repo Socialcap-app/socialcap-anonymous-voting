@@ -89,9 +89,7 @@ async function startConsumer(id: string) {
         logger.info(`C#${myId}:  received subject: '${msg.subject}' data: ${JSON.stringify(data)}`);
 
         // delete it so that no other consumer gets it
-        const {
-          alreadyRemoved
-        } = await removeOrFail(msg);
+        const { alreadyRemoved } = await removeOrFail(msg);
         if (alreadyRemoved)
           // do not process, we just ignore it
           continue;

@@ -2,7 +2,7 @@
 # Semaphore
 
 Semaphore is a zero-knowledge protocol that allows you to cast a signal and 
-proof you are a group member without revealing your identity.
+proof you are a member of  certain group without revealing your identity.
 
 https://semaphore.pse.dev/
 

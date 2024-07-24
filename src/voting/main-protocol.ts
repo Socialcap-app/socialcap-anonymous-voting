@@ -15,17 +15,17 @@ import {
 } from "./registrations.js";
 
 // we need to register  all application handlers 
+registerApplicationHandler('registerCommunity', registerCommunityHandler);
+registerApplicationHandler('registerPlan', registerPlanHandler);
+registerApplicationHandler('registerClaim', registerClaimHandler);
 registerApplicationHandler('assignElectors', assignElectorsHandler);
 registerApplicationHandler('retrieveAssignments', retrieveAssignmentsHandler);
 registerApplicationHandler('receiveVotes', receiveVotesHandler);
 registerApplicationHandler('processBatches', processBatchesHandler);
-registerApplicationHandler('emitCredentials', emitCredentialsHandler);
-registerApplicationHandler('registerCommunity', registerCommunityHandler);
-registerApplicationHandler('registerPlan', registerPlanHandler);
-registerApplicationHandler('registerClaim', registerClaimHandler);
-
-// we also need
 // registerProposal FUTURE!
+
+// registerApplicationHandler('emitCredentials', emitCredentialsHandler);
+// we also need
 // issueCredentials
 
 // start the NATSClient and we are running !
