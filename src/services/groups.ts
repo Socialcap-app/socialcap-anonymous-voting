@@ -18,6 +18,7 @@ interface StoredGroup {
   root: string; // the root of the AnyMerkleMap
   json: string; // serialized JSON of the group map
   updatedUTC: Date; // datetime of las group update
+  owner: string;
 }
 
 /**
@@ -31,7 +32,7 @@ function handleGroupRegistration(params: {
   guid: string,
   owner?: string
 }): Response {
-  const { guid } = params;
+  const { guid, owner } = params;
   if (!guid)
     throw Error("services.handleGroupRegistration requires a group Uid");
 
@@ -46,7 +47,7 @@ function handleGroupRegistration(params: {
   const map = getOrCreate(guid);
 
   // serialize it and store it in KVS
-  saveGroup(guid, map as AnyMerkleMap);
+  saveGroup(guid, map as AnyMerkleMap, owner);
 
   return {
     success: true, error: null, 
@@ -81,14 +82,19 @@ function getGroupMembers(guid: string): string[] {
 /** 
  * Serializes the group's map and stores it in KVS.
  */ 
-function saveGroup(guid: string, map: AnyMerkleMap) {
+function saveGroup(
+  guid: string, 
+  map: AnyMerkleMap, 
+  owner?: string
+) {
   const serialized = serializeMap(map as AnyMerkleMap);
   const stored = {
     guid: guid,
     size: map?.length.toString(),
     root: map?.root.toString(),
     json: serialized,
-    updatedUTC: (new Date()).toISOString()
+    updatedUTC: (new Date()).toISOString(),
+    owner: owner || null
   } 
   KVS.put(guid, stored);
 }

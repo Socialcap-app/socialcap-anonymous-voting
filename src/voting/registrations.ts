@@ -8,6 +8,7 @@ import { Field, Signature, PublicKey } from "o1js";
 import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { handleGroupRegistration } from "../services/groups.js";
+import { getOrCreate } from "../services/merkles.js";
 
 export {
   registerPlanHandler,
@@ -35,7 +36,7 @@ async function registerCommunityHandler(data: any): Promise<Response> {
   // check if already registered
   let exists = KVS.get(`communities.${uid}`);
   if (exists) 
-    throw Error(`Community '${uid}' is already registered`);
+    throw Error(`Community: '${uid}' is already registered`);
 
   KVS.put(`communities.${data.uid}`, {
     uid: uid,
