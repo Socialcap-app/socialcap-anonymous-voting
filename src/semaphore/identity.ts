@@ -7,9 +7,10 @@
  * A given user will have only one commited and registered identity, 
  * but the same identity can be present in more than one Group.
  */
-import { PrivateKey, Poseidon, Field } from "o1js";
+import { PrivateKey, Poseidon, Field, Signature } from "o1js";
 import { readPrivateFile, savePrivateFile, setPrivateFolder } from "./private.js";
 import { Response, postRequest } from "./requests.js";
+import { proveIdentityOwnership } from "./prover.js";
 
 export { Identity, registerIdentity } ;
 
@@ -92,17 +93,32 @@ class Identity {
 * and the same identity can be registered in many groups.
 * 
 * @param identity the identity commitment to register
-* @param guid the group for which we will register it
 * @returns an encryptionKey only shared by this identity and the service
 */
 async function registerIdentity(
   identity: Identity,
-  guid: string
+  pin: string
  ): Promise<Response> {
+
+  // we need to get the signature 
+  // we can sign directly using the privateKey in the identity 
+  let ts = Date.now().toString();
+  let signature = Signature.create(
+    PrivateKey.fromBase58(identity.sk), 
+    [Field(identity.commitment), Field(ts)]
+  );
+  console.log('signature: ', signature);
+
+  const proof = await proveIdentityOwnership(identity, pin, signature);
+  identity.ownershipProof = proof;
+  identity.save();
+
   let rsp = await postRequest('registerIdentity', {
     commitment: identity.commitment,
     pk: identity.pk,
-    guid: guid
+    proofOfIdentity: JSON.stringify(proof),
+    signature: JSON.stringify(signature),
+    ts: ts
   })
  
   return {

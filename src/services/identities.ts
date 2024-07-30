@@ -1,9 +1,10 @@
 /**
  * Manages the Identities register
  */
-import { Field, PrivateKey } from 'o1js';
+import { Field, PrivateKey, PublicKey, Signature } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap } from './merkles.js';
+import { verifyOwnershipProof } from './verifiers.js';
 import { Response } from "../semaphore/index.js";
 
 export {
@@ -17,23 +18,35 @@ export {
  * @param params.guid the Semaphore group where we will register it
  * @returns 
  */
-function handleIdentityRegistration(params: {
+async function handleIdentityRegistration(params: {
   commitment: string,
   pk: string,
-  guid: string
-}): Response {
-  const { commitment, pk, guid } = params;
+  proofOfIdentity: string,
+  signature: string,
+  ts: string
+}): Promise<Response> {
+  const { commitment, pk, proofOfIdentity, signature, ts } = params;
 
   // get the group map, either by taking it from cache, 
   // or reading it from KVS or by creating a new one
+  const guid = 'global.0.identities';
   const map = getOrCreate(guid);
 
   // if it exists in map it is an error !
   let option = map?.getOption(Field(commitment));
-  if (option?.isSome.toBoolean()) return { 
-    success: false, data: null,
-    error: `Identity commitment: ${commitment} already exists in Group: ${guid}`
-  }
+  if (option?.isSome.toBoolean()) 
+    throw Error(`Identity commitment: '${commitment}' already registered`)
+
+  const proofOk = await verifyOwnershipProof(proofOfIdentity);
+  if (!proofOk) 
+    throw Error(`Invalid proofOfIdentity for '${commitment}`);
+
+  let signed = Signature.fromJSON(JSON.parse(signature));
+  const signatureOk = await signed.verify(
+    PublicKey.fromBase58(pk), [Field(commitment), Field(ts)]
+  ).toBoolean();
+  if (!signatureOk) 
+    throw Error(`Invalid signature for '${commitment}'`)
 
   // does no already exist it map, we insert it  
   map?.insert(Field(commitment), Field(1));

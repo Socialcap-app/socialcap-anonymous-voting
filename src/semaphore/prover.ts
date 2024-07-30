@@ -78,31 +78,24 @@ const IdentityProver = ZkProgram({
 /**
  * Builds the proof that he/she owns this identity
  * @param identity 
- * @param identityCommitment
+ * @param signature
  * @returns the proof as a JSON object (not stringified)
  */
 async function proveIdentityOwnership(
   identity: Identity,
-  identityCommitment: string
+  pin: string,
+  signature: Signature
 ): Promise<any> {
   if (!verificationKeyCache) {
     const { verificationKey } = await IdentityProver.compile();
     verificationKeyCache = verificationKey;
   }
 
-  // we need to get the signature 
-  // we can sign directly using the privateKey in the identity 
-  let signature = Signature.create(
-    PrivateKey.fromBase58(identity.sk), 
-    [Field(identityCommitment)]
-  );
-  console.log('signature: ', signature);
-
   // create a proof that the commited identity belongs to us
   const ownershipProof = await IdentityProver.proveOwnership(
-    Field(identityCommitment), 
+    Field(identity.commitment), 
     PublicKey.fromBase58(identity.pk),
-    Field(identity.pin),
+    Field(pin),
     signature
   );
   console.log('ownershipProof: ', 

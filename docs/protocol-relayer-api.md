@@ -11,18 +11,22 @@ It is  composed of:
 - **Objects** managed by the Relayer and keep the persistent state.
 - **Workers** to whom the Relayer will delegate some tasks. 
 
-#### Messages
+### Messages
 
 There are two main groups of messages that the Relayer receives and responds:
 
-- **Semaphore messages**. These are messages that implement the basic features of the Semaphore protocol, and are not binded to any particular application:
+- **Semaphore messages**. These are messages that implement the basic features of the Semaphore protocol, and are not binded to any particular application.
 
 - **Application messages**. These are the messages related to the Socialcap Voting application itself.
+
+#### Index
 
 Here is the **Index** of all messages:
 
 - [registerIdentity]()
 - [registerGroup]()
+- [registerMember]()
+- [proveMembership]()
 - [registerCommunity]()
 - [registerPlan]()
 - [registerValidator]()
@@ -42,9 +46,36 @@ Some messages may be needed to manage (update/remove) the basic entities (identi
 - removeValidator
 - removeAuditor
 
-#### Subjects
+#### General structure
 
-- `socialcap:protocol`: Anyone can send a request to these subject subjects, and it is the subject that the Relayer will be listening on and will respond. 
+All messages are sent using the `postRequest` method included in the Socialcap Protocol SDK. It sends a request to the `socialcap:protocol` subject where the Relayer is listening.
+
+The usual **Request** is done using:
+
+~~~
+let response = await postRequest('command', { params });	
+~~~
+
+Where:
+
+- `command` is the request action itself
+- `params` is an object containing required and optional params 
+
+The **Response** will always be of the form:
+~~~
+{ 
+  success: true | false, 
+  error: { message: string, reason?: string } | null
+  data: any | null
+}  
+~~~
+Where:
+- If the **request is successful**: success = true, error = null, and data contains the response data.
+- If the **request fails**: success = false, data = null, and error contains the error messages.
+
+### Subjects
+
+- `socialcap:protocol`: Anyone can send a request to these subject, and it is the subject that the Relayer will be listening on and will respond. 
 
 - `socialcap:tasks`: Only the Relayer or other Workers can publish to this subject, and only the Workers will be listening to this subject.
 
@@ -58,7 +89,7 @@ Some messages may be needed to manage (update/remove) the basic entities (identi
 
 - ``socialcap:news.personal.*`: Any user can listen to this news subject, where news for a particular person are published.
 
-#### Objects
+### Objects
 
 The Relayer uses a high performance key-value store, based on LMDB to persist all its objects and state. 
 
@@ -90,77 +121,46 @@ An **Indexed Merkle Map (IMM)**, used to store the Group members, where the leaf
 
 **NOTES**: it is important to note here that only the minimal information required for the voting process is used and stored here. For example, we don't need al info from the claim, just the basic info and the references to the community, plan and applicant. 
 
-## Protocol messages
+## Identity
 
-**General structure** 
-
-All messages are sent using the `postRequest` method included in the Socialcap Protocol SDK. It sends a request to the `socialcap:protocol` subject where the Relayer is listening.
-
-The usual **Request** is done using:
-~~~
-postRequest('command', { params })	
-~~~
-
-Where:
-- `command` is the request action itself
-- `params` is an object containing required and optional params 
-
-The **Response** will always be of the form:
-~~~
-{ 
-  success: true | false, 
-  error: any | null
-	data: any | null
-}  
-~~~
-
-Where:
-- If the **request is successful**: success = true, error = null, and data contains the response data.
-- If the **request fails**: success = false, data = null, and error contains the error messages.
-
-
+This requests managed the registration and removal of an identity. These messages are part of the standard Semaphore messages.
 
 ### registerIdentity
 
-Registers a new Semaphore identity.
+Registers a new Semaphore identity. This is a global registration not tied to any particular group.
+
+The identity needs to be created using the [createIdentity]() method and proved using the [proveIdentityOwnership]() method included in the Socialcap protocol SDK.
 
 **Request**
-
 ```
-postRequest('registerIdentity', {
-  	commitment: string,
-  	pk: string,
-  	guid: string,
+let response = await postRequest('registerIdentity', {
+    commitment: string,
+    pk: string,
     proofOfIdentity: string,
-    nullifier: string,
-    signature?: string, 
-})	
+    signature: string, 
+    ts: string
+});	
 ```
-
 Where:
-- `commitment`  is the identity commitment 
-- `pk` is the public key of this identity needed to verify signatures
-- `guid` is the Semaphore group Uid where we will register it.
-- `proofOfOwnership` is a proof that the user really owns this identity.
-- `nullifier` is a nullifier sent to avoid replay of the same identity proof.
-- `signature` is an _optional_ signature is only required if the group has an owner. In this case the request MUST be signed by the owner.
+- `commitment`  is the identity commitment.
+- `pk` is the public key of this identity needed to verify signatures.
+- `proofOfIdentity` is the proof (stringified) that the user really owns this identity. 
+- `signature` the identity owner signature (stringified).
+- `ts` the timestamp (ms) used as a nonce
 
 **Permissions**
 
-If the group has no owner, the registration in the group is open to anyone.
+Anyone can register an identity if he/she can prove that he owns it.
 
-If the group has an owner, the owner is the only one who can add members to it.
-
-The global group `global.0.identities` is open to anyone. All identities are also registered here.
+New identities will be registered in the global group `global.0.identities` that is open to anyone, and this group is the one that will be tested to check if an identity is registered. 
 
 **Actions**
 
 When the request is received the following happens:
 - Check the identity has not been previosly registered, or raise an error.
-- Check the Guid exists, or raise an error.
 - Verify the proof, or raise an error.
-- Check the nullifier has not been used, or raise an error.
-- If the group has an owner, check the signature or raise an error
+- Check the identity owner signature or raise an error
+- Check the signature of message [commitment, ts]
 - Create an exclusive encryption key pair for this identity.
 - Add an entry in KVS with the received identity data and the new keypair.
 - Add this identity to the indicated `guid` group.
@@ -170,16 +170,49 @@ When the request is received the following happens:
 ~~~
 { 
   success: true, error: false,
-	data: { 
-		encryptionKey: string
-	}
+  data: { 
+    encryptionKey: string
+  }
 }  
 ~~~
-
 Where:
 - `encryptionKey` is the exclusive encryption public key created by the service and given to the user for sending encrypted messages to the service.
 
+### removeIdentity (NOT IMPLEMENTED)
 
+This will remove the identity from the global register, the `global.0.identities` group.
+
+NOTE: It will NOT remove it from the other groups in which it was included. BUT all tests for membership will need to check that the identity has not been removed, so the membership proof MUST fail if it was removed.
+
+**Request**
+```
+let response = await postRequest('removeIdentity', {
+    commitment: string,
+    proofOfIdentity: string,
+    signature: string, 
+});	
+```
+Where:
+- `commitment`  is the identity commitment.
+- `proofOfIdentity` is the proof (stringified) that the user really owns this identity. 
+- `signature` the identity owner signature (stringified).
+
+**Permissions**
+
+Anyone can remove its identity from the global register, if it can prove that he/she owns the identity.
+
+**Actions**
+
+When the request is received the following happens:
+- Check the identity has been previosly registered, or raise an error.
+- Verify the proof, or raise an error.
+- Check the identity owner signature or raise an error
+- Remove the entry from KVS.
+- Remove this identity from the `global.0.identities` group.
+
+## Groups
+
+This set of requests manage the creation/removal on groups and how to add or remove members to it. These messages are part of the standard Semaphore messages.
 
 ### registerGroup
 
@@ -217,17 +250,74 @@ When the request is received the following happens:
 ~~~
 { 
   success: true, error: false,
-	data: { 
-		guid: string,   // the received GroupUid
+  data: { 
+    guid: string,   // the received GroupUid
     hash: string,   // the Group hash 
-		size: string,   // size of the Group, initially 1 (initial leaf is 0,0)
-		root: string,   // root of the IndexedMerkleMap
-		status: string  // state of the Group, 'ACTIVE'
-	}
+    size: string,   // size of the Group, initially 1 (initial leaf is 0,0)
+    root: string,   // root of the IndexedMerkleMap
+    status: string  // state of the Group, 'ACTIVE'
+  }
 }
 ~~~
 
+### removeGroup
 
+### registerMember
+
+Registers the given identity as member of the given group. The identity and the group needs to have been previosuly registered.
+
+**Request**
+```
+let response = await postRequest('registerMember', {
+    guid: string,
+    commitment: string,
+    proofOfIdentity: string,
+    signature: string
+});	
+```
+Where:
+- `guid` is the Guid of the Semaphore group where we want to add this member.
+- `commitment`  is the identity commitment of the new member.
+- `proofOfIdentity` is a proof that the user really owns this identity.
+- `signature` is the member signature that needs to accompany the proof.
+
+**Permissions**
+
+If the group has no owner, the registration in the group is open to anyone.
+
+If the group has an owner, the owner is the only one who can add members to it, and so the request can be denied if the group owner rejects it.
+
+The global group `global.0.identities` is open to anyone. All identities are also registered here.
+
+**Actions**
+
+When the request is received the following happens:
+- Check the identity has been previosly registered, or raise an error.
+- Check the Guid exists, or raise an error.
+- Verify the proof, or raise an error.
+- Check the identity owner signature or raise an error.
+- Add this identity to the indicated `guid` group.
+
+**Response**
+~~~
+{ 
+  success: true, error: false,
+  data: { 
+    encryptionKey: string
+  }
+}  
+~~~
+
+Where:
+- `encryptionKey` is the exclusive encryption public key created by the service and given to the user for sending encrypted messages to the service.
+
+### removeMember 
+
+
+### proveMembership
+
+
+## Application
 
 ### registerCommunity
 
@@ -237,15 +327,15 @@ Registers a community that will latter create campaign plans, receive claims and
 
 ~~~
 postRequest('registerCommunity', {
-	uid: string,
-	address: string,
+  uid: string,
+  address: string,
   owner?: string,
   signature?: string
 })	
 ~~~
 
 Where:
-- `udi` is the Uid of thd community existent in the API and Indexer.
+- `uid` is the Uid of the community existent in the API and Indexer.
 - `address` is the public key of this community (a MINA public key).
 - `owner` is the _optional_ owner who can change groups related to this community. In some cases it can be the same as the 'address', but in Socialcap usually is the special Socialcap API account that will sign all future changes to this community.
 - `signature` is the _optional_ signature required when we register a community with an owner.
@@ -277,7 +367,7 @@ In this case only the protocol itself can add them to the community groups AFTER
 ~~~
 { 
   success: true, error: false,
-	data: { done: true }
+  data: { done: true }
 }  
 ~~~
 
@@ -290,7 +380,7 @@ Registers a campaign plan that will latter receive the claims that will be voted
 **Request**
 ~~~
 postRequest('registerPlan', {
-	uid: string,
+  uid: string,
   communityUid: string,
   strategy: {
     source: string, // 'validators' | 'auditors' | 'all',
@@ -300,10 +390,10 @@ postRequest('registerPlan', {
     auditFrequency: number,
     requiredVotes: number,
     requiredPositives: number,
-	},    
-	votingStartsUTC: string, 
-	votingEndsUTC: string,
-	state?: string,
+  },    
+  votingStartsUTC: string, 
+  votingEndsUTC: string,
+  state?: string,
   signature?: Signature
 })	
 ~~~
@@ -336,7 +426,7 @@ When registering a plan, with a given 'uid', the following will happen:
 ~~~
 { 
   success: true, error: false,
-	data: { hash: "..." }
+  data: { hash: "..." }
 }  
 ~~~
 
@@ -351,18 +441,17 @@ We need to check that the Plan and the Community are already registered.
 **Request**
 ~~~
 postRequest('registerClaim', {
-	uid: string,
+  uid: string,
   planUid: string,
   communityUid: string,
-	applicantUid: string,
+  applicantUid: string,
   applicantAddress: string 
-	createdUTC: string, 
+  createdUTC: string, 
   chainId?: string,
   state?: string,
   signature?: string
 })
 ~~~
-
 Where:
 - `uid` is the claim Uid.
 - `planUid` is the plan Uid to which this claim belongs.
@@ -400,19 +489,114 @@ When registering a plan, with a given 'uid', the following will happen:
 ~~~
 { 
   success: true, error: false,
-	data: { 
+  data: { 
     address: string, // address of the new deployed account
   }
 }  
 ~~~
 
 
+## Voting process
 
 ### registerValidator
+
+A validator needs to do some things before he can register itself as a Validator for a given community:
+
+1. Create a Semaphore Identity and register it. 
+2. Prove that he has been designed as validator by the community. 
+
+After that he can register as validator.
+
+**Request**
+```
+let response = await postRequest('registerValidator', {
+    communityUid: string,
+    commitment: string,
+    proofOfIdentity: string,
+    proofIsValidator: string,
+    signature: string
+});	
+```
+Where:
+- `communityUid` is the Uid of the community where we want to add this validator.
+- `commitment` is the identity commitment.
+- `proofOfIdentity` is the proof (stringified) that the user really owns this identity. 
+- `proofIsValidator`: is the proof (stringified) that this is a valid validator in this community.
+- `signature` the identity owner signature (stringified).
+
+**Permissions**
+
+The validator needs to prove identity and authorization to validate.
+
+**Actions**
+
+When the request is received the following happens:
+- Check the identity has been previosly registered, or raise an error.
+- Check the Guid (communityUid) exists, or raise an error.
+- Verify the proofOfIdentity, or raise an error.
+- Verify the proofIsValidator, or raise an error.
+- Check the identity signature or raise an error.
+- Add this identity to the `communities.${communityUid}.validators` group.
+
+**Response**
+If success:
+~~~
+{ 
+  success: true, error: null,
+  data: { done: `Identity '${commitment}' added to 'communities.${communityUid}.validators' group` }
+}  
+~~~
 
 
 
 ### registerAuditor
+
+An auditor needs to do some things before he can register itself as Auditor for a given community:
+
+1. Create a Semaphore Identity and register it. 
+2. Prove that he has been designed as auditor by the community. 
+
+After that he can register as auditor.
+
+**Request**
+```
+let response = await postRequest('registerAuditor', {
+    communityUid: string,
+    commitment: string,
+    proofOfIdentity: string,
+    proofIsAuditor: string,
+    signature: string
+});	
+```
+Where:
+- `communityUid` is the Uid of the community where we want to add this validator.
+- `commitment` is the identity commitment.
+- `proofOfIdentity` is the proof (stringified) that the user really owns this identity. 
+- `proofIsAuditor`: is the proof (stringified) that this is a valid auditor in this community.
+- `signature` the identity owner signature (stringified).
+
+**Permissions**
+
+The auditor needs to prove identity and authorization to validate.
+
+**Actions**
+
+When the request is received the following happens:
+- Check the identity has been previosly registered, or raise an error.
+- Check the Guid (communityUid) exists, or raise an error.
+- Verify the proofOfIdentity, or raise an error.
+- Verify the proofIsAuditor, or raise an error.
+- Check the identity signature or raise an error.
+- Add this identity to the `communities.${communityUid}.auditors` group.
+
+**Response**
+If success:
+~~~
+{ 
+  success: true, error: null,
+  data: { done: `Identity '${commitment}' added to 'communities.${communityUid}.auditors' group` }
+}  
+~~~
 
 
 
@@ -479,10 +663,10 @@ Finally for each selected elector:
 ~~~
 { 
   success: true, error: false,
- 	data: { 
- 		claims: VotingClaim[], 
- 		errors: any[]
- 	}
+   data: { 
+     claims: VotingClaim[], 
+     errors: any[]
+   }
 }  
 ~~~
 
@@ -496,17 +680,17 @@ Retrieves all assigned tasks of the given identity. Note that the user/elector w
 
 **Request**
 ~~~ 
-postRequest('retrieveAssignments', {
+let response = await postRequest('retrieveAssignments', {
   identityCommitment: string,
-  proof: string,
-  nullifier: string
+  proofOfIdentity: string,
+  signature: string
 })
 ~~~
 
 Where:
 - `identityCommitment` is the identity commitment of the elector
-- `proof` is the serialized proofOfOwnership created by the owner of the commited identity.
-- `nullifier` is a nullifier sent to avoid replay of the same identity proof.
+- `proofOfIdentity` is the serialized proof created by the owner of the commited identity.
+- `signature` is the identity signed with the elector private key.
 
 **Permissions**
 
@@ -517,14 +701,14 @@ This request can be sent by anyone. The Relayer will check validity of the reque
 When the request is received the following happens:
 - Check the identity has been previously registered, or raise an error.
 - Verify the proof, or raise an error.
-- Check the nullifier has not been used, or raise an error.
+- Check the signature, or raise an error.
 - Get all assignments from the `assignments.${identityCommitment}` data object.
 
 **Response**
 ~~~
 { 
   success: true, error: false,
-	data: ElectorAssignment // the assigned claims to vote on
+  data: ElectorAssignment // the assigned claims to vote on
 }  
 ~~~
 
@@ -569,7 +753,7 @@ Where:
 - `planUid` is the plan Uid that we will process now.
 - `claims` is the list of claims that electors have voted, as an array of _VotingClaim_ objects.
 - `chainId` is the network where voting will be settled: 'mainnet', 'devnet' (default) or 'zeko'
-- `signature` is the _optional_ signature required when we register a group with an owner.
+- `signature?` is the _optional_ signature required when we register a group with an owner.
 
 **Permissions**
 
@@ -580,21 +764,41 @@ This request can be sent by a community owner when voting has ended.
 ## Relayer (NATS) configuration
 
 ~~~
-authorization {
-    # Define permissions for different users
-    users = [
-        # Allow anyone to publish to 'socialcap:protocol' subjects
-        { user: "*", permissions: { publish: "socialcap:protocol.>" } },
+websocket {
+  port: 4233
 
-        # Allow anyone to subscribe to specific 'socialcap:news' subjects
-        { user: "*", permissions: { subscribe: "socialcap:news.all" } },
-        { user: "*", permissions: { subscribe: "socialcap:news.group.*" } },
-        { user: "*", permissions: { subscribe: "socialcap:news.personal.*" } },
+  tls {
+    cert_file: "/etc/nats/certs/fullchain1.pem"
+    key_file: "/etc/nats/certs/privkey1.pem"
+  }
 
-        # Specific users with additional permissions
-        { user: "protocol-listener", permissions: { subscribe: "socialcap:protocol.>", allow_responses: true, publish: "socialcap:tasks.>" } },
-        { user: "protocol-worker", permissions: { subscribe: "socialcap:tasks.>", publish: "socialcap:tasks.>", publish: "socialcap:api.>" } },
-        { user: "api-listener", permissions: { subscribe: "socialcap:api.>" } }
-    ]
+  same_origin: false
+  compression: true
+}
+
+accounts {
+    socialcap {
+        users = [
+            { user: "*", permissions: {
+              publish: "socialcap:protocol"
+            }},
+            { user: "app-user", password: "???", permissions: {
+              publish: ["socialcap:notifications.>", "socialcap:protocol"], 
+              subscribe: ["socialcap:news.all", "socialcap:news.group.*", "socialcap:news.personal.*"]
+            }},
+            { user: "api-listener", password: "???", permissions: {
+               publish: ["socialcap:news.>", "socialcap:protocol"], 
+               subscribe: ["socialcap:api.>", "socialcap:notifications.>"] 
+            }},
+            { user: "protocol-listener", password: "???", permissions: {
+              publish: "socialcap:tasks.>", 
+              subscribe: "socialcap:protocol", allow_responses: true
+            }},
+            { user: "protocol-worker", password: "???", permissions: {
+              publish: ["socialcap:tasks.>", "socialcap:api.>"],
+              subscribe: "socialcap:tasks.>"
+            }}
+        ]
+    }
 }
 ~~~
