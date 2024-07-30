@@ -30,11 +30,12 @@ async function postRequest(
   const codec = JSONCodec();
 
   // the NATS subject where we will publish it
-  const natsSubject = `socialcap:semaphore`;
+  const natsSubject = `socialcap:protocol`;
 
   // connect to the NATS server and send a 'ready' request
   const nc = await connect({ 
     servers: NATS_SERVER,
+    user: '*',
     timeout: 5*60*1000, 
     debug: false 
   });

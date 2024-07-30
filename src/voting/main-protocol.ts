@@ -29,4 +29,4 @@ registerApplicationHandler('processBatches', processBatchesHandler);
 // issueCredentials
 
 // start the NATSClient and we are running !
-startListenerFor("socialcap:semaphore");
+startListenerFor("socialcap:protocol");

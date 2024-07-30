@@ -66,6 +66,8 @@ async function startListenerFor(subject: string) {
     // connect to the NATS server
     const nc = await connect({
       servers: process.env.NATS_SERVER as string, 
+      user: 'protocol-listener',
+      pass: process.env.NATS_PROTOCOL_LISTENER_PASS as string
     });
     logger.info(`NATS listener connected: ${process.env.NATS_SERVER}`);
 
