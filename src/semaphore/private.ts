@@ -4,7 +4,8 @@ import { join } from 'path';
 
 export {
   savePrivateFile,
-  readPrivateFile
+  readPrivateFile,
+  setPrivateFolder
 };
 
 const homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
@@ -12,7 +13,11 @@ if (!homeDir) {
   throw new Error('Cannot determine home directory.');
 }
 
-const privateDir = join(homeDir, '.private');
+let privateDir = join(homeDir, '.private');
+
+function setPrivateFolder(path: string) {
+  privateDir = path;
+}
 
 function savePrivateFile(name: string, data: any): void {
   try {
