@@ -8,7 +8,7 @@
  * but the same identity can be present in more than one Group.
  */
 import { PrivateKey, Poseidon, Field } from "o1js";
-import { readPrivateFile, savePrivateFile } from "./private.js";
+import { readPrivateFile, savePrivateFile, setPrivateFolder } from "./private.js";
 import { Response, postRequest } from "./requests.js";
 
 export { Identity, registerIdentity } ;
@@ -38,6 +38,14 @@ class Identity {
   */ 
   static create(label: string, pin: string) {
     return new Identity(_cleanStr(label), pin.padStart(6, '0'));
+  }
+
+  /**
+   * Set the private folder path (default is ~/.private)
+   * @param path 
+   */
+  static privateFolder(path: string) {
+    setPrivateFolder(path);
   }
 
   /**
