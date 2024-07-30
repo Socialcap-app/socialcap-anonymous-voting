@@ -5,11 +5,9 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Signature, PublicKey } from "o1js";
-import { communityUid } from "../../test/helper-params.js";
 import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
-import { getOrCreate, saveMerkle } from "../services/merkles.js";
-import { add } from "o1js/dist/node/lib/provable/gadgets/native-curve.js";
+import { handleGroupRegistration } from "../services/groups.js";
 
 export {
   registerPlanHandler,
@@ -44,6 +42,18 @@ async function registerCommunityHandler(data: any): Promise<Response> {
     address: address,
     owner: owner || null
   });
+
+  // create associated groups with same owner as the community
+  // this may be a Socialcap account
+  handleGroupRegistration({ guid: `communities.${uid}.plans`, owner: owner });
+  handleGroupRegistration({ guid: `communities.${uid}.claims`, owner: owner });
+  handleGroupRegistration({ guid: `communities.${uid}.members`, owner: owner });
+
+  // for this particular groups the owner is the protocol (public key)
+  // changes to this group will need signature from the protocol signer
+  let [protocol, _] = (process.env.PROTOCOL_SIGNER || '').split(',');
+  handleGroupRegistration({ guid: `communities.${uid}.validators`, owner: protocol });
+  handleGroupRegistration({ guid: `communities.${uid}.auditors`, owner: protocol });
 
   return {
     success: true, error: null,

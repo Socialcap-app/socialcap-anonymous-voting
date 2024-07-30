@@ -28,7 +28,8 @@ interface StoredGroup {
  * @returns 
  */
 function handleGroupRegistration(params: {
-  guid: string
+  guid: string,
+  owner?: string
 }): Response {
   const { guid } = params;
   if (!guid)
