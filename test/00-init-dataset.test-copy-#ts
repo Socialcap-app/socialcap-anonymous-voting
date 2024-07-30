@@ -1,5 +1,6 @@
 /**
- * Prepare a set of data to be used in tests
+ * Prepare a set of data to be used in the following tests
+ * and initialize the KVS store
  */
 import { randomInt,randomUUID } from "crypto";
 import fs from "fs"
@@ -10,7 +11,7 @@ import {
   communityUid, 
   MAX_AUDITORS, MAX_MEMBERS, MAX_VALIDATORS, 
   MAX_CLAIMS,
-  tmpFolder, 
+  tmpFolder,
 } from "./helper-params"
 
 describe('Init test data', () => {
