@@ -329,16 +329,18 @@ Registers a community that will latter create campaign plans, receive claims and
 postRequest('registerCommunity', {
   uid: string,
   address: string,
-  owner?: string,
-  signature?: string
+  owner: string,
+  signature: string,
+  ts: string
 })	
 ~~~
 
 Where:
 - `uid` is the Uid of the community existent in the API and Indexer.
 - `address` is the public key of this community (a MINA public key).
-- `owner` is the _optional_ owner who can change groups related to this community. In some cases it can be the same as the 'address', but in Socialcap usually is the special Socialcap API account that will sign all future changes to this community.
-- `signature` is the _optional_ signature required when we register a community with an owner.
+- `owner` is the owner who can change groups related to this community. In some cases it can be the same as the 'address', but in Socialcap usually is the special Socialcap API account that will sign all future changes to this community.
+- `signature` is the signature required when we register a community with an owner.
+- `ts`  the timestamp (ms) used as a nonce
 
 **Permissions**
 
@@ -350,7 +352,7 @@ If the community has not been registered with an owner, anyone can add members o
 
 When registering a community, with a given 'guid' and 'address', the following will happen:
 - Check the community has not been registered, or raise an error.
-- Verify the signature, , or raise an error.
+- Verify the signature of message [owner, ts], or raise an error.
 - Add an entry in KVS with all received community data and props.
 - Register a group `community.${uid}.plans` with 'owner' or no owner.
 - Register a group `community.${uid}.members` with 'owner' or no owner.

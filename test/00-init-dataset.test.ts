@@ -2,9 +2,10 @@
  * Prepare a set of data to be used in the following tests
  * and initialize the KVS store
  */
+import { PrivateKey, PublicKey, Field, Signature } from "o1js";
 import { randomInt,randomUUID } from "crypto";
 import fs from "fs"
-import { Identity, registerIdentity } from "../src/semaphore";
+import { Identity, postRequest, registerIdentity } from "../src/semaphore";
 import { Group, registerGroup } from "../src/semaphore";
 import { VotingClaim } from "../src/voting/selection";
 import { 
@@ -17,7 +18,6 @@ describe('Init test data', () => {
   Identity.privateFolder(`./${privateFolder}`);
   
   it('Register identities', async () => {
-
     let identitiesMap: any = JSON.parse(fs.readFileSync(
       `${privateFolder}/identities-map.json`, 
       "utf-8"
@@ -41,6 +41,33 @@ describe('Init test data', () => {
       identity.save();
     }
   });
+
+  it.only('Register community', async () => {
+    let community = JSON.parse(fs.readFileSync(
+      `${inputsFolder}/community.json`, 
+      "utf-8"
+    ));
+
+    let deployer = {
+      pk: process.env.DEVNET_DEPLOYER_PK as string,
+      sk: process.env.DEVNET_DEPLOYER_SK as string
+    }
+
+    let ts = Date.now().toString();
+    let biguid = BigInt('0x'+community.uid);
+    let signature = Signature.create(
+      PrivateKey.fromBase58(deployer.sk),
+      [Field(biguid), Field(ts)] 
+    )
+
+    let response = await postRequest('registerCommunity', {
+      uid: community.uid,
+      address: community.address,
+      owner: deployer.pk,
+      signature: JSON.stringify(signature),
+      ts: ts
+    })
+  });  
 
 /*
   it('Creates identities, groups and claims', async () => {

@@ -4,11 +4,12 @@
  * TODO: these are incomplete and insecure implementations, MUST FIX 
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Field } from "o1js";
+import { Field, Signature, PublicKey } from "o1js";
 import { communityUid } from "../../test/helper-params.js";
 import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { getOrCreate, saveMerkle } from "../services/merkles.js";
+import { add } from "o1js/dist/node/lib/provable/gadgets/native-curve.js";
 
 export {
   registerPlanHandler,
@@ -17,12 +18,36 @@ export {
 }
 
 async function registerCommunityHandler(data: any): Promise<Response> {
+  /** @throw any errors thrown here will be catched by the dispatcher */
+  let { uid, address, owner, signature, ts } = data;
   if (!data) throw Error("Invalid data for Community");
-  if (!data.uid)  throw Error("No data UID for Community");
-  KVS.put(`communities.${data.uid}`, data);
+  if (!uid) throw Error("No data UID for Community");
+  if (!owner) throw Error(`registerCommunity '${uid}' requires an owner`);
+  if (!signature) throw Error(`registerCommunity '${uid}' requires a signature`);
+  if (!ts) throw Error(`registerCommunity '${uid}' requires a timestamp`);
+
+  let biguid = BigInt('0x'+uid);
+  let signed = Signature.fromJSON(JSON.parse(signature));
+  const signatureOk = await signed.verify(
+    PublicKey.fromBase58(owner), [Field(biguid), Field(ts)]
+  ).toBoolean();
+  if (!signatureOk) 
+    throw Error(`Invalid signature for community: '${uid}'`)
+
+  // check if already registered
+  let exists = KVS.get(`communities.${uid}`);
+  if (exists) 
+    throw Error(`Community '${uid}' is already registered`);
+
+  KVS.put(`communities.${data.uid}`, {
+    uid: uid,
+    address: address,
+    owner: owner || null
+  });
+
   return {
     success: true, error: null,
-    data: data
+    data: data,
   }
 }
 
