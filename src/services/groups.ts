@@ -1,15 +1,18 @@
 /**
  * Manages the Groups register
  */
+import { Field } from "o1js";
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap, deserializeMap, getSortedKeys } from "./merkles.js";
 import { Response } from "../semaphore/index.js";
+import { UID } from "../services/uid.js";
 
 export {
   handleGroupRegistration,
-  getGroupMembers, 
+  getGroupMembers,
+  addGroupMember, 
   StoredGroup,
-  saveGroup
+  saveGroup,
 }
 
 interface StoredGroup {
@@ -18,7 +21,15 @@ interface StoredGroup {
   root: string; // the root of the AnyMerkleMap
   json: string; // serialized JSON of the group map
   updatedUTC: Date; // datetime of las group update
-  owner: string;
+  owner?: string; // the optional group owner address
+  name?: string; // an optional name 
+}
+
+interface GroupMap {
+  guid: string; // id of the group
+  owner: string; // the optional group owner address
+  name: string; // an optional name 
+  map: AnyMerkleMap
 }
 
 /**
@@ -34,7 +45,7 @@ function handleGroupRegistration(params: {
 }): Response {
   const { guid, owner } = params;
   if (!guid)
-    throw Error("services.handleGroupRegistration requires a group Uid");
+    throw Error("handleGroupRegistration requires a group Uid");
 
   // check if the group already exists
   let group = KVS.get(guid);
@@ -61,22 +72,49 @@ function handleGroupRegistration(params: {
 }
 
 /**
+ * Retrieve a stored group and return its deserialized map
+ * @param guid 
+ * @returns 
+ */
+function getGroup(guid: string): GroupMap {
+  if (!guid)
+    throw Error("getGroup requires a group Uid");
+
+  // check if the group already exists
+  let stored = KVS.get(guid);
+  if (!stored) 
+    throw Error(`getGroup: The group '${guid}' does not exist`);
+
+  // ok, it exists !
+  const map = deserializeMap(stored.json);
+  return {
+    guid: guid, 
+    map: map, 
+    owner: stored.owner,
+    name: stored.name
+  };
+}
+
+/**
+ * Add a new member to a Group
+ * @param guid - the group Guid
+ * @param uid - the member uid 
+ */
+function addGroupMember(guid: string, uid: string) {
+  // create the Merkle of this new group
+  const group = getGroup(guid);
+  group.map.set(UID.toField(uid), Field(1));
+  saveGroup(guid, group.map, group.owner, group.name);
+}
+
+/**
  * Return the list of commited identities registered in the group.
  * @param guid - the group we want the members
  * @returns - the sorted list of identityCommitments 
  */
 function getGroupMembers(guid: string): string[] {
-  if (!guid)
-    throw Error("services.getGroup requires a group Uid");
-
-  // check if the group already exists
-  let stored = KVS.get(guid);
-  if (!stored) 
-    throw Error(`services.getGroupMembers The group '${guid}' does not exist`);
-
-  // ok, it exists !
-  const map = deserializeMap(stored.json);
-  return getSortedKeys(map);
+  let group = getGroup(guid);
+  return getSortedKeys(group.map);
 }
 
 /** 
@@ -85,7 +123,8 @@ function getGroupMembers(guid: string): string[] {
 function saveGroup(
   guid: string, 
   map: AnyMerkleMap, 
-  owner?: string
+  owner?: string,
+  name?: string
 ) {
   const serialized = serializeMap(map as AnyMerkleMap);
   const stored = {
@@ -94,7 +133,8 @@ function saveGroup(
     root: map?.root.toString(),
     json: serialized,
     updatedUTC: (new Date()).toISOString(),
-    owner: owner || null
+    owner: owner || null,
+    name: name || '?'
   } 
   KVS.put(guid, stored);
 }

@@ -1,12 +1,18 @@
 /**
- * Credits: 
- * DFST
- * https://github.com/zkcloudworker/zkcloudworker-lib/blob/70c15468e0bc41519be0a2ea84230f4df9f06f95/src/cloud/utils/base64.ts#L27
+ * General utilities
  */
 
+export async function delay(n: number) {
+  await new Promise((resolve) => setTimeout(resolve, n*1000));
+}
+
+/**
+ * Base conversions
+ * Credits: DFST
+ * https://github.com/zkcloudworker/zkcloudworker-lib/blob/70c15468e0bc41519be0a2ea84230f4df9f06f95/src/cloud/utils/base64.ts#L27
+ */
 // URL friendly base64 encoding
-const TABLE =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+const TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 export function bigintToBase56(value: bigint): string {
   const digits = toBase(value, 56n);
@@ -93,6 +99,3 @@ export function toBase(x: bigint, base: bigint) {
 }
 
 
-export async function delay(n: number) {
-  await new Promise((resolve) => setTimeout(resolve, n*1000));
-}

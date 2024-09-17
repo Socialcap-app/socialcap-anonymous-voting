@@ -7,8 +7,10 @@
 import { Field, Signature, PublicKey } from "o1js";
 import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
-import { handleGroupRegistration } from "../services/groups.js";
+import { handleGroupRegistration, addGroupMember } from "../services/groups.js";
 import { getOrCreate } from "../services/merkles.js";
+import { UID } from "../services/uid.js";
+import { communityUid } from "../../test/helper-params.js";
 
 export {
   registerPlanHandler,
@@ -18,30 +20,25 @@ export {
 
 async function registerCommunityHandler(data: any): Promise<Response> {
   /** @throw any errors thrown here will be catched by the dispatcher */
-  let { uid, address, owner, signature, ts } = data;
-  if (!data) throw Error("Invalid data for Community");
-  if (!uid) throw Error("No data UID for Community");
-  if (!owner) throw Error(`registerCommunity '${uid}' requires an owner`);
-  if (!signature) throw Error(`registerCommunity '${uid}' requires a signature`);
-  if (!ts) throw Error(`registerCommunity '${uid}' requires a timestamp`);
+  let { uid, address, name, owner, signature, ts } = data;
+  if (!data || !uid || !owner || !signature || !ts) 
+    throw Error("registerCommunity: Invalid data received");
 
-  let biguid = BigInt('0x'+uid);
   let signed = Signature.fromJSON(JSON.parse(signature));
   const signatureOk = await signed.verify(
-    PublicKey.fromBase58(owner), [Field(biguid), Field(ts)]
+    PublicKey.fromBase58(owner), [UID.toField(uid), Field(ts)]
   ).toBoolean();
-  if (!signatureOk) 
-    throw Error(`Invalid signature for community: '${uid}'`)
+  if (!signatureOk) throw Error(`registerCommunity: Invalid signature for community: '${uid}'`)
 
   // check if already registered
   let exists = KVS.get(`communities.${uid}`);
-  if (exists) 
-    throw Error(`Community: '${uid}' is already registered`);
+  if (exists) throw Error(`Community: '${uid}' is already registered`);
 
   KVS.put(`communities.${data.uid}`, {
     uid: uid,
-    address: address,
-    owner: owner || null
+    address: address || null,
+    owner: owner || null,
+    name: name || '?'
   });
 
   // create associated groups with same owner as the community
@@ -63,8 +60,32 @@ async function registerCommunityHandler(data: any): Promise<Response> {
 }
 
 async function registerPlanHandler(data: any): Promise<Response> {
-  if (!data) throw Error("Invalid data for Plan");
-  if (!data.uid)  throw Error("No data UID for Plan");
+  let { uid, communityUid, signature, ts } = data;
+  if (!data || !uid || !communityUid || !signature || !ts) 
+    throw Error("registerPlan: Invalid data received");
+
+  // get the community owner
+  let community = KVS.get(`communities.${communityUid}`);
+  if (!community)
+    throw Error(`registerPlan: Community '${communityUid}' is not registered`);
+  let owner = community.owner;
+
+  // the plan registration MUST be signed by the community owner
+  let signed = Signature.fromJSON(JSON.parse(signature));
+  const signatureOk = await signed.verify(
+    PublicKey.fromBase58(owner), [UID.toField(uid), Field(ts)]
+  ).toBoolean();
+  if (!signatureOk) throw Error(`registerPlan: Invalid signature for plan '${uid}'`)
+
+  // check if already registered
+  let exists = KVS.get(`plans.${uid}`);
+  if (exists) throw Error(`registerPlan: Plan '${uid}' is already registered`);
+
+  // add it to community plans Group and create its own Groups too
+  addGroupMember(`communities.${communityUid}.plans`, uid);
+  handleGroupRegistration({ guid: `plans.${uid}.batches`, owner: owner });
+  handleGroupRegistration({ guid: `plans.${uid}.claims`, owner: owner });
+
   KVS.put(`plans.${data.uid}`, data);
   return {
     success: true, error: null,
