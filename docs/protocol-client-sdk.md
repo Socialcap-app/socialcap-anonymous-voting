@@ -4,7 +4,7 @@
 
 The SDK is composed of packages for using the **Semaphore protocol** and **the Relayer API**.
 
-NPM: '@socialcap/protocol'
+NPM: '@socialcap/protocol-sdk'
 
 ~~~
 export { Identity, registerIdentity } from "./identity.js";
@@ -27,9 +27,9 @@ class Identity {
   commitment = '';    // the identity commitment, used to identify this identity
   sk = '';            //  a random newly created secret key, 
   pk = '';            // a newly created public key 
-  pin = '';           // a pin nullifier, a user created 6 digits number, initialy 0
-  skHash = '';        // the secret key hash, used to verify the secret key when input by user
-  pinHash = '';       // the pin hash, used to verify the pin key when input by user
+  pin = '';           // a PIN nullifier, 6 digits number created by user, initialy 0
+  skHash = '';        // the secret key hash, used to verify the secret key input by user
+  pinHash = '';       // the pin hash, used to verify the pin key input by user
   encryptionKey = ''; // encryption key returned by service when registered
   ownershipProof = ''; // proof that he owns this identity, can be reused ???
   // DEPRECATED trapdoor from Semaphore v4
@@ -51,7 +51,7 @@ thus preserving anonymity.
   import { Identity } from '@socialcap/protocol';
 
   let newIdentity = Identity.create('myIdentity101', '080911');
-~~~  
+~~~
 
 The `commitment` field contains the identity commitment.
 
@@ -69,7 +69,7 @@ Using its label, it can be retrieved from the  `~/.private` folder.
   import { Identity } from '@socialcap/protocol';
 
   let existentIdentity = Identity.read('myIdentity101');
-~~~  
+~~~
 
 ### Register this identity
 

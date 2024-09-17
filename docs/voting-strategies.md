@@ -1,3 +1,4 @@
+
 ### Three elector types
 
 Community
@@ -12,7 +13,7 @@ Auditors
 
 Validation is done by electors from the community or the validators set:
 
-| Selected from  | random                                      | all                                    |
+| Selected from  | Random                                      | All                                    |
 | -------------- | ------------------------------------------- | -------------------------------------- |
 | Community      | min random members from the whole community | all members from the whole community   |
 | Validators set | min random members from the validators set  | all validators from the validators set |
@@ -42,8 +43,6 @@ These two threshold parameters enable a lot of different voting constraints, for
 | > 51 % of votes | > 51 % of votes | Simple majority quorum, Simple majority approval |
 
 Thresholds can be expressed also as a fixed number instead of percentages:
-
-
 
 ### Result evaluation
 
