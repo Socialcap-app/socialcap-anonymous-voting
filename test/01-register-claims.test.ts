@@ -57,6 +57,12 @@ describe('Register plan and claims', () => {
   })
 
   it.only('Registers a list of Claims', async () => {
+
+    // Create applicants for the claims
+    // create a uid+keypair+name per applicant
+    // add it to the inputs/applicants.json file 
+
+    // read claims from file
     let claims = JSON.parse(fs.readFileSync(
       `${tmpFolder}/plan-${planUid}.claims.json`, 
       "utf-8"

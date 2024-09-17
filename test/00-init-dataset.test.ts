@@ -8,16 +8,28 @@ import fs from "fs"
 import { Identity, postRequest, registerIdentity } from "../src/semaphore";
 import { Group, registerGroup } from "../src/semaphore";
 import { VotingClaim } from "../src/voting/selection";
-import { 
-  MAX_AUDITORS, MAX_VALIDATORS, 
-  tmpFolder, privateFolder, inputsFolder, outputFolder
-} from "./helper-params"
+import { privateFolder, inputsFolder } from "./helper-params"
 
-describe('Init test data', () => {
+let communityUid = "";
+
+describe('Init basic data and groups', () => {
 
   Identity.privateFolder(`./${privateFolder}`);
-  
-  it('Register identities', async () => {
+
+  let deployer = {
+    pk: process.env.DEVNET_DEPLOYER_PK as string,
+    sk: process.env.DEVNET_DEPLOYER_SK as string
+  }
+
+  let signature = (uid: string, ts: number): Signature => {
+    let biguid = BigInt('0x'+uid);
+    return Signature.create(
+      PrivateKey.fromBase58(deployer.sk),
+      [Field(biguid), Field(ts.toString())] 
+    )
+  }
+
+  it('Register Identities', async () => {
     let identitiesMap: any = JSON.parse(fs.readFileSync(
       `${privateFolder}/identities-map.json`, 
       "utf-8"
@@ -42,32 +54,42 @@ describe('Init test data', () => {
     }
   });
 
-  it.only('Register community', async () => {
+  it('Register Community', async () => {
     let community = JSON.parse(fs.readFileSync(
       `${inputsFolder}/community.json`, 
       "utf-8"
     ));
+    communityUid = community.uid;
 
-    let deployer = {
-      pk: process.env.DEVNET_DEPLOYER_PK as string,
-      sk: process.env.DEVNET_DEPLOYER_SK as string
-    }
-
-    let ts = Date.now().toString();
-    let biguid = BigInt('0x'+community.uid);
-    let signature = Signature.create(
-      PrivateKey.fromBase58(deployer.sk),
-      [Field(biguid), Field(ts)] 
-    )
-
+    let ts = Date.now();
     let response = await postRequest('registerCommunity', {
+      name: community.name,
       uid: community.uid,
       address: community.address,
       owner: deployer.pk,
-      signature: JSON.stringify(signature),
+      signature: JSON.stringify(signature(community.uid, ts)),
       ts: ts
     })
   });  
+
+  it('Register Plans', async () => {
+    let plans = JSON.parse(fs.readFileSync(
+      `${inputsFolder}/plans.json`, 
+      "utf-8"
+    ));
+
+    for (let j=0; j < plans.length; j++) {
+      let ts = Date.now();
+      let response = await postRequest('registerPlan', {
+        ...plans[j],
+        signature: JSON.stringify(signature(plans[j].uid, ts)),
+        ts: ts
+      })
+      expect(response.error).toBe(null);
+      expect(response.data).toBeDefined();
+    }
+  })
+
 
 /*
   it('Creates identities, groups and claims', async () => {
