@@ -8,7 +8,7 @@ It is  composed of:
 
 - **Messages** sent to the Relayer (some NATS.io server). 
 - **Subjects** to which the Relayer suscribes and listens. 
-- **Objects** managed by the Relayer and keep the persistent state.
+- **Objects** managed by the Relayer that keep the persistent state.
 - **Workers** to whom the Relayer will delegate some tasks. 
 
 ### Messages
@@ -18,8 +18,6 @@ There are two main groups of messages that the Relayer receives and responds:
 - **Semaphore messages**. These are messages that implement the basic features of the Semaphore protocol, and are not binded to any particular application.
 
 - **Application messages**. These are the messages related to the Socialcap Voting application itself.
-
-#### Index
 
 Here is the **Index** of all messages:
 
@@ -75,11 +73,11 @@ Where:
 
 ### Subjects
 
-- `socialcap:protocol`: Anyone can send a request to these subject, and it is the subject that the Relayer will be listening on and will respond. 
+- `socialcap:protocol`: Anyone can send a request to these subject. The Relayer will be listening on this subject and will respond. 
 
-- `socialcap:tasks`: Only the Relayer or other Workers can publish to this subject, and only the Workers will be listening to this subject.
+- `socialcap:tasks`: Only the Relayer or other Workers can publish to this subject. Only the Workers will be listening to this subject.
 
-- ` socialcap:api`: Only the Workers can publish to this subject, and only the API listener will be listening to this subject.
+- ` socialcap:api`: Only the Workers can publish to this subject. Only the API listener will be listening to this subject.
 
 - `socialcap:notifications` : Anyone can publish notifications.
 
@@ -91,9 +89,9 @@ Where:
 
 ### Objects
 
-The Relayer uses a high performance key-value store, based on LMDB to persist all its objects and state. 
+The Relayer uses a centralized high performance key-value store, based on LMDB to persist all its objects and state. 
 
-All objects the have a _unique key_ (which MUST be a string) and a _value_ (where the value can be any data). Objects are usually of two types:
+All objects have a _unique key_ (which MUST be a string) and a _value_ (where the value can be any data). Objects are usually of two types:
 
 A **data object** which can contain any data.
 
@@ -105,25 +103,25 @@ A **data object** which can contain any data.
 - `assignments.${identityCommitment}`: contains the list of plans+claims assigned to this elector.
 - `proofs.${claimUid}`: contains the proof obtained by the recursive rollup voting on this claim.  
 
+It is important to note here that only the minimal information required for the voting process is used and stored here. For example, we don't need all info from the claim, just the basic info and the references to the community, plan and applicant. 
+
 An **Indexed Merkle Map (IMM)**, used to store the Group members, where the leaf key is a Field(uid) and the leaf value is usually Field(1) to indicate existence, though it may be any other Field value.
 
 - `global.0.identities`: the global IMM that indicates existence of a given identity. Leaf: `${commitment},1`.
 - `global.0.nullifiers`: the global IMM that indicates that a given nullifier has been used. Leaf: `${nullifier},1`.
-- `communities.${uid}.members`: the IMM that indicates existence of a given person in the given community. Leaf: `${personUid},1`.
-- `communities.${uid}.plans`: the IMM that indicates existence of a given plan in the given community. Leaf: `${planUid},1`.
-- `communities.${uid}.claims`: the IMM that indicates existence of a given claim in the given community. Leaf: `${claimUid},1`.
-- `communities.${uid}.validators`: the IMM that indicates existence of a given validator in the given community. Leaf: `${identityCommitment},1`.
-- `communities.${uid}.auditors`: the IMM that indicates existence of a given auditor in the given community. Leaf: `${identityCommitment},1`.
-- `plans.${uid}.claims`:  the IMM that indicates existence of a given claim in the given plan. Leaf: `${claimUid},1`.
-- `plans.${uid}.batches`:  the IMM that indicates existence of a given batch in the given plan. Leaf: `${batchUid},1`.
-- `claims.${uid}.electors`:  the IMM that indicates existence of a given elector in the given claim. Leaf: `${identityCommitment},1`.
-- `claims.${uid}.nullifiers`: the IMM that indicates that a given nullifier has been used for this claim. Leaf: `${nullifier},1`.
-
-**NOTES**: it is important to note here that only the minimal information required for the voting process is used and stored here. For example, we don't need al info from the claim, just the basic info and the references to the community, plan and applicant. 
+- `communities.${communityUid}.members`: the IMM that indicates existence of a given person in the given community. Leaf: `${personUid},1`.
+- `communities.${communityUid}.plans`: the IMM that indicates existence of a given plan in the given community. Leaf: `${planUid},1`.
+- `communities.${communityUid}.claims`: the IMM that indicates existence of a given claim in the given community. Leaf: `${claimUid},1`.
+- `communities.${communityUid}.validators`: the IMM that indicates existence of a given validator in the given community. Leaf: `${identityCommitment},1`.
+- `communities.${communityUid}.auditors`: the IMM that indicates existence of a given auditor in the given community. Leaf: `${identityCommitment},1`.
+- `plans.${planUid}.claims`:  the IMM that indicates existence of a given claim in the given plan. Leaf: `${claimUid},1`.
+- `plans.${planUid}.batches`:  the IMM that indicates existence of a given batch in the given plan. Leaf: `${batchUid},1`.
+- `claims.${claimUid}.electors`:  the IMM that indicates existence of a given elector in the given claim. Leaf: `${identityCommitment},1`.
+- `claims.${claimUid}.nullifiers`: the IMM that indicates that a given nullifier has been used for this claim. Leaf: `${nullifier},1`.
 
 ## Identity
 
-This requests managed the registration and removal of an identity. These messages are part of the standard Semaphore messages.
+This requests manage the registration and removal of an identity. These messages are part of the standard Semaphore messages.
 
 ### registerIdentity
 
@@ -163,7 +161,6 @@ When the request is received the following happens:
 - Check the signature of message [commitment, ts]
 - Create an exclusive encryption key pair for this identity.
 - Add an entry in KVS with the received identity data and the new keypair.
-- Add this identity to the indicated `guid` group.
 - Add this identity to the `global.0.identities` group.
 
 **Response**
@@ -178,11 +175,13 @@ When the request is received the following happens:
 Where:
 - `encryptionKey` is the exclusive encryption public key created by the service and given to the user for sending encrypted messages to the service.
 
-### removeIdentity (NOT IMPLEMENTED)
+### removeIdentity 
+
+***NOT IMPLEMENTED***
 
 This will remove the identity from the global register, the `global.0.identities` group.
 
-NOTE: It will NOT remove it from the other groups in which it was included. BUT all tests for membership will need to check that the identity has not been removed, so the membership proof MUST fail if it was removed.
+NOTE: It will NOT remove it from the other groups in which it was included. BUT all tests for membership SHOULD check that the identity has not been removed, so the membership proof MUST fail if it was removed.
 
 **Request**
 ```
@@ -545,7 +544,9 @@ If success:
 ~~~
 { 
   success: true, error: null,
-  data: { done: `Identity '${commitment}' added to 'communities.${communityUid}.validators' group` }
+  data: { 
+  	done: `Identity '${commitment}' added to 'communities.${communityUid}.validators' group` 
+  }
 }  
 ~~~
 
