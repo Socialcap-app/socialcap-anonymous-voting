@@ -1,14 +1,14 @@
 /**
  * Manages the Groups register
  */
-import { Field } from "o1js";
+import { Field, Signature, PublicKey } from "o1js";
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap, deserializeMap, getSortedKeys } from "./merkles.js";
 import { Response } from "../semaphore/index.js";
-import { UID } from "../services/uid.js";
 
 export {
-  handleGroupRegistration,
+  registerGroupHandler,
+  registerMemberHandler,
   getGroupMembers,
   addGroupMember, 
   StoredGroup,
@@ -33,19 +33,23 @@ interface GroupMap {
 }
 
 /**
- * Registers the given identity in a Semaphore group.
+ * Registers a new Semaphore group.
  * Currently there are no restrictions on who can register a group,
  * but this must be solved in some way.
  * @param params.guid the Semaphore group we will register
  * @returns 
  */
-function handleGroupRegistration(params: {
+function registerGroupHandler(params: {
   guid: string,
-  owner?: string
+  name?: string,
+  address?: string,
+  owner: string
+  signature: string,
+  ts: number  
 }): Response {
-  const { guid, owner } = params;
+  const { guid, owner, signature, ts } = params;
   if (!guid)
-    throw Error("handleGroupRegistration requires a group Uid");
+    throw Error("registerGroup requires a group Uid");
 
   // check if the group already exists
   let group = KVS.get(guid);
@@ -70,6 +74,51 @@ function handleGroupRegistration(params: {
     }
   }
 }
+
+/**
+ * Register a new Identity into this group
+ * @param params.guid
+ * @param params.commitment
+ * @param params.signature
+ * @param params.ts
+ * @returns 
+ */
+async function registerMemberHandler(params: {
+  guid: string,
+  commitment: string,
+  signature: string,
+  ts: number
+}): Promise<Response> {
+  const { guid, commitment, signature, ts } = params;
+  if (!params || !guid || !commitment || !signature || !ts) 
+    throw Error("registerMember: Invalid data received");
+
+  // get the Group owner
+  let group = KVS.get(guid);
+  if (!group)
+    throw Error(`registerMember: Group '${guid}' is not registered`);
+  let owner = group.owner;
+
+  // the plan registration MUST be signed by the community owner
+  let signed = Signature.fromJSON(JSON.parse(signature));
+  const signatureOk = await signed.verify(
+    PublicKey.fromBase58(owner), [Field(commitment), Field(ts)]
+  ).toBoolean();
+  if (!signatureOk) 
+    throw Error(`registerMember: Invalid signature for member '${commitment}'`)
+
+  addGroupMember(guid, Field(commitment));
+
+  return {
+    success: true, error: null, 
+    data: { 
+      group: guid,
+      member: commitment,
+      status: `Member '${commitment}' added to Group '${guid}'`
+    }
+  }
+}
+
 
 /**
  * Retrieve a stored group and return its deserialized map
@@ -100,10 +149,10 @@ function getGroup(guid: string): GroupMap {
  * @param guid - the group Guid
  * @param uid - the member uid 
  */
-function addGroupMember(guid: string, uid: string) {
+function addGroupMember(guid: string, member: Field) {
   // create the Merkle of this new group
   const group = getGroup(guid);
-  group.map.set(UID.toField(uid), Field(1));
+  group.map.set(member, Field(1));
   saveGroup(guid, group.map, group.owner, group.name);
 }
 

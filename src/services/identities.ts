@@ -8,7 +8,7 @@ import { verifyOwnershipProof } from './verifiers.js';
 import { Response } from "../semaphore/index.js";
 
 export {
-  handleIdentityRegistration,
+  registerIdentityHandler,
 }
 
 /**
@@ -18,7 +18,7 @@ export {
  * @param params.guid the Semaphore group where we will register it
  * @returns 
  */
-async function handleIdentityRegistration(params: {
+async function registerIdentityHandler(params: {
   commitment: string,
   pk: string,
   proofOfIdentity: string,

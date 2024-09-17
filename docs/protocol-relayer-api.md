@@ -225,6 +225,7 @@ postRequest('registerGroup', {
   address?: string,
   owner?: string,
   signature?: string,
+  ts: number
 })	
 ~~~~
 
@@ -233,6 +234,7 @@ Where:
 - `address` is an _optional_ address (or publick key) related to this particular group. It is different to the owner, but can be eventually be the same.
 - `owner` is the _optional_ public key owner of this group. Please note that any identity can act as owner of a group, if it is able to sign its future messages.
 - `signature` is the _optional_ signature required when we register a group with an owner.
+- `ts`  the timestamp (ms) used as a nonce
 
 **Permissions**
 
@@ -266,19 +268,20 @@ When the request is received the following happens:
 Registers the given identity as member of the given group. The identity and the group needs to have been previosuly registered.
 
 **Request**
+
 ```
 let response = await postRequest('registerMember', {
     guid: string,
     commitment: string,
-    proofOfIdentity: string,
-    signature: string
+    signature: string,
+    ts: number
 });	
 ```
 Where:
 - `guid` is the Guid of the Semaphore group where we want to add this member.
 - `commitment`  is the identity commitment of the new member.
-- `proofOfIdentity` is a proof that the user really owns this identity.
 - `signature` is the member signature that needs to accompany the proof.
+- `ts`  the timestamp (ms) used as a nonce
 
 **Permissions**
 
@@ -330,7 +333,7 @@ postRequest('registerCommunity', {
   address: string,
   owner: string,
   signature: string,
-  ts: string
+  ts: number
 })	
 ~~~
 
@@ -395,7 +398,8 @@ postRequest('registerPlan', {
   votingStartsUTC: string, 
   votingEndsUTC: string,
   state?: string,
-  signature?: Signature
+  signature?: Signature,
+  ts: number
 })	
 ~~~
 

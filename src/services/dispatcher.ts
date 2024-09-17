@@ -11,8 +11,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from "../semaphore/index.js";
 import logger from "./logger.js";
-import { handleIdentityRegistration } from "./identities.js";
-import { handleGroupRegistration } from "./groups.js";
+import { registerIdentityHandler } from "./identities.js";
+import { registerGroupHandler, registerMemberHandler } from "./groups.js";
 
 export {
   type SignalHandlerFunction,
@@ -26,8 +26,9 @@ type SignalHandlerFunction = (data: any) => Promise<Response>;
 
 // This are handlers used by the Sempahore protocol itself
 const SemaphoreHandlers: any = {
-  'registerIdentity': handleIdentityRegistration,
-  'registerGroup': handleGroupRegistration,
+  'registerIdentity': registerIdentityHandler,
+  'registerGroup': registerGroupHandler,
+  'registerMember': registerMemberHandler
 };
 
 // This are handlers used by the Application
