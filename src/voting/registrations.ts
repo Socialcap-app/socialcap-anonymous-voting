@@ -7,7 +7,7 @@
 import { Field, Signature, PublicKey } from "o1js";
 import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
-import { handleGroupRegistration, addGroupMember } from "../services/groups.js";
+import { registerGroupHandler, addGroupMember } from "../services/groups.js";
 import { getOrCreate } from "../services/merkles.js";
 import { UID } from "../services/uid.js";
 import { communityUid } from "../../test/helper-params.js";
@@ -42,20 +42,19 @@ async function registerCommunityHandler(data: any): Promise<Response> {
   });
 
   // create associated groups with same owner as the community
-  // this may be a Socialcap account
-  handleGroupRegistration({ guid: `communities.${uid}.plans`, owner: owner });
-  handleGroupRegistration({ guid: `communities.${uid}.claims`, owner: owner });
-  handleGroupRegistration({ guid: `communities.${uid}.members`, owner: owner });
-
-  // for this particular groups the owner is the protocol (public key)
-  // changes to this group will need signature from the protocol signer
-  let [protocol, _] = (process.env.PROTOCOL_SIGNER || '').split(',');
-  handleGroupRegistration({ guid: `communities.${uid}.validators`, owner: protocol });
-  handleGroupRegistration({ guid: `communities.${uid}.auditors`, owner: protocol });
-
+  // this may be some Socialcap account (API account for example)
+  registerGroupHandler({ guid: `communities.${uid}.plans`, owner, signature, ts });
+  registerGroupHandler({ guid: `communities.${uid}.claims`, owner, signature, ts });
+  registerGroupHandler({ guid: `communities.${uid}.members`, owner, signature, ts });
+  registerGroupHandler({ guid: `communities.${uid}.validators`, owner, signature, ts });
+  registerGroupHandler({ guid: `communities.${uid}.auditors`, owner, signature, ts });
+  
   return {
     success: true, error: null,
-    data: data,
+    data: {
+      uid, owner, name, address,
+      status: `Community '${communityUid}' has been registered.`
+    },
   }
 }
 
@@ -75,21 +74,26 @@ async function registerPlanHandler(data: any): Promise<Response> {
   const signatureOk = await signed.verify(
     PublicKey.fromBase58(owner), [UID.toField(uid), Field(ts)]
   ).toBoolean();
-  if (!signatureOk) throw Error(`registerPlan: Invalid signature for plan '${uid}'`)
+  if (!signatureOk) 
+    throw Error(`registerPlan: Invalid signature for plan '${uid}'`)
 
   // check if already registered
   let exists = KVS.get(`plans.${uid}`);
-  if (exists) throw Error(`registerPlan: Plan '${uid}' is already registered`);
+  if (exists) 
+    throw Error(`registerPlan: Plan '${uid}' is already registered`);
 
   // add it to community plans Group and create its own Groups too
-  addGroupMember(`communities.${communityUid}.plans`, uid);
-  handleGroupRegistration({ guid: `plans.${uid}.batches`, owner: owner });
-  handleGroupRegistration({ guid: `plans.${uid}.claims`, owner: owner });
+  addGroupMember(`communities.${communityUid}.plans`, UID.toField(uid));
+  registerGroupHandler({ guid: `plans.${uid}.batches`, owner, signature, ts });
+  registerGroupHandler({ guid: `plans.${uid}.claims`, owner, signature, ts });
 
   KVS.put(`plans.${data.uid}`, data);
   return {
     success: true, error: null,
-    data: data
+    data: {
+      uid, communityUid, 
+      status: `Plan '${uid}' has been registered.`
+    },
   }
 }
 
