@@ -24,7 +24,7 @@ async function startConsumer(id: string) {
   consumerId = myId;
 
   // we wait some time before real starting so that 
-  // thye do no start as exactly the same time
+  // they do no start as exactly the same time
   delay(5 * myId);
 
   // Connect to the NATS server

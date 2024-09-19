@@ -2,39 +2,16 @@
  * Prepare a set of data to be used in the following tests
  * and initialize the KVS store
  */
-import { PrivateKey, PublicKey, Field, Signature } from "o1js";
-import { randomInt,randomUUID } from "crypto";
 import fs from "fs"
 import { Identity, postRequest, registerIdentity } from "../src/semaphore";
-import { Group, registerGroup } from "../src/semaphore";
-import { VotingClaim } from "../src/voting/selection";
-import { privateFolder, inputsFolder } from "./helper-params"
+import { privateFolder, inputsFolder, communityUid, readCommunity, signature, deployer } from "./helper-params"
 import { UID } from "../src/services/uid";
-
-let communityUid = "";
 
 describe('Init basic data and groups', () => {
 
+  // global params 
   Identity.privateFolder(`./${privateFolder}`);
-
-  let deployer = {
-    pk: process.env.DEVNET_DEPLOYER_PK as string,
-    sk: process.env.DEVNET_DEPLOYER_SK as string
-  }
-
-  let signature = (biguid: bigint, ts: number): Signature => {
-    //let biguid = BigInt('0x'+uid);
-    return Signature.create(
-      PrivateKey.fromBase58(deployer.sk),
-      [Field(biguid), Field(ts.toString())] 
-    )
-  }
-
-  let community = JSON.parse(fs.readFileSync(
-    `${inputsFolder}/community.json`, 
-    "utf-8"
-  ));
-  communityUid = community.uid;
+  readCommunity();
 
   it('Register Identities', async () => {
     let identitiesMap: any = JSON.parse(fs.readFileSync(
@@ -66,7 +43,6 @@ describe('Init basic data and groups', () => {
       `${inputsFolder}/community.json`, 
       "utf-8"
     ));
-    communityUid = community.uid;
 
     let ts = Date.now();
     let response = await postRequest('registerCommunity', {

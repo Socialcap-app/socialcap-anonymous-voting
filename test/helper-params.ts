@@ -2,7 +2,8 @@
  * Test params shared across different test groups
  */
 import { randomUUID } from 'crypto';
-import { Mina, PrivateKey, PublicKey } from 'o1js';
+import fs from "fs";
+import { Mina, PrivateKey, Field, Signature } from 'o1js';
 
 // a folder for temp file storage
 export const tmpFolder = "test/files/tmp";
@@ -12,30 +13,42 @@ export const privateFolder = "test/files/.private";
 
 
 // community params
-export const communityUid = 'cmn021abc';
+export let communityUid = '';
+export let community: any ;
 export const MAX_MEMBERS = 60, MAX_AUDITORS = 5, MAX_VALIDATORS = 20;
 export const MAX_CLAIMS = 10;
 
 // identity params
-export const  identityCommitment = '';
-export const identityFile = "idn43"
+export let  identityCommitment = '';
+export let identityFile = "idn43"
 
 // plan params
-export const planUid = 'plan001';
+export let planUid = '';
 
-export const plan001Strategy = {
-  planUid: "plan001",
-  name: "Strategy #1: Random from validators and auditors, always audit. RAND V=3 A=1 F=1",
-  source: 'validators',
-  variant: 'random',  
-  minValidators: 3,
-  minAuditors: 1,
-  auditFrequency: 1,
-  requiredVotes: 3,
-  requiredPositives: 3
-}; 
+// Helpers
 
 export const uuid = () => BigInt('0x'+randomUUID().replaceAll('-','')).toString();
+
+export const deployer = {
+  pk: process.env.DEVNET_DEPLOYER_PK as string,
+  sk: process.env.DEVNET_DEPLOYER_SK as string
+}
+
+export const signature = (biguid: bigint, ts: number): Signature => {
+  //let biguid = BigInt('0x'+uid);
+  return Signature.create(
+    PrivateKey.fromBase58(deployer.sk),
+    [Field(biguid), Field(ts.toString())] 
+  )
+}
+
+export const readCommunity = () => {
+  community = JSON.parse(fs.readFileSync(
+    `${inputsFolder}/community.json`, 
+    "utf-8"
+  ));
+  communityUid = community.uid;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

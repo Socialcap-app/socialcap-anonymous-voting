@@ -1,18 +1,16 @@
 import 'dotenv/config';
-import { registerApplicationHandler } from "../services/dispatcher.js";
-import { startListenerFor } from "../services/listener.js"
+import { registerApplicationHandler } from "./services/dispatcher.js";
+import { startListenerFor } from "./services/listener.js"
 import { 
   assignElectorsHandler, 
   retrieveAssignmentsHandler,
   receiveVotesHandler,
   processBatchesHandler,
   emitCredentialsHandler
-} from "./handlers.js";
-import { 
-  registerCommunityHandler,
-  registerPlanHandler,
-  registerClaimHandler 
-} from "./registrations.js";
+} from "./voting/handlers.js";
+import { registerPlanHandler } from "./voting/plans.js";
+import { registerCommunityHandler } from "./voting/communities.js";
+import { registerClaimHandler } from "./voting/claims.js";
 
 // we need to register  all application handlers 
 registerApplicationHandler('registerCommunity', registerCommunityHandler);
