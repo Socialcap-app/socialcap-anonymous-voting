@@ -35,8 +35,8 @@ async function registerPlanHandler(data: any): Promise<Response> {
 
   // check if already registered
   let exists = KVS.get(`plans.${uid}`);
-  if (exists) 
-    throw Error(`registerPlan: Plan '${uid}' is already registered`);
+  // if (exists) 
+  //   throw Error(`registerPlan: Plan '${uid}' is already registered`);
 
   // add it to community plans Group and create its own Groups too
   addGroupMember(`communities.${communityUid}.plans`, UID.toField(uid));
