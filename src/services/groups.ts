@@ -11,6 +11,7 @@ export {
   registerMemberHandler,
   getGroupMembers,
   addGroupMember, 
+  isGroupMember,
   StoredGroup,
   saveGroup,
 }
@@ -154,6 +155,16 @@ function addGroupMember(guid: string, member: Field) {
   const group = getGroup(guid);
   group.map.set(member, Field(1));
   saveGroup(guid, group.map, group.owner, group.name);
+}
+
+/**
+ * Checks if it is member of a given group
+ * @returns True or False
+ */
+function isGroupMember(guid: string, member: Field): boolean {
+  const group = getGroup(guid);
+  let option = group.map.getOption(member);
+  return option.isSome.toBoolean()
 }
 
 /**

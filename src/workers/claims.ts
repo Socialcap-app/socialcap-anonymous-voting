@@ -114,16 +114,28 @@ async function sendCloseClaimTransaction(
 
 /**
  * Deploys a new Claim.
+ * This handler will call the real (cloud?) worker.
  * @param data 
  * @returns the new claim address
  */
-async function deployClaimHandler(data: any): Promise<Response> {
-  const { claimUid, chainId } = data;
-  let retries = data.retries || 0;
+async function deployClaimHandler(data: {
+  claimUid: string, 
+  chainId: string,
+  retries?: number
+}): Promise<Response> {
+  let { claimUid, chainId, retries } = data;
+  retries = retries || 0;
 
-  const claim = KVS.get(`claims.${claimUid}`);
+  let claim = KVS.get(`claims.${claimUid}`);
+  if (!claim)
+    throw Error(`deployClaim: Claim '${claimUid}' not registered`);
+
   const plan = KVS.get(`plans.${claim.planUid}`)
+  if (!plan)
+    throw Error(`deployClaim: Plan '${claim.planUid}' not registered`);
+
   try {
+    // we call the "real" worker, will raise error if fails
     let { address, txnHash } = await deployClaimAccount(
       claimUid,
       plan.strategy.requiredPositives,
@@ -165,6 +177,14 @@ async function deployClaimHandler(data: any): Promise<Response> {
         })
       }, 60*1000)
     }
+    else {
+      // no more retries, just failed
+      logger.error(`deployClaimAccount failed: no more retries for claimUid: '${claimUid}'`);
+      return {
+        success: false, data: null,
+        error: `deployClaimAccount failed for claimUid: '${claimUid}' error: ${error || error.message}` ,
+      }
+    }  
   }
 
   return {

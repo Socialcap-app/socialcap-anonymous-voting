@@ -412,6 +412,7 @@ Where:
 - `votingStartsUTC` and `votingEndsUTC` are the initial and ending voting times as UTC ISODate strings.
 - `state` is the _optional_ state of the plan, default is ACTIVE.
 - `signature` is the _optional_ signature required when we register a group with an owner.
+- `ts`  the timestamp (ms) used as a nonce
 
 **Permissions**
 
@@ -456,7 +457,8 @@ postRequest('registerClaim', {
   createdUTC: string, 
   chainId?: string,
   state?: string,
-  signature?: string
+  signature?: string,
+  ts: number
 })
 ~~~
 Where:
@@ -469,6 +471,7 @@ Where:
 - `chainId` is the network where it will be deployed: 'mainnet', 'devnet' (default) or 'zeko'
 - `state` is the _optional_ state of the claim, default is CLAIMED.
 - `signature` is the _optional_ signature required when we register a group with an owner.
+- `ts`  the timestamp (ms) used as a nonce
 
 **Permissions**
 
@@ -484,8 +487,8 @@ When registering a plan, with a given 'uid', the following will happen:
 - Verify the signature, or raise an error.
 - Check if all the other data is consistent, or raise an error.
 - Add an entry `claims.${uid}` in KVS with all received claim data.
-- Add the claim to the group `communities.${uid}.claims`.
-- Add the claim to the group `plans.${uid}.claims`.
+- Add the claim to the group `communities.${communitiesUid}.claims`.
+- Add the claim to the group `plans.${planUid}.claims`.
 - Register a group `claims.${uid}.electors` with 'owner' if corresponds.
 - Register a group `claims.${uid}.nullifiers` with 'owner' if corresponds.
 - Post a workers task to deploy the ClaimVoting account.
