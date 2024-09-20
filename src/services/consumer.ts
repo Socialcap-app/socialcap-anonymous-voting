@@ -30,7 +30,9 @@ async function startConsumer(id: string) {
   // Connect to the NATS server
   let NATS_SERVER = process.env.NATS_SERVER
   const nc = await connect({
-    servers: NATS_SERVER
+    servers: NATS_SERVER,
+    user: 'protocol-worker',
+    pass: process.env.NATS_PROTOCOL_WORKER_PASS as string
   });
   const codec = JSONCodec();
 
