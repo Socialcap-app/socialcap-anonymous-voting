@@ -6,9 +6,9 @@
 FROM socialcap/protocol:base
 
 # this are default values, BUT will be changed on 'docker run'
-ENV KEY=no-key
+ENV WID=no-id
 ENV MAIN=no-main
 
 # run it
 WORKDIR /protocol
-CMD node --experimental-modules build/src/$MAIN.js $KEY
+CMD node --experimental-modules build/src/$MAIN.js $WID
