@@ -51,7 +51,12 @@ describe('Creates all identity proofs for all electors', () => {
 
       delay(10);
       let proofOfIdentity = await proveIdentityOwnership(
-        identity, identity.commitment
+        identity, 
+        identity.commitment, 
+        Signature.create(
+          PrivateKey.fromBase58(identity.sk),
+          [Field(identity.commitment)] 
+        )
       );
       delay(20);
 
