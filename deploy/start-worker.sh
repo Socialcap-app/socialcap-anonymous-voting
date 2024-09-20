@@ -22,7 +22,7 @@ sudo docker rm $(sudo docker stop sc-worker-$WID)
 sudo docker -l debug run -d --restart=always --name sc-worker-$WID \
   --net=host \
   --env MAIN=main-workers \
-  --env KEY=$WID \
+  --env WID=$WID \
   --user $(id -u www-data):$(id -g www-data) \
   -v /etc/localtime:/etc/localtime:ro \
   -v $HOME/var:/var \
