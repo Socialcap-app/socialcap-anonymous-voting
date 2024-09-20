@@ -18,7 +18,7 @@ export WID=$2
 #export SOCIALCAP_HOME=socialcap-$1
 
 # will run the Socialcap Worker with NO port
-sudo docker rm $(sudo docker stop sc-worker)
+sudo docker rm $(sudo docker stop sc-worker-$WID)
 sudo docker -l debug run -d --restart=always --name sc-worker-$WID \
   --net=host \
   --env MAIN=main-workers \
