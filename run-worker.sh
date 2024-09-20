@@ -6,5 +6,5 @@ pnpm run build
 #gnome-terminal -- bash -c "node --experimental-modules build/src/voting/main-workers.js 2"
 
 # starts only 1 worker for testing
-node --experimental-modules build/src/voting/main-workers.js 1
+node --experimental-modules build/src/main-workers.js 1
 

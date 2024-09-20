@@ -16,4 +16,5 @@ registerApplicationHandler('deployCredential', deployCredentialHandler);
 registerApplicationHandler('issueCredential', issueCredentialHandler);
 
 // start the Consumer and we are running !
-startConsumer(process.argv.slice(2)[0]);
+const workerId = process.argv.slice(2)[0];
+startConsumer(workerId);
