@@ -1,4 +1,5 @@
 #!/bin/bash
 # Publish to NPM
 pnpm build
-pnpm publish --access public
+cd src/pkg
+pnpm publish --access public --no-git-checks

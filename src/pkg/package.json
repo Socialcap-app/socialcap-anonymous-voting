@@ -1,0 +1,29 @@
+{
+  "name": "@socialcap/protocol",
+  "version": "0.1.2",
+  "description": "",
+  "keywords": [
+    "socialcap",
+    "semaphore",
+    "o1js",
+    "voting"
+  ],
+  "author": "mario@socialcap.app",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "build/src/pkg/index.js",
+  "types": "build/src/pkg/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "o1js": "^1.4.*",
+    "nats": "^2.27.0",
+    "mina-signer": "^3.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.2"
+  }
+}
