@@ -40,6 +40,7 @@ async function postRequest(
     debug: false 
   });
   console.debug(`semaphore.postRequest connected to ${NATS_SERVER}`);
+  console.debug(`semaphore.postRequest payload: `, params);
 
   try {
     const msg: any = await nc.request(
