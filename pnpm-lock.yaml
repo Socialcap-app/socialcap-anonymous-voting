@@ -24,8 +24,8 @@ dependencies:
     specifier: ^1.28.0
     version: 1.28.0
   o1js:
-    specifier: ^1.4.*
-    version: 1.4.0
+    specifier: ^1.8.*
+    version: 1.8.0
   pino:
     specifier: ^9.2.0
     version: 9.2.0
@@ -3845,8 +3845,8 @@ packages:
       path-key: 3.1.1
     dev: true
 
-  /o1js@1.4.0:
-    resolution: {integrity: sha512-n4W1tukEF1ztfsKOoa29PIc9zY6SBMhQI6lXQL+pZ86/0XO3VqE9Gc8GOlxv+zV9+BJWM2c1N25bob72Kt/+EQ==}
+  /o1js@1.8.0:
+    resolution: {integrity: sha512-mN0aM4HW3kyl/Gx0irqKQSQ2JftbmsK2t5nSZpTuNgTOVl0wQ6KZumXXps6E5hGkCjRfk+FjlL7CBsmqKqzYzg==}
     engines: {node: '>=18.14.0'}
     hasBin: true
     dependencies:

@@ -1,15 +1,14 @@
 {
   "name": "@socialcap/protocol",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "",
   "author": "mario@socialcap.app",
   "license": "Apache-2.0",
   "keywords": [
     "socialcap",
-    "socialcap-protocol",
-    "mina-zkapp",
-    "mina-zk-app",
-    "zkapp"
+    "semaphore",
+    "o1js",
+    "voting"
   ],
   "type": "module",
   "main": "build/src/index.js",
@@ -38,7 +37,7 @@
     "typescript": "^5.5.2"
   },
   "peerDependencies": {
-    "o1js": "^1.4.*"
+    "o1js": "^1.8.*"
   },
   "engines": {
     "node": ">=18.14.0"

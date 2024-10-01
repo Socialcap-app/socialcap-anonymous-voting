@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "o1js": "^1.4.*",
+    "o1js": "^1.8.*",
     "nats": "^2.27.0",
     "mina-signer": "^3.0.7"
   },

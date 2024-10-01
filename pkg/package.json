@@ -1,0 +1,25 @@
+{
+  "name": "@socialcap/protocol-sdk",
+  "version": "0.1.11",
+  "description": "",
+  "keywords": [
+    "socialcap",
+    "semaphore",
+    "o1js",
+    "voting"
+  ],
+  "author": "mario@socialcap.app",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "o1js": "^1.4.*",
+    "nats": "^2.27.0",
+    "mina-signer": "^3.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.2"
+  }
+}
