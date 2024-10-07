@@ -5,4 +5,4 @@ export { Response, postRequest, postWorkers, postNotification } from "./requests
 export { IdentityProver } from "./prover.js";
 export { CipheredText } from "./encryption.js";
 export { UID } from "./uid.js";
-export { NATS } from "./config.js";
+export { NATS, CHAIN } from "./config.js";

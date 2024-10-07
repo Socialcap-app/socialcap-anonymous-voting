@@ -14,3 +14,7 @@ export const NATS = {
   PROTOCOL_WORKER: 'protocol-worker',
   PROTOCOL_WORKER_PASS: process.env.NATS_PROTOCOL_WORKER_PASS
 }
+
+export const CHAIN  = {
+  ID: process.env.CHAIN_ID
+}
