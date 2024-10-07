@@ -6,8 +6,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { randomInt } from 'crypto';
-import { delay } from './utils.js';
 import { connect, JSONCodec, NatsConnection } from "nats";
+import { NATS } from "../semaphore/index.js";
+import { delay } from './utils.js';
 import logger from "./logger.js";
 import { handleTask } from './dispatcher.js';
 
@@ -28,11 +29,11 @@ async function startConsumer(id: string) {
   delay(5 * myId);
 
   // Connect to the NATS server
-  let NATS_SERVER = process.env.NATS_SERVER
+  let NATS_SERVER = NATS.SERVER
   const nc = await connect({
     servers: NATS_SERVER,
-    user: 'protocol-worker',
-    pass: process.env.NATS_PROTOCOL_WORKER_PASS as string
+    user: NATS.PROTOCOL_WORKER,
+    pass: NATS.PROTOCOL_WORKER_PASS as string
   });
   const codec = JSONCodec();
 

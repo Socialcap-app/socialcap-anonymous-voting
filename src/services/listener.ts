@@ -6,10 +6,10 @@
  * NOTE: the listeners are suscribed to 'socialcap:semaphore'.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
 import logger from "./logger.js";
-import { handleSignal } from './dispatcher.js';
+import { handleSignal } from "./dispatcher.js";
+import { NATS } from "../semaphore/index.js";
 
 export {
   startListenerFor
@@ -61,15 +61,15 @@ function listen(
 
 async function startListenerFor(subject: string) {
   try {
-    logger.info(`NATS listener connecting to: ${process.env.NATS_SERVER} ...`);
+    logger.info(`NATS listener connecting to: ${NATS.SERVER} ...`);
 
     // connect to the NATS server
     const nc = await connect({
-      servers: process.env.NATS_SERVER as string, 
-      user: 'protocol-listener',
-      pass: process.env.NATS_PROTOCOL_LISTENER_PASS as string
+      servers: NATS.SERVER as string, 
+      user: NATS.PROTOCOL_LISTENER,
+      pass: NATS.PROTOCOL_LISTENER_PASS as string
     });
-    logger.info(`NATS listener connected: ${process.env.NATS_SERVER}`);
+    logger.info(`NATS listener connected: ${NATS.SERVER}`);
 
     // listen to subjects
     listen(nc, subject);

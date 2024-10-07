@@ -9,6 +9,7 @@ import { Response, postWorkers } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember, isGroupMember } from "../services/groups.js";
 import { UID } from "../services/uid.js";
+import logger from "../services/logger.js";
 
 export { registerClaimHandler }
 
@@ -58,12 +59,12 @@ async function registerClaimHandler(data: {
   
   // check if already registered
   let exists = KVS.get(`claims.${uid}`);
-  // if (exists) 
-  //   throw Error(`registerPlan: Claim '${uid}' is already registered`);
   KVS.put(`claims.${uid}`, {
-      uid, planUid, communityUid, applicantUid, applicantAddress,
-      createdUTC, chainId, state 
+    uid, planUid, communityUid, applicantUid, applicantAddress,
+    createdUTC, chainId, state 
   })
+  if (exists) 
+   logger.info(`registerPlan: Claim '${uid}' was updated`);
   
   // add it to Plan Group and create its own Groups too
   addGroupMember(`plans.${planUid}.claims`, UID.toField(uid));
@@ -71,10 +72,10 @@ async function registerClaimHandler(data: {
   registerGroupHandler({ guid: `claims.${uid}.nullifiers`, owner, signature, ts });
 
   // dispatch to worker
-  // await postWorkers('deployClaim', {
-  //   claimUid: uid,
-  //   chainId: chainId,
-  // });
+  await postWorkers('deployClaim', {
+   claimUid: uid,
+   chainId: chainId,
+  });
 
   return {
     success: true, error: null,

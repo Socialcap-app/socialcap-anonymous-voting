@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
-
-// const NATS_SERVER_WSS = "wss://nats.socialcap.dev:4233";
-const NATS_SERVER = process.env.NATS_SERVER;
+import { NATS } from "./config.js";
 
 export {
   Response,
   postRequest,
   postWorkers,
-  postNotification
+  postNotification,
+  NATS as NATS_CONFIG
 }
 
 interface Response {
@@ -34,12 +33,12 @@ async function postRequest(
 
   // connect to the NATS server and send a 'ready' request
   const nc = await connect({ 
-    servers: NATS_SERVER,
+    servers: NATS.SERVER,
     user: '*',
-    timeout: 5*60*1000, 
-    debug: false 
+    timeout: NATS.TIMEOUT, 
+    debug: NATS.DEBUG 
   });
-  console.debug(`semaphore.postRequest connected to ${NATS_SERVER}`);
+  console.debug(`semaphore.postRequest connected to ${NATS.SERVER}`);
   console.debug(`semaphore.postRequest payload: `, params);
 
   try {
@@ -74,20 +73,25 @@ async function postRequest(
 /**
  * Publishes (does not wait for response) a task to the workers so they can 
  * processes this task when some worker is available to do so.
+ * Todo so the user MUST be a protocol Listener or Worker.
 */
 async function postWorkers(
   command: string, 
   params: object,
+  user?: string,
+  pass?: string
 ): Promise<Response> {
   const codec = JSONCodec();
   const natsSubject = `tasks`;
 
   const nc = await connect({ 
-    servers: NATS_SERVER,
-    timeout: 5*60*1000, 
-    debug: false 
+    servers: NATS.SERVER,
+    user: user || NATS.PROTOCOL_LISTENER,
+    pass: pass || NATS.PROTOCOL_LISTENER_PASS,
+    timeout: NATS.TIMEOUT, 
+    debug: NATS.DEBUG 
   });
-  console.debug(`semaphore.postWorkers connected to ${NATS_SERVER}`);
+  console.debug(`semaphore.postWorkers connected to ${NATS.SERVER}`);
   
   // Publish the task
   try {
@@ -154,11 +158,11 @@ async function postNotification(
     const natsSubject = `socialcap:notifications`;
 
     const nc = await connect({ 
-      servers: NATS_SERVER,
+      servers: NATS.SERVER,
       timeout: 5*60*1000, 
       debug: false 
     });
-    console.debug(`semaphore.postNotification connected to ${NATS_SERVER}`);
+    console.debug(`semaphore.postNotification connected to ${NATS.SERVER}`);
   
     await nc.publish(
       natsSubject, 
