@@ -176,6 +176,17 @@ async function deployClaimHandler(data: {
     else {
       // no more retries, just failed
       logger.error(`deployClaimAccount failed: no more retries for claimUid: '${claimUid}'`);
+
+      // we need to report the error anyway, so that the API or some other 
+      // interested party may know that it failed and what happened.
+      await postKeyValue(`claim.${claimUid}`, {
+          "event": "claim-account-deploy-failed", 
+          "uid": `${claim.uid}`, 
+          "net": `${chainId}`,
+          "failedUTC": `${(new Date()).toISOString()}`,
+          "error": `${error || error.message}`
+      })       
+
       return {
         success: false, data: null,
         error: `deployClaimAccount failed for claimUid: '${claimUid}' error: ${error || error.message}` ,
