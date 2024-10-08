@@ -3,7 +3,7 @@
  */
 import 'dotenv/config';
 import { Mina, PublicKey, PrivateKey } from 'o1js';
-import logger from '../sdk/logger.js';
+import { logger } from '../sdk/index.js';
 import { consumerId } from '../services/consumer.js';
 
 export {

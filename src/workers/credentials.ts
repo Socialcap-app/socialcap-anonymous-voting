@@ -5,7 +5,7 @@
 import 'dotenv/config';
 import { Response, postNotification, postWorkers } from '../sdk/requests.js';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount } from 'o1js';
-import logger from '../sdk/logger.js';
+import { logger } from '../sdk/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { waitForAccount } from './wait-account.js';
 import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';

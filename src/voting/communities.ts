@@ -10,7 +10,7 @@ import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember } from "../services/groups.js";
 import { getOrCreate } from "../services/merkles.js";
 import { UID } from "../services/uid.js";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 import { communityUid } from "../../test/helper-params.js";
 
 export { registerCommunityHandler }

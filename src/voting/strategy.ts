@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { randomInt } from "crypto";
 import { Group } from "../sdk/index.js";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 import { getGroupMembers } from "../services/groups.js";
 
 export {

@@ -9,7 +9,7 @@ import { randomInt } from 'crypto';
 import { connect, JSONCodec, AckPolicy } from "nats";
 import { NATS } from "../sdk/index.js";
 import { delay } from './utils.js';
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 import { handleTask } from './dispatcher.js';
 
 export {

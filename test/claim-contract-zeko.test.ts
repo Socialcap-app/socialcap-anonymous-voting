@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64 } from 'o1js';
 import { ClaimVotingContract, ClaimResult, ClaimAction, pack2bigint } from '../src/contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from "../src/contracts/aggregator.js";
-import logger from '../src/sdk/logger.js';
+import { logger } from '../src/sdk/index.js';
 
 const MINA = 1e9;
 const TXNFEE = 300_000_000;

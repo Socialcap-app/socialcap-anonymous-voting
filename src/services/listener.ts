@@ -7,7 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { connect, JSONCodec, NatsConnection } from "nats";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 import { handleSignal } from "./dispatcher.js";
 import { NATS } from "../sdk/index.js";
 

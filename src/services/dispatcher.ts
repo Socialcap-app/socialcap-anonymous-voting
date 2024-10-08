@@ -10,7 +10,7 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from "../sdk/index.js";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 import { registerIdentityHandler } from "./identities.js";
 import { registerGroupHandler, registerMemberHandler } from "./groups.js";
 

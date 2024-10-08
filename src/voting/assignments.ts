@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
-import logger from "../sdk/logger.js"
+import { logger } from "../sdk/index.js"
 import { KVS } from "../services/lmdb-kvs.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
 import { VotingClaim } from "./selection.js";

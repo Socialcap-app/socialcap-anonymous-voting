@@ -9,7 +9,7 @@ import { Response, postWorkers, CHAIN } from "../sdk/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember, isGroupMember } from "../services/groups.js";
 import { UID } from "../services/uid.js";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 
 export { registerClaimHandler }
 

@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
 import { Kvm } from "@nats-io/kv";
 import { NATS } from "./config.js";
+import { logger } from "./logger.js";
 
 export {
   Response,
@@ -39,8 +40,8 @@ async function postRequest(
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`postRequest connected: '${NATS.SERVER}', user: '*'`);
-  console.debug(`postRequest payload: `, params);
+  logger.debug(`postRequest connected server=${NATS.SERVER} user=*`);
+  logger.debug(`postRequest ${command} params=${JSON.stringify(params)}`);
 
   try {
     const msg: any = await nc.request(
@@ -53,19 +54,19 @@ async function postRequest(
     )
     
     const response: any = codec.decode(msg.data);
-    console.debug("semaphore.postRequest postRequest response: ", response);
+    logger.debug(`postRequest response=${JSON.stringify(response)}`);
     if (!response.success) 
       throw Error(response.error);
 
     return { success: true, data: response.data, error: null }
   }
   catch (error: any) {
-    console.debug(`semaphore.postRequest ${command} error: `, error);
+    logger.error(`semaphore.postRequest ${command} error=`+error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    console.debug("semaphore.postRequest cleanup (drained)");
+    logger.debug("semaphore.postRequest cleanup (drained)");
     await nc.drain();
   }
 }

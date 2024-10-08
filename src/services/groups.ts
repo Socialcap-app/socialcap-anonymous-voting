@@ -5,7 +5,7 @@ import { Field, Signature, PublicKey } from "o1js";
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap, deserializeMap, getSortedKeys } from "./merkles.js";
 import { Response } from "../sdk/index.js";
-import logger from "../sdk/logger.js";
+import { logger } from "../sdk/index.js";
 
 export {
   registerGroupHandler,
