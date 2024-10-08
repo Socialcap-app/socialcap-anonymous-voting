@@ -8,6 +8,7 @@ import { startConsumer } from './services/consumer.js';
 import { rollupClaimHandler } from './workers/rollups.js';
 import { closeClaimHandler, deployClaimHandler } from './workers/claims.js';
 import { deployCredentialHandler, issueCredentialHandler } from './workers/credentials.js';
+import { readPayers } from './workers/chains.js';
 
 registerApplicationHandler('deployClaim', deployClaimHandler);
 registerApplicationHandler('rollupClaim', rollupClaimHandler);
@@ -17,4 +18,5 @@ registerApplicationHandler('issueCredential', issueCredentialHandler);
 
 // start the Consumer and we are running !
 const workerId = process.argv.slice(2)[0];
+readPayers(workerId);
 startConsumer(workerId);

@@ -4,10 +4,12 @@
 import 'dotenv/config';
 import { Mina, PublicKey, PrivateKey } from 'o1js';
 import logger from '../services/logger.js';
+import { consumerId } from '../services/consumer.js';
 
 export {
   setChain,
-  getPayers,
+  readPayers,
+  getPayer,
   MINA, TXNFEE,
   MAX_RETRIES
 }
@@ -16,6 +18,12 @@ const MINA = 1e9;
 const TXNFEE = 300_000_000;
 const MAX_RETRIES = 5; // max number of times we will retry a transaction
 
+type IsPayer = {
+  pk: PublicKey,
+  sk: PrivateKey
+};
+
+let currentPayer: IsPayer;
 
 async function setChain(chainId: string) {
   const Network = Mina.Network({
@@ -26,11 +34,21 @@ async function setChain(chainId: string) {
   logger.info(`Devnet network instance is active`);
 }
 
-function getPayers() {
-  let deployer = {
-    pk: PublicKey.fromBase58(process.env.DEVNET_DEPLOYER_PK+''),
-    sk: PrivateKey.fromBase58(process.env.DEVNET_DEPLOYER_SK+''),
-  }
-  logger.info(`Payer pk: ${deployer.pk.toBase58()}`)
-  return [ deployer ];
+function readPayers(workerId?: string) {
+  let N = Number(process.env.WORKERS);
+  for (let j=0; j < N; j++) {
+    let key = 'DEPLOYER'+(String(j+1).padStart(2, '0')); 
+    let [pk,sk] = String(process.env[key]).split(',');
+    if (j === (Number(workerId)-1)) {
+      currentPayer = { 
+        pk: PublicKey.fromBase58(pk),
+        sk: PrivateKey.fromBase58(sk)
+      }    
+      logger.info(`Payer #${workerId}: ${pk}`)
+    }
+  }  
+}
+
+function getPayer(): IsPayer {
+  return currentPayer;
 }
