@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { randomInt } from 'crypto';
-import { connect, JSONCodec, NatsConnection } from "nats";
+import { connect, JSONCodec, AckPolicy } from "nats";
 import { NATS } from "../semaphore/index.js";
 import { delay } from './utils.js';
 import logger from "./logger.js";
@@ -17,21 +17,20 @@ export {
   consumerId
 }
 
-let consumerId = null;
+let consumerId = "";
 
 async function startConsumer(id: string) {
   logger.info(`Worker #${id}`);
   let myId = Number(id);
-  consumerId = myId;
+  consumerId = ""+myId;
 
   // we wait some time before real starting so that 
   // they do no start as exactly the same time
   delay(5 * myId);
 
   // Connect to the NATS server
-  let NATS_SERVER = NATS.SERVER
   const nc = await connect({
-    servers: NATS_SERVER,
+    servers: NATS.SERVER,
     user: NATS.PROTOCOL_WORKER,
     pass: NATS.PROTOCOL_WORKER_PASS as string
   });
@@ -45,14 +44,13 @@ async function startConsumer(id: string) {
 
   // Create a durable consumer with queue group
   await jsm.consumers.add(qname, {
-    durable_name: "work-queue-durable"
-    //durable_name: "workers",
-    //ack_policy: AckPolicy.Explicit       
+    ack_policy: AckPolicy.Explicit,
+    durable_name: "A"
   });
   logger.info(`C#${myId}:  started. Waiting for messages...`);
-
+  
   // get and process messages
-  let consumer = await jetStream.consumers.get(qname);
+  let consumer = await jetStream.consumers.get(qname, "A");
 
   for (;;) {
     // wait randoms seconds to avoid collision with other consumers

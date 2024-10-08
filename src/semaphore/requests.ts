@@ -82,33 +82,26 @@ async function postWorkers(
   pass?: string
 ): Promise<Response> {
   const codec = JSONCodec();
-  const natsSubject = `tasks`;
+  const natsSubject = `socialcap:tasks`;
 
   const nc = await connect({ 
     servers: NATS.SERVER,
-    user: user || NATS.PROTOCOL_LISTENER,
-    pass: pass || NATS.PROTOCOL_LISTENER_PASS,
+    user: user || NATS.PROTOCOL_WORKER,
+    pass: pass || NATS.PROTOCOL_WORKER_PASS,
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`semaphore.postWorkers connected to ${NATS.SERVER}`);
+  console.debug(`postWorkers connected to ${NATS.SERVER}`);
   
   // Publish the task
   try {
+    console.log({ "post": command, "params": JSON.stringify(params)});
+
     const jetStream = nc.jetstream();
-
-    console.log({
-      "post": command,
-      "params": JSON.stringify(params)
-    });
-
-    await jetStream.publish(
-      natsSubject, 
-      codec.encode({
+    await jetStream.publish(natsSubject, codec.encode({
         "post": command,
         "params": JSON.stringify(params)
-      }),
-    )
+    }));
     
     return { success: true, data: { done: true }, error: null }
   }
@@ -119,7 +112,7 @@ async function postWorkers(
   finally {
     // disconect and clean all pendings
     console.debug("semaphore.postWorkers cleanup (drained)");
-    await nc.drain();
+    await nc.close();
   }
 }  
 
