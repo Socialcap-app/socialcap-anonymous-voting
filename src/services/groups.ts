@@ -5,6 +5,7 @@ import { Field, Signature, PublicKey } from "o1js";
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap, deserializeMap, getSortedKeys } from "./merkles.js";
 import { Response } from "../semaphore/index.js";
+import logger from "./logger.js";
 
 export {
   registerGroupHandler,
@@ -54,10 +55,8 @@ function registerGroupHandler(params: {
 
   // check if the group already exists
   let group = KVS.get(guid);
-  if (group) return {
-    success: false, data: null,
-    error: `Group '${guid}' already exists.`,
-  }
+  if (group) 
+    logger.info(`Group '${guid}' already exists.`);
 
   // create the Merkle of this new group
   const map = getOrCreate(guid);

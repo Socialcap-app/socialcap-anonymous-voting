@@ -10,6 +10,7 @@ import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember } from "../services/groups.js";
 import { getOrCreate } from "../services/merkles.js";
 import { UID } from "../services/uid.js";
+import logger from "../services/logger.js";
 import { communityUid } from "../../test/helper-params.js";
 
 export { registerCommunityHandler }
@@ -28,7 +29,8 @@ async function registerCommunityHandler(data: any): Promise<Response> {
 
   // check if already registered
   let exists = KVS.get(`communities.${uid}`);
-  if (exists) throw Error(`Community: '${uid}' is already registered`);
+  if (exists) 
+    logger.info(`Community: '${uid}' is already registered`);
 
   KVS.put(`communities.${data.uid}`, {
     uid: uid,
