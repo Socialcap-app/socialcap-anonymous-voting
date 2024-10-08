@@ -4,14 +4,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount } from 'o1js';
-import { Response, postNotification, postWorkers } from '../semaphore/index.js';
+import { Response, UID, postWorkers } from '../semaphore/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { delay } from '../services/utils.js';
 import logger from '../services/logger.js';
 import { ClaimVotingContract, ClaimAction, pack2bigint } from '../contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from '../contracts/aggregator.js';
-import { setChain, TXNFEE, getPayers, MAX_RETRIES } from './chains.js';
+import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';
 import { waitForAccount } from './wait-account.js';
+import { postKeyValue } from "./postkv.js";
 
 export {
   deployClaimHandler,
@@ -43,19 +44,19 @@ async function deployClaimAccount(
   await setChain(chainId || 'devnet');
 
   await isCompiled();
-  let [ deployer ] = getPayers();
+  let deployer = getPayer();
 
   let zkappSk = PrivateKey.random();
   let zkappPk = zkappSk.toPublicKey();
   let zkapp = new ClaimVotingContract(zkappPk);
-  logger.debug(`deployClaimAccount new address: ${zkappPk.toBase58()}`)
+  logger.info(`deployClaimAccount new address: ${zkappPk.toBase58()}`)
 
   const txn = await Mina.transaction(
     { sender: deployer.pk, fee: TXNFEE }, 
     async () => {
       AccountUpdate.fundNewAccount(deployer.pk);
       await zkapp.deploy();
-      zkapp.claimUid.set(Field(claimUid));
+      zkapp.claimUid.set(UID.toField(claimUid));
       zkapp.requiredVotes.set(Field(requiredVotes));
       zkapp.requiredPositives.set(Field(requiredPositives));
       zkapp.votes.set(Field(pack2bigint(0,0,0)));
@@ -70,7 +71,7 @@ async function deployClaimAccount(
   logger.info(`deployClaimAccount done: ${zkappPk.toBase58()} ${(new Date()).toISOString()}`);
 
   let isReady = await waitForAccount(zkappPk.toBase58());
-  logger.info(`deployClaimAccount waiting isReady: ${isReady} ${(new Date()).toISOString()}`);
+  logger.info(`deployClaimAccount isReady: ${isReady} ${(new Date()).toISOString()}`);
 
   return { address: zkappPk.toBase58(), txnHash: pendingTxn.hash };
 }
@@ -86,7 +87,7 @@ async function sendCloseClaimTransaction(
   await setChain(chainId || 'devnet');
 
   await isCompiled() ;
-  let [ deployer ] = getPayers();
+  let deployer = getPayer();
 
   let zkapp = new ClaimVotingContract(PublicKey.fromBase58(zkappAddr));
   
@@ -148,19 +149,14 @@ async function deployClaimHandler(data: {
     claim.transactions = [txnHash]
     KVS.put(`claims.${claimUid}`, claim);
 
-    await postNotification('personal', {
-      type: 'transaction',
-      memo: `Claim account deployed`,
-      subject: claim.applicantUid,
-      state: 9,
-      metadata: `{ 
-        "uid": "${claim.uid}", 
-        "address": "${address}", 
-        "hash": "${txnHash}", 
+    await postKeyValue(`claim.${claimUid}`, {
+        "event": "claim-account-deployed", 
+        "uid": `${claim.uid}`, 
+        "address": `${address}`, 
+        "hash": `${txnHash}`, 
         "type": "zk-tx", 
-        "net": "${chainId}",
-        "deployedUTC": "${(new Date()).toISOString()}"
-      }`
+        "net": `${chainId}`,
+        "deployedUTC": `${(new Date()).toISOString()}`
     })       
   }
   catch (error: any) {

@@ -5,7 +5,7 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Signature, PublicKey } from "o1js";
-import { Response, postWorkers } from "../semaphore/index.js";
+import { Response, postWorkers, CHAIN } from "../semaphore/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember, isGroupMember } from "../services/groups.js";
 import { UID } from "../services/uid.js";
@@ -74,7 +74,7 @@ async function registerClaimHandler(data: {
   // dispatch to worker
   await postWorkers('deployClaim', {
    claimUid: uid,
-   chainId: chainId,
+   chainId: CHAIN.ID,
   });
 
   return {

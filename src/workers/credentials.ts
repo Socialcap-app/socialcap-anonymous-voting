@@ -8,7 +8,7 @@ import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount
 import logger from '../services/logger.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { waitForAccount } from './wait-account.js';
-import { setChain, TXNFEE, getPayers, MAX_RETRIES } from './chains.js';
+import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';
 import { ClaimVotingContract, ClaimResult } from '../contracts/claim.js';
 import { ClaimRollup } from '../contracts/aggregator.js';
 import { CredentialContract, CredentialRevokeAuth } from '../contracts/credential.js';
@@ -54,7 +54,7 @@ async function deployCredentialAccount(
   await setChain(chainId || 'devnet');
 
   await isCompiled();
-  let [ deployer ] = getPayers();
+  let deployer = getPayer();
   
   let zkappSk = PrivateKey.random();
   let zkappPk = zkappSk.toPublicKey();
@@ -112,7 +112,7 @@ async function issueCredentialTransaction(
   await setChain(chainId || 'devnet');
 
   await isCompiled();
-  let [ deployer ] = getPayers();
+  let deployer = getPayer();
 
   let account = await fetchAccount({ publicKey: address });
   if (!account) 
