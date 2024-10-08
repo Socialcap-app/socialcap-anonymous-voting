@@ -1,10 +1,11 @@
 {
   "name": "@socialcap/protocol-sdk",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "",
   "keywords": [
     "socialcap",
     "semaphore",
+    "protocol-sdk",
     "o1js",
     "voting"
   ],
@@ -14,9 +15,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "o1js": "^1.4.*",
+    "o1js": "^1.8.*",
     "nats": "^2.27.0",
-    "mina-signer": "^3.0.7"
+    "@nats-io/kv": "3.0.0-8",
+    "mina-signer": "^3.0.7",
+    "dotenv": "^16.4.5",
+    "nats.ws": "^1.28.0",
+    "pino": "^9.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",

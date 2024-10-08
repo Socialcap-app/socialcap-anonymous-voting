@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { randomInt } from "crypto";
-import { Group } from "../semaphore/index.js";
-import logger from "../services/logger.js";
+import { Group } from "../sdk/index.js";
+import logger from "../sdk/logger.js";
 import { getGroupMembers } from "../services/groups.js";
 
 export {

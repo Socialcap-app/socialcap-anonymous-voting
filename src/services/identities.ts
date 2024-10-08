@@ -5,7 +5,7 @@ import { Field, PrivateKey, PublicKey, Signature } from 'o1js';
 import { KVS } from "./lmdb-kvs.js";
 import { AnyMerkleMap, getOrCreate, serializeMap } from './merkles.js';
 import { verifyOwnershipProof } from './verifiers.js';
-import { Response } from "../semaphore/index.js";
+import { Response } from "../sdk/index.js";
 
 export {
   registerIdentityHandler,

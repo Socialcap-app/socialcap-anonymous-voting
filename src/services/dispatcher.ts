@@ -9,8 +9,8 @@
  * All handlers will need to respect the SignalHandlerFunction pattern.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Response } from "../semaphore/index.js";
-import logger from "./logger.js";
+import { Response } from "../sdk/index.js";
+import logger from "../sdk/logger.js";
 import { registerIdentityHandler } from "./identities.js";
 import { registerGroupHandler, registerMemberHandler } from "./groups.js";
 

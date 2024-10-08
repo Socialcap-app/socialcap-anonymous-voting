@@ -7,9 +7,9 @@
 import 'dotenv/config';
 import { randomInt } from 'crypto';
 import { connect, JSONCodec, AckPolicy } from "nats";
-import { NATS } from "../semaphore/index.js";
+import { NATS } from "../sdk/index.js";
 import { delay } from './utils.js';
-import logger from "./logger.js";
+import logger from "../sdk/logger.js";
 import { handleTask } from './dispatcher.js';
 
 export {

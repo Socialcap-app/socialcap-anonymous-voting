@@ -1,7 +1,7 @@
 import { randomInt } from "crypto";
 import fs from "fs"
-import { Identity, registerIdentity } from "../src/semaphore";
-import { Group, registerGroup } from "../src/semaphore";
+import { Identity, registerIdentity } from "../src/sdk";
+import { Group, registerGroup } from "../src/sdk";
 import { VotingClaim, selectElectors } from "../src/voting/selection"
 import { PlanStrategy, runStrategy } from "../src/voting/strategy";
 import { getGroupMembers } from "../src/services/groups";

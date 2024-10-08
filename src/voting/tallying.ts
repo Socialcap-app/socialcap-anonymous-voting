@@ -2,11 +2,11 @@
  * Count votes and update the ClaimVoting account
  */
 import { Field, PublicKey, initializeBindings } from "o1js";
-import { CipheredText, postRequest, postWorkers } from "../semaphore/index.js";
+import { CipheredText, postRequest, postWorkers } from "../sdk/index.js";
 // import { verifyOwnershipProof } from "../services/verifiers.js";
 import { getOrCreate, getSortedKeys } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
-import logger from "../services/logger.js";
+import logger from "../sdk/logger.js";
 import { VotingClaim } from "./selection.js";
 import { SerializableVote } from "../workers/rollups.js";
 

@@ -2,7 +2,7 @@
 import 'dotenv/config';
 import { connect } from "nats";
 import { Kvm } from "@nats-io/kv";
-import { Response, NATS } from "../semaphore/index.js";
+import { Response, NATS } from "../sdk/index.js";
 
 export { postKeyValue };
 
@@ -36,7 +36,7 @@ async function postKeyValue(
   }
   finally {
     // disconect and clean all pendings
-    console.debug("postKeyValue cleanup (drained)");
-    await nc.drain();
+    console.debug("postKeyValue cleanup");
+    await nc.close();
   }
 }  

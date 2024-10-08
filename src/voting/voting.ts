@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Poseidon, Signature, PrivateKey, Encoding } from "o1js";
-import { Response, Identity, CipheredText } from "../semaphore/index.js";
+import { Response, Identity, CipheredText } from "../sdk/index.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
 import { AnyMerkleMap, getOrCreate, saveMerkle } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";

@@ -3,7 +3,7 @@
  * and initialize the KVS store
  */
 import fs from "fs"
-import { Identity, postRequest, registerIdentity } from "../src/semaphore";
+import { Identity, postRequest, registerIdentity } from "../src/sdk";
 import { privateFolder, inputsFolder, communityUid, readCommunity, signature, deployer } from "./helper-params"
 import { UID } from "../src/services/uid";
 

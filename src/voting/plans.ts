@@ -5,7 +5,7 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Signature, PublicKey } from "o1js";
-import { Response, postWorkers } from "../semaphore/index.js";
+import { Response, postWorkers } from "../sdk/index.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { registerGroupHandler, addGroupMember } from "../services/groups.js";
 import { getOrCreate } from "../services/merkles.js";

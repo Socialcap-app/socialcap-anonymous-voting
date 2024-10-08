@@ -2,7 +2,7 @@
  * A set of utility functions and caches useful for verifying received proofs.
  */
 import { VerificationKey, verify } from "o1js";
-import { IdentityProver } from "../semaphore/index.js";
+import { IdentityProver } from "../sdk/index.js";
 
 export {
   verifyOwnershipProof

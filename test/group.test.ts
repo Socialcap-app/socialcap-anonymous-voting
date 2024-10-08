@@ -1,4 +1,4 @@
-import { Group, registerGroup } from "../src/semaphore";
+import { Group, registerGroup } from "../src/sdk";
 
 describe('Use Semaphore Group class', () => {
 

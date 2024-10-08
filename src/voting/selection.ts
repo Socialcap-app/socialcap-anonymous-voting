@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field } from "o1js";
-import { Response } from "../semaphore/index.js";
-import logger from "../services/logger.js"
+import { Response } from "../sdk/index.js";
+import logger from "../sdk/logger.js"
 import { AnyMerkleMap, getOrCreate } from "../services/merkles.js";
 import { saveGroup } from "../services/groups.js";
 import { PlanStrategy, runStrategy } from "./strategy.js";

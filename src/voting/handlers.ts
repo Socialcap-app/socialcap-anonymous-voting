@@ -2,7 +2,7 @@
  * All application handlers go here ...
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Response } from "../semaphore/index.js";
+import { Response } from "../sdk/index.js";
 import { selectElectors } from "./selection.js";
 import { assignTasks, getAssignedTasks } from "./assignments.js";
 import { receiveVotes } from "./voting.js";

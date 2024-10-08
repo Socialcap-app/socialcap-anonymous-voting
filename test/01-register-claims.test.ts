@@ -3,7 +3,7 @@
  */
 import fs from "fs"
 import { PrivateKey } from "o1js";
-import { Identity, postRequest } from "../src/semaphore";
+import { Identity, postRequest } from "../src/sdk";
 import { privateFolder, inputsFolder, readCommunity, signature, deployer } from "./helper-params"
 import { UID } from "../src/services/uid";
 

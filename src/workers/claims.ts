@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount } from 'o1js';
-import { Response, UID, postWorkers } from '../semaphore/index.js';
+import { Response, UID, postWorkers } from '../sdk/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { delay } from '../services/utils.js';
-import logger from '../services/logger.js';
+import logger from '../sdk/logger.js';
 import { ClaimVotingContract, ClaimAction, pack2bigint } from '../contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from '../contracts/aggregator.js';
 import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';

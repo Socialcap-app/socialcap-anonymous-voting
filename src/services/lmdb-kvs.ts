@@ -3,7 +3,7 @@
 */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import logger from "./logger.js";
+import logger from "../sdk/logger.js";
 import { open } from "lmdb" ;
 
 export { KVS }

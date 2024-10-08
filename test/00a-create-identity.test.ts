@@ -1,7 +1,7 @@
 /**
  * Prepare a set of data to be used in tests
  */
-import { Identity, registerIdentity } from "../src/semaphore";
+import { Identity, registerIdentity } from "../src/sdk";
 
 describe('Semaphore Identity', () => {
 

@@ -3,7 +3,7 @@
  * It counts all received signals for a given claim.
  */
 import { Field, Signature, PublicKey, Struct } from "o1js";
-import { Response, postWorkers } from '../semaphore/index.js';
+import { Response, postWorkers } from '../sdk/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { getOrCreate, getSortedKeys, saveMerkle} from "../services/merkles.js";
 import { ClaimResult } from "../contracts/claim.js";

@@ -1,10 +1,10 @@
 import fs from "fs"
 import { randomInt } from "crypto";
 import { Field, Poseidon, Signature, PublicKey, verify, PrivateKey, Encoding } from "o1js";
-import { Identity } from "../src/semaphore";
+import { Identity } from "../src/sdk";
 import { ElectorAssignment } from "../src/voting/assignments";
 import { VotingClaim } from "../src/voting/selection";
-import { proveIdentityOwnership } from "../src/semaphore/prover";
+import { proveIdentityOwnership } from "../src/sdk/prover";
 
 // these are shared test parameters
 import { 

@@ -5,7 +5,8 @@ const logger = pino({
   transport: {
     target: 'pino-pretty',
     options: {
-      colorize: true
+      colorize: true,
+      translateTime: 'SYS:yyyy-mm-dd HH:MM:ss.l' //'SYS:standard'
     }
   }
 });

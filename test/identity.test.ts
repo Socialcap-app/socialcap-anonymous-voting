@@ -1,4 +1,4 @@
-import { Identity, registerIdentity } from "../src/semaphore";
+import { Identity, registerIdentity } from "../src/sdk";
 
 describe('Use Semaphore Identity class', () => {
 

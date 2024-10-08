@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
 import { connect, JSONCodec, NatsConnection } from "nats";
+import { Kvm } from "@nats-io/kv";
 import { NATS } from "./config.js";
 
 export {
@@ -38,8 +39,8 @@ async function postRequest(
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`semaphore.postRequest connected to ${NATS.SERVER}`);
-  console.debug(`semaphore.postRequest payload: `, params);
+  console.debug(`postRequest connected: '${NATS.SERVER}', user: '*'`);
+  console.debug(`postRequest payload: `, params);
 
   try {
     const msg: any = await nc.request(
@@ -73,29 +74,27 @@ async function postRequest(
 /**
  * Publishes (does not wait for response) a task to the workers so they can 
  * processes this task when some worker is available to do so.
- * Todo so the user MUST be a protocol Listener or Worker.
+ * Permissions: Only the PROTOCOL_WORKER can send this request.
 */
 async function postWorkers(
   command: string, 
-  params: object,
-  user?: string,
-  pass?: string
+  params: object
 ): Promise<Response> {
   const codec = JSONCodec();
   const natsSubject = `socialcap:tasks`;
 
   const nc = await connect({ 
     servers: NATS.SERVER,
-    user: user || NATS.PROTOCOL_WORKER,
-    pass: pass || NATS.PROTOCOL_WORKER_PASS,
+    user: NATS.PROTOCOL_WORKER,
+    pass: NATS.PROTOCOL_WORKER_PASS,
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`postWorkers connected to ${NATS.SERVER}`);
+  console.debug(`postWorkers connected: '${NATS.SERVER}', user: '${NATS.PROTOCOL_WORKER}'`);
   
   // Publish the task
   try {
-    console.log({ "post": command, "params": JSON.stringify(params)});
+    console.log('postWorkers', { "post": command, "params": JSON.stringify(params)});
 
     const jetStream = nc.jetstream();
     await jetStream.publish(natsSubject, codec.encode({
@@ -106,12 +105,12 @@ async function postWorkers(
     return { success: true, data: { done: true }, error: null }
   }
   catch (error: any) {
-    console.debug(`semaphore.postWorkers ${command} error: `, error);
+    console.log(`postWorkers ${command} error: `, error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    console.debug("semaphore.postWorkers cleanup (drained)");
+    console.debug("postWorkers cleanup");
     await nc.close();
   }
 }  
@@ -174,3 +173,47 @@ async function postNotification(
     console.log(`semaphore.postNotification ${scope} msg: ${JSON.stringify(msg)}) ERROR: `, error);
   }
 }
+
+
+/**
+ * Stores a KeyValue in the NATS KeyValue store ('AVKVS' bucket).
+ * The 'value' is stringified for storage, and this key can be latter 'watched' 
+ * for changes as any other jetStream queue. 
+ * Permissions: Only the PROTOCOL_WORKER use/password can write here.
+*/
+async function postKeyValue(
+  key: string, 
+  value: object
+): Promise<Response> {
+  const nc = await connect({ 
+    servers: NATS.SERVER,
+    user: NATS.PROTOCOL_WORKER,
+    pass: NATS.PROTOCOL_WORKER_PASS,
+    timeout: NATS.TIMEOUT, 
+    debug: NATS.DEBUG 
+  });
+  console.debug(`postKeyValue connected: ${NATS.SERVER}, user: ${NATS.PROTOCOL_WORKER}`);
+  
+  try {
+    console.debug(`postKeyValue put: ${key} value: ${JSON.stringify(value)}`);
+    const kvm = new Kvm(nc);
+    const kvs = await kvm.open(NATS.KVS);
+    await kvs.put(key, JSON.stringify(value));
+    return { 
+      success: true, error: null,
+      data: { key: key, done: true }  
+    }
+  }
+  catch (error: any) {
+    console.debug(`postKeyValue error: `, error);
+    return { 
+      success: false, data: null, 
+      error: error.message 
+    }
+  }
+  finally {
+    // disconect and clean all pendings
+    console.debug("postKeyValue cleanup");
+    await nc.close();
+  }
+}  

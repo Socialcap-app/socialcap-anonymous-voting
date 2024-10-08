@@ -3,9 +3,9 @@
 */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import { Response, postNotification, postWorkers } from '../semaphore/requests.js';
+import { Response, postNotification, postWorkers } from '../sdk/requests.js';
 import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount } from 'o1js';
-import logger from '../services/logger.js';
+import logger from '../sdk/logger.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { waitForAccount } from './wait-account.js';
 import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';

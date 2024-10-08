@@ -3,7 +3,7 @@
 */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import { postWorkers } from '../semaphore/requests.js';
+import { postWorkers } from '../sdk/requests.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { VotingClaim } from './selection.js';
 
