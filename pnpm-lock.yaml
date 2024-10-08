@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@nats-io/kv':
+    specifier: 3.0.0-8
+    version: 3.0.0-8
   axios:
     specifier: ^1.7.2
     version: 1.7.2
@@ -1792,6 +1795,38 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@nats-io/jetstream@3.0.0-10:
+    resolution: {integrity: sha512-FOdwBximucQszBAsSAckqhXxh0WZozKbRTMzODCudcHpOEv0jUwnoqFLG/8r607pJDX1gdiYADF5hpeV3gvh7A==}
+    dependencies:
+      '@nats-io/nats-core': 3.0.0-27
+    dev: false
+
+  /@nats-io/kv@3.0.0-8:
+    resolution: {integrity: sha512-hwG65AViKnx2LhnU0e+6qkbPIrbpLTUouvOL2eOv/oUIZszKD1YN6OBvKBWkYXFAssVmlk7BD/OuHTkCMcnH+w==}
+    dependencies:
+      '@nats-io/jetstream': 3.0.0-10
+      '@nats-io/nats-core': 3.0.0-27
+    dev: false
+
+  /@nats-io/nats-core@3.0.0-27:
+    resolution: {integrity: sha512-xJvUWoRvUTG/3K4Ppf5KXTZezicbvd2o/psMyI7YPtIxKZsZALXL/bLoNb7FB/Hw4jECioZE7LZCSK41npFD2A==}
+    dependencies:
+      '@nats-io/nkeys': 1.2.0-4
+      '@nats-io/nuid': 2.0.1-2
+    dev: false
+
+  /@nats-io/nkeys@1.2.0-4:
+    resolution: {integrity: sha512-61R4SO9059AyZBhoZRECHobHsY6mBOGwB5ewBrbnDKVtTehnFwyMNaORHhksFmu9K0zyUtwBWyffzKpibp2Cew==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tweetnacl: 1.0.3
+    dev: false
+
+  /@nats-io/nuid@2.0.1-2:
+    resolution: {integrity: sha512-oXJiWXH87FjcPAXVVkoY+o7z9YFuOvsVlUlvB4h/QsoC1hp63lB18YOMHmKxVNO7BzvwzJh3SKLlIlsQrEwaxg==}
+    engines: {node: '>= 18.x'}
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
