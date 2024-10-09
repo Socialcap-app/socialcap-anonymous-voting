@@ -6,6 +6,7 @@ export const NATS = {
   TIMEOUT: 5*60*1000,
   DEBUG: false,
   KVS: 'AVKVS',
+  ANYONE: '*',
   APP_USER: 'app-user', 
   APP_USER_PASS: 'apppass',
   PROTOCOL_LISTENER: 'protocol-listener',

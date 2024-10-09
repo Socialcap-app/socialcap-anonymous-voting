@@ -5,6 +5,7 @@ import 'dotenv/config';
 import { Mina, PublicKey, PrivateKey } from 'o1js';
 import { logger } from '../sdk/index.js';
 import { consumerId } from '../services/consumer.js';
+import { Networks } from '../contracts/networks.js';
 
 export {
   setChain,
@@ -26,12 +27,14 @@ type IsPayer = {
 let currentPayer: IsPayer;
 
 async function setChain(chainId: string) {
+  const chain = Networks[chainId];
+  logger.info(`setChain activate chainId=${chainId}`);
   const Network = Mina.Network({
-    mina: "https://api.minascan.io/node/devnet/v1/graphql",
-    archive: "https://api.minascan.io/archive/devnet/v1/graphql"      
+    mina: chain.mina[0],
+    archive: chain.archive[0]      
   });
   Mina.setActiveInstance(Network);
-  logger.info(`Devnet network instance is active`);
+  logger.info(`setChain isActive chaindId=${chainId}`);
 }
 
 function readPayers(workerId?: string) {

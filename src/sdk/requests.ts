@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'dotenv/config';
-import { connect, JSONCodec, NatsConnection } from "nats";
+import { connect, JSONCodec } from "nats";
 import { Kvm } from "@nats-io/kv";
 import { NATS } from "./config.js";
 import { logger } from "./logger.js";
@@ -10,6 +10,7 @@ export {
   postRequest,
   postWorkers,
   postNotification,
+  postKeyValue,
   NATS as NATS_CONFIG
 }
 
@@ -21,7 +22,7 @@ interface Response {
 
 
 /**
- * Sends a request to 'socialcap:semaphore' and waits for a response.
+ * Sends a request to 'socialcap:protocol' and waits for a response.
 */
 async function postRequest(
   command: string, 
@@ -61,12 +62,13 @@ async function postRequest(
     return { success: true, data: response.data, error: null }
   }
   catch (error: any) {
-    logger.error(`semaphore.postRequest ${command} error=`+error);
+    logger.error(`postRequest failed`);
+    logger.error(error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    logger.debug("semaphore.postRequest cleanup (drained)");
+    logger.debug("postRequest cleanup (drained)");
     await nc.drain();
   }
 }
@@ -91,12 +93,11 @@ async function postWorkers(
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`postWorkers connected: '${NATS.SERVER}', user: '${NATS.PROTOCOL_WORKER}'`);
-  
+  logger.debug(`postWorkers connected server=${NATS.SERVER} user=${NATS.PROTOCOL_WORKER}`);
+  logger.debug(`postWorkers ${command} params=${JSON.stringify(params)}`);
+
   // Publish the task
   try {
-    console.log('postWorkers', { "post": command, "params": JSON.stringify(params)});
-
     const jetStream = nc.jetstream();
     await jetStream.publish(natsSubject, codec.encode({
         "post": command,
@@ -106,12 +107,13 @@ async function postWorkers(
     return { success: true, data: { done: true }, error: null }
   }
   catch (error: any) {
-    console.log(`postWorkers ${command} error: `, error);
+    logger.error(`postWorkers failed`);
+    logger.error(error);
     return { success: false, data: null, error: error.message }
   }
   finally {
     // disconect and clean all pendings
-    console.debug("postWorkers cleanup");
+    logger.debug("postWorkers cleanup");
     await nc.close();
   }
 }  
@@ -193,10 +195,10 @@ async function postKeyValue(
     timeout: NATS.TIMEOUT, 
     debug: NATS.DEBUG 
   });
-  console.debug(`postKeyValue connected: ${NATS.SERVER}, user: ${NATS.PROTOCOL_WORKER}`);
+  logger.debug(`postkeyValue connected server=${NATS.SERVER} user=${NATS.PROTOCOL_WORKER}`);
+  logger.debug(`postKeyValue put key=${key} value=${JSON.stringify(value)}`);
   
   try {
-    console.debug(`postKeyValue put: ${key} value: ${JSON.stringify(value)}`);
     const kvm = new Kvm(nc);
     const kvs = await kvm.open(NATS.KVS);
     await kvs.put(key, JSON.stringify(value));
@@ -206,7 +208,8 @@ async function postKeyValue(
     }
   }
   catch (error: any) {
-    console.debug(`postKeyValue error: `, error);
+    logger.error(`postKeyValue failed`);
+    logger.error(error);
     return { 
       success: false, data: null, 
       error: error.message 
@@ -214,7 +217,7 @@ async function postKeyValue(
   }
   finally {
     // disconect and clean all pendings
-    console.debug("postKeyValue cleanup");
+    logger.debug("postKeyValue cleanup");
     await nc.close();
   }
 }  

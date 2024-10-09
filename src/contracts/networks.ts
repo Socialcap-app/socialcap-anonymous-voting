@@ -4,14 +4,8 @@
  * https://github.com/zkcloudworker/zkcloudworker-lib/.../networks.ts
  */
 export {
-  blockchain,
   MinaNetwork,
-  networks,
-  Mainnet,
-  Devnet,
-  Zeko,
-  Lightnet,
-  Local,
+  Networks
 };
 
 /**
@@ -105,4 +99,9 @@ const Lightnet: MinaNetwork = {
   name: "Lightnet",
 };
 
-const networks: MinaNetwork[] = [Mainnet, Local, Devnet, Zeko, Lightnet];
+const Networks: any = {
+  'devnet': Devnet,
+  'mainnet': Mainnet,
+  'local': Local,
+  'zeko': Zeko
+} ;

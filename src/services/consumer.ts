@@ -20,7 +20,7 @@ export {
 let consumerId = "";
 
 async function startConsumer(id: string) {
-  logger.info(`Worker #${id}`);
+  logger.info(`startConsumer worker=${id}`);
   let myId = Number(id);
   consumerId = ""+myId;
 
@@ -40,7 +40,8 @@ async function startConsumer(id: string) {
   const jetStream = nc.jetstream();
   const jsm = await nc.jetstreamManager();
   const qname = "AVWORKERS";
-  logger.info((await jsm.streams.info(qname)).state);
+  const qinfo = (await jsm.streams.info(qname)).state;
+  logger.info(`startConsumer queue=${JSON.stringify(qinfo)}`);
 
   // Create a durable consumer with queue group
   await jsm.consumers.add(qname, {

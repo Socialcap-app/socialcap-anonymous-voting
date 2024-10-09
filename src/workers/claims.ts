@@ -7,12 +7,11 @@ import { AccountUpdate, Field, Mina, PrivateKey, PublicKey, UInt64, fetchAccount
 import { Response, UID, postWorkers } from '../sdk/index.js';
 import { KVS } from '../services/lmdb-kvs.js';
 import { delay } from '../services/utils.js';
-import { logger } from '../sdk/index.js';
+import { logger, postKeyValue } from '../sdk/index.js';
 import { ClaimVotingContract, ClaimAction, pack2bigint } from '../contracts/index.js';
 import { ClaimRollup, ClaimRollupProof } from '../contracts/aggregator.js';
 import { setChain, TXNFEE, getPayer, MAX_RETRIES } from './chains.js';
 import { waitForAccount } from './wait-account.js';
-import { postKeyValue } from "./postkv.js";
 
 export {
   deployClaimHandler,
@@ -49,7 +48,8 @@ async function deployClaimAccount(
   let zkappSk = PrivateKey.random();
   let zkappPk = zkappSk.toPublicKey();
   let zkapp = new ClaimVotingContract(zkappPk);
-  logger.info(`deployClaimAccount new address: ${zkappPk.toBase58()}`)
+  const address = zkappPk.toBase58();
+  logger.info(`deployClaimAccount new address=${address}`)
 
   const txn = await Mina.transaction(
     { sender: deployer.pk, fee: TXNFEE }, 
@@ -65,15 +65,15 @@ async function deployClaimAccount(
   await txn.prove();
 
   let pendingTxn = await txn.sign([deployer.sk, zkappSk]).send();
-  logger.info(`deployClaimAccount pendingTxn: ${pendingTxn.hash}`)
+  logger.info(`deployClaimAccount dispatched txn=${pendingTxn.hash}`)
 
   await pendingTxn.wait();
-  logger.info(`deployClaimAccount done: ${zkappPk.toBase58()} ${(new Date()).toISOString()}`);
+  logger.info(`deployClaimAccount done ts=${(new Date()).toISOString()}`);
 
-  let isReady = await waitForAccount(zkappPk.toBase58());
-  logger.info(`deployClaimAccount isReady: ${isReady} ${(new Date()).toISOString()}`);
+  let isReady = await waitForAccount(address);
+  logger.info(`deployClaimAccount isReady ts=${(new Date()).toISOString()}`);
 
-  return { address: zkappPk.toBase58(), txnHash: pendingTxn.hash };
+  return { address: address, txnHash: pendingTxn.hash };
 }
 
 
