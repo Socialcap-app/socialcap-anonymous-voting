@@ -1,24 +1,74 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Field } from "o1js";
-import { Response } from "../sdk/index.js";
-import { logger } from "../sdk/index.js"
+import { Field, Signature, PublicKey } from "o1js";
+import { Response, logger, UID } from "../sdk/index.js"
 import { AnyMerkleMap, getOrCreate } from "../services/merkles.js";
 import { saveGroup } from "../services/groups.js";
-import { PlanStrategy, runStrategy } from "./strategy.js";
+import { KVS } from "../services/lmdb-kvs.js";
+import { PlanStrategy, VotingClaim } from "../types/index.js";
+import { runStrategy } from "./strategy.js";
+import { assignTasks } from "./assignments.js";
 
-export {
-  type VotingClaim, 
-  selectElectors,
+export { assignElectorsHandler, selectElectors }
+
+
+async function assignElectorsHandler(data: {
+  communityUid: string,
+  planUid: string,
+  claims: VotingClaim[],
+  signature: string,
+  ts: number
+}): Promise<Response> {
+  /** @throw any errors thrown here will be catched by the dispatcher */
+  let { communityUid, planUid, claims, signature, ts } = data;
+  if (!data || !planUid || !communityUid || !claims || !signature || !ts) 
+    throw Error("assignElectors: Invalid data received");
+
+  // get the community owner
+  let community = KVS.get(`communities.${communityUid}`);
+  if (!community)
+    throw Error(`assignElectors: Community '${communityUid}' is not registered`);
+  let owner = community.owner;
+
+  // MUST be signed by the community owner
+  let signed = Signature.fromJSON(JSON.parse(signature));
+  const signatureOk = await signed.verify(
+    PublicKey.fromBase58(owner), [UID.toField(planUid), Field(ts)]
+  ).toBoolean();
+  if (!signatureOk) 
+    throw Error(`assignElectors: Invalid signature for plan '${planUid}'`)
+  
+  // get the plan data
+  let plan = KVS.get(`plans.${planUid}`);
+  if (!plan) 
+    throw Error(`assignElectors: Plan ${planUid} not found`);
+
+  // first select the electors for each claim 
+  // based on the given strategy
+  let rsp = await selectElectors({
+    communityUid: communityUid,
+    planUid: planUid,
+    planStrategy: plan.strategy,
+    claims: claims
+  })
+  if (!rsp.success) return {
+    success: false,
+    data: null,
+    error: `Could not select electors for plan '${planUid}', error: `+
+      (rsp.error.message || rsp.error)
+  }
+  
+  // now create the tasks list for each elector
+  // the list is stored in KVS an can be retrieved by each elector
+  let assignedClaims = (rsp.data as any).claims;
+  let errors =  (rsp.data as any).errors;
+
+  await assignTasks(planUid, assignedClaims);
+  return {
+    success: true, error: null,
+    data: { claims: assignedClaims, errors: errors }
+  }
 }
 
-interface VotingClaim {
-  uid: string; 
-  status: number; // 0-NOT_ASSIGNED, 1-ASSIGNED, 2-FAILED
-  electors: string[]; // the identity commitment of each elector
-  assignedUTC: string; // when it was assigned
-  metadata: string; // metadata for this claim, will be used by electors
-  error: any | null; // if any errors happened, we store it here
-}
 
 /**
  * Select electors to each claim, according to strategy.
@@ -27,17 +77,19 @@ interface VotingClaim {
  * created as as side effect of asigning the electors. It will be done
  * 
  * @param communityUid the community to which the electors belong
+ * @param planUid the active plan being voted
  * @param planStrategy the strategy setup for this particular Plan
  * @param claims the set of claims to evaluate
  * @returns { claims: VotingClaim[], errors: any[] }
  */
 async function selectElectors(params: {
   communityUid: string, 
+  planUid: string,
   planStrategy: PlanStrategy,
   claims: VotingClaim[],
 }): Promise<Response> {
-  const { communityUid, planStrategy, claims } = params ;
-  logger.info(`Selection for ${planStrategy.planUid} ${planStrategy.name}`)
+  const { communityUid, planStrategy, planUid, claims } = params ;
+  logger.info(`Selection for ${planUid} ${planStrategy.name}`)
   
   // here we will collect errors from all claims
   let errors = [];

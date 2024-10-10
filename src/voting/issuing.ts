@@ -5,7 +5,7 @@
 import 'dotenv/config';
 import { postWorkers } from '../sdk/requests.js';
 import { KVS } from '../services/lmdb-kvs.js';
-import { VotingClaim } from './selection.js';
+import { VotingClaim } from '../types/index.js';
 
 export {
   emitCredentials

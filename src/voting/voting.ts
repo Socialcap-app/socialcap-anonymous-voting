@@ -4,7 +4,7 @@ import { Response, Identity, CipheredText } from "../sdk/index.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
 import { AnyMerkleMap, getOrCreate, saveMerkle } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
-import { VotesBatch } from "./types.js";
+import { VotesBatch } from "../types/index.js";
 
 export {
   prepareBatch,

@@ -1,11 +1,13 @@
 #!/bin/bash
 pnpm build
 
-# Move to pkg folder
-cd pkg
 
 # Copy needed files to pkg
-cp ../build/src/semaphore/* ./dist
+cp build/src/sdk/* pkg/dist
+#cp build/src/types/*.ts pkg/dist
+
+# Move to pkg folder
+cd pkg
 ls -al 
 
 # Publish to NPM

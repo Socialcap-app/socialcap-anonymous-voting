@@ -1,8 +1,3 @@
-
-export {
-  VotesBatch
-}
-
 /**
  * A batch of votes sent by an elector.
  * The batch can contain all votes assigned to this elector or just a subset 
@@ -11,7 +6,7 @@ export {
  * 
  * NOTE: we set all fields as strings so it is easier to transport it.
  */
-interface VotesBatch {
+export interface VotesBatch {
   identityCommitment: string; // the elector identity commitment
   planUid: string; // the campaign or plan to which the claims belong
   votes: {
@@ -23,3 +18,4 @@ interface VotesBatch {
   hash: string; // this batch hatch, composed using claimUid's list
   signature: string; // signature of the array of votes[] 
 }
+

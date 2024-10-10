@@ -2,11 +2,13 @@ import { randomInt } from "crypto";
 import fs from "fs"
 import { Identity, registerIdentity } from "../src/sdk";
 import { Group, registerGroup } from "../src/sdk";
-import { VotingClaim, selectElectors } from "../src/voting/selection"
-import { PlanStrategy, runStrategy } from "../src/voting/strategy";
+import { selectElectors } from "../src/voting/selection"
+import { runStrategy } from "../src/voting/strategy";
+import { VotingClaim, PlanStrategy } from "../src/types/index"
 import { getGroupMembers } from "../src/services/groups";
 import {
   communityUid, 
+  planUid, 
   tmpFolder
 } from "./helper-params"
 
@@ -21,19 +23,20 @@ describe('Select electors for voting on claims', () => {
     // only the first time we  run the test 
   });
 
-  async function runSelection(strategy: PlanStrategy) {
-    console.log("\n", strategy.planUid)
+  async function runSelection(planUid: string, strategy: PlanStrategy) {
+    console.log("\n", planUid)
     console.log("Validators", JSON.stringify(getGroupMembers(validatorsGuid), null, 2));
     console.log("Auditors", JSON.stringify(getGroupMembers(auditorsGuid), null, 2));
 
     // get claim data
     let unassignedClaims = JSON.parse(fs.readFileSync(
-      `${tmpFolder}/plan-${strategy.planUid}.claims.json`, 
+      `${tmpFolder}/plan-${planUid}.claims.json`, 
       "utf-8"
     )) as VotingClaim[];
 
     let rsp = await selectElectors({
       communityUid: communityUid,
+      planUid: planUid,
       planStrategy: strategy,
       claims: unassignedClaims
     })
@@ -42,7 +45,7 @@ describe('Select electors for voting on claims', () => {
     console.log("Claims: ", JSON.stringify(claims, null, 2));
     console.log("Errors: ", JSON.stringify(errors, null, 2));
 
-    fs.writeFileSync(`${tmpFolder}/plan-${strategy.planUid}.electors.json`, 
+    fs.writeFileSync(`${tmpFolder}/plan-${planUid}.electors.json`, 
       JSON.stringify(claims, null, 2)
     );
 
@@ -50,8 +53,7 @@ describe('Select electors for voting on claims', () => {
   }
 
   it('Random from validators and auditors, allways audit. RAND V=3 A=1 F=1', async () => {
-    let rs = await runSelection({
-      planUid: "plan001",
+    let rs = await runSelection("plan001", {
       name: "Strategy #1: Random from validators and auditors, always audit. RAND V=3 A=1 F=1",
       source: 'validators',
       variant: 'random',  
@@ -63,8 +65,7 @@ describe('Select electors for voting on claims', () => {
   });
 
   it('Random from validators, no auditors. ALL V=3 A=0 F=0', async () => {
-    let rs = await runSelection({
-      planUid: "plan002",
+    let rs = await runSelection("plan002", {
       name: "Strategy #2: Random from validators, no auditors. ALL V=3 A=0 F=0",
       source: 'validators',
       variant: 'random',  
@@ -76,8 +77,7 @@ describe('Select electors for voting on claims', () => {
   });
 
   it('All auditors (no validators). ALL V=0 A=1 F=1', async () => {
-    let rs = await runSelection({
-      planUid: "plan003",
+    let rs = await runSelection("plan003", {
       name: "Strategy #3: All auditors (no validators). ALL V=0 A=1 F=1",
       source: 'auditors',
       variant: 'all',  
@@ -89,8 +89,7 @@ describe('Select electors for voting on claims', () => {
   });
 
   it('Random from community, no auditors. RAND V=10 A=0 F=0', async () => {
-    let rs = await runSelection({
-      planUid: "plan004",
+    let rs = await runSelection("plan004", {
       name: "Strategy #4: Random from community, no auditors. RAND V=10 A=0 F=0",
       source: 'community',
       variant: 'random',  

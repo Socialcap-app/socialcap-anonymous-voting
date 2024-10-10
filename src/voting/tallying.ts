@@ -7,7 +7,7 @@ import { CipheredText, postRequest, postWorkers } from "../sdk/index.js";
 import { getOrCreate, getSortedKeys } from "../services/merkles.js";
 import { KVS } from "../services/lmdb-kvs.js";
 import { logger } from "../sdk/index.js";
-import { VotingClaim } from "./selection.js";
+import { VotingClaim } from "../types/index.js";
 import { SerializableVote } from "../workers/rollups.js";
 
 export {

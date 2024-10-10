@@ -624,7 +624,8 @@ postRequest('assignElectors', {
   communityUid: string,
   planUid: string,
   claims: VotingClaim[],
-  signature?: string
+  signature: string,
+  ts: number
 })	
 ~~~
 
@@ -632,7 +633,8 @@ Where:
 - `communityUid`: the community to which the electors belong.
 - `planUid` is the plan Uid that will be voted.
 - `claims` is the list of claims that electors will vote, as an array of _VotingClaim_ objects.
-- `signature` is the _optional_ signature required when we register a group with an owner.
+- `signature` is the signature required when we register a group with an owner.
+- `ts`  the timestamp (ms) used as a nonce
 
 A `VotingClaim` has the struct: 
 ~~~

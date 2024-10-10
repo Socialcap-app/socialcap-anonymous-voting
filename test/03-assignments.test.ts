@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import fs from "fs"
-import { VotingClaim } from "../src/voting/selection"
+import { VotingClaim } from "../src/types/index"
 import { assignTasks, ElectorAssignment } from "../src/voting/assignments";
 import {
   communityUid, 

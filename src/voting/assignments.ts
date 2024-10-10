@@ -3,7 +3,7 @@ import fs from "fs";
 import { logger } from "../sdk/index.js"
 import { KVS } from "../services/lmdb-kvs.js";
 import { verifyOwnershipProof } from "../services/verifiers.js";
-import { VotingClaim } from "./selection.js";
+import { VotingClaim } from "../types/index.js";
 
 export {
   assignTasks,

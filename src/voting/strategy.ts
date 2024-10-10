@@ -4,23 +4,10 @@ import { randomInt } from "crypto";
 import { Group } from "../sdk/index.js";
 import { logger } from "../sdk/index.js";
 import { getGroupMembers } from "../services/groups.js";
+import { PlanStrategy } from "../types/strategy.js";
 
-export {
-  type PlanStrategy,
-  runStrategy
-}
+export { runStrategy }
 
-interface PlanStrategy {
-  planUid: string;
-  name: string;
-  source: string; // 'validators' | 'auditors' | 'all',
-  variant: string; // 'random' | 'all';  
-  minAuditors: number;
-  minValidators: number;
-  auditFrequency: number;
-  requiredVotes?: number;
-  requiredPositives?: number;
-}
 
 const getMembers: any = {
   'community': getAllMembers,
